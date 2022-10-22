@@ -1,10 +1,14 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import "@fontsource/poppins"
+import { SessionProvider } from "next-auth/react";
+import "@fontsource/poppins";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+    const getLayout = Component.getLayout || ((page) => page);
     return (
         <ChakraProvider>
-            <Component {...pageProps} />
+            <SessionProvider session={session}>
+                {getLayout(<Component {...pageProps} />)}
+            </SessionProvider>
         </ChakraProvider>
     );
 }

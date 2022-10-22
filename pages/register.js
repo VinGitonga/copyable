@@ -24,6 +24,7 @@ import { FiUser, FiEye, FiEyeOff } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiLock } from "react-icons/bi";
 import Head from "next/head";
+import { createUser } from "../services/user"
 
 export default function Register() {
     const router = useRouter();
@@ -36,6 +37,14 @@ export default function Register() {
     const [showPass, setShowPass] = useState(false);
 
     const handleShowPass = () => setShowPass(!showPass);
+
+    const resetForm = () => {
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setLoading(false);
+    };
 
     const clickSubmit = async () => {
         let emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -83,7 +92,35 @@ export default function Register() {
                 password: password,
             };
 
-            setTimeout(() => setLoading(false), 2000);
+            try {
+                const response = await createUser(userInfo);
+                if (response.status === 200) {
+                    toast({
+                        title: "Success",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        description: "Account created successfully",
+                    });
+                    console.log(response?.data)
+                    resetForm();
+                    router.push("/login");
+                }
+            } catch (error) {
+                console.log(error)
+                toast({
+                    title: "Error",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    description: error,
+                });
+                setLoading(false)
+            } finally {
+                setLoading(false)
+
+            }
+            
         }
         
         

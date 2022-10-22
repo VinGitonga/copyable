@@ -5,7 +5,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Checkbox,
     Stack,
     Link,
     Button,
@@ -25,6 +24,7 @@ import { BiLock } from "react-icons/bi";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
     const toast = useToast();
@@ -73,7 +73,26 @@ export default function Login() {
             return;
         } else {
             setLoading(true);
-            setTimeout(() => setLoading(false), 2000);
+
+            await signIn("credentials", {
+                redirect: false,
+                email,
+                password,
+            }).then(({ ok, error }) => {
+                if (ok) {
+                    resetForm();
+                    router.push("/dashboard");
+                } else {
+                    setLoading(false)
+                    toast({
+                        title: "Error",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                        description: error,
+                    });
+                }
+            })
         }
     };
 
