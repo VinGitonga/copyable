@@ -22,7 +22,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
-    "sequelize": "^6.25.3"
+    "sequelize": "^6.25.3",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "eslint": "8.26.0",

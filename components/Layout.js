@@ -81,7 +81,7 @@ export default function Layout({ children }) {
             </Drawer>
             {/* mobilenav */}
             <MobileNav onOpen={onOpen} handleSignout={handleSignOut} user={session?.user} fontFamily={"Poppins"}  />
-            <Box ml={{ base: 0, md: 60 }} p="4" fontFamily={"Poppins"} >
+            <Box ml={{ base: 0, md: 60 }} p="4" fontFamily={"Poppins"} maxW={"6xl"} >
                 {children}
             </Box>
         </Box>
@@ -124,11 +124,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 const NavItem = ({ icon, children, ...rest }) => {
+    const router = useRouter();
+
     return (
         <Link
-            href="#"
+            onClick={() => router.push('/migrate-mongo')}
             style={{ textDecoration: "none" }}
             _focus={{ boxShadow: "none" }}
+            cursor={"pointer"}
         >
             <Flex
                 align="center"

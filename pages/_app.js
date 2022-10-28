@@ -1,5 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
+import { StepperProvider } from "../context";
 import "@fontsource/poppins";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
@@ -7,7 +8,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     return (
         <ChakraProvider>
             <SessionProvider session={session}>
-                {getLayout(<Component {...pageProps} />)}
+                <StepperProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                </StepperProvider>
             </SessionProvider>
         </ChakraProvider>
     );
