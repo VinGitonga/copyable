@@ -47,11 +47,11 @@ export default function Layout({ children }) {
     const router = useRouter();
 
     const handleSignOut = async () => {
-        const result = await signOut({
+        await signOut({
             redirect: false,
             callbackUrl: "/",
         });
-        router.push(result.url);
+        router.push("/");
     };
     console.log(session)
 
