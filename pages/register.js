@@ -113,7 +113,7 @@ export default function Register() {
                     status: "error",
                     duration: 5000,
                     isClosable: true,
-                    description: error,
+                    description: "Something not okay",
                 });
                 setLoading(false)
             } finally {

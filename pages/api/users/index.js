@@ -16,11 +16,12 @@ export default function handler(req, res) {
 async function createUser(req, res) {
     try {
         const { name, email, password } = req.body;
+        console.log(req.body)
 
         const salt = generateSalt();
         const hashedPassword = generateHashedPassword(password, salt);
 
-        await db.users.sync();
+        await db.users.sync({force:true});
 
         // confirm that user does not exist
         const user = await db.users.findOne({
