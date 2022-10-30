@@ -1,6 +1,4 @@
-import styled from "styled-components";
 import { StepperSteps, StepperStep } from "./StepperSteps";
-import { StyledStepperHeader, StyledStepperHeaderItem } from "./StepperHeader";
 import { useStepper } from "../../context";
 import { Box, Stack, Flex, Center, Divider, Text } from "@chakra-ui/react";
 
@@ -39,7 +37,7 @@ const Stepper = ({ children }) => {
                                   >
                                       {currentStep >= index ? `✔` : index + 1}
                                   </Center>
-                                  <Text>{step.name}</Text>
+                                  <Text textAlign={"center"} >{step.name}</Text>
                               </Flex>
                               {index >= steps.length-1 ? null : (
                                   <hr
@@ -64,35 +62,9 @@ const Stepper = ({ children }) => {
     );
 };
 
-// <StyledStepperContainer>
-//             <StyledStepperHeader>
-//                 {steps.length
-//                     ? steps.map((step, index) => (
-//                           <StyledStepperHeaderItem
-//                               key={step.id}
-//                               className={
-//                                   currentStep >= index ? "completed" : ""
-//                               }
-//                           >
-//                               <div className={"step-counter"}>{index + 1}</div>
-//                               <div className="step-name">{step.name}</div>
-//                           </StyledStepperHeaderItem>
-//                       ))
-//                     : null}
-//             </StyledStepperHeader>
-//             <StyledStepperBody>{children}</StyledStepperBody>
-//         </StyledStepperContainer>
 
 Stepper.Step = StepperStep;
 Stepper.Steps = StepperSteps;
 
-const StyledStepperContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const StyledStepperBody = styled.div`
-    padding: 50px 16px;
-`;
 
 export default Stepper;

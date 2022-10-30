@@ -18,6 +18,7 @@ import {
     MenuDivider,
     MenuItem,
     MenuList,
+    Button,
 } from "@chakra-ui/react";
 import {
     FiHome,
@@ -29,6 +30,7 @@ import {
     FiBell,
     FiChevronDown,
 } from "react-icons/fi";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -53,7 +55,7 @@ export default function Layout({ children }) {
         });
         router.push("/");
     };
-    console.log(session)
+    console.log(session);
 
     return (
         <Box
@@ -80,8 +82,18 @@ export default function Layout({ children }) {
                 </DrawerContent>
             </Drawer>
             {/* mobilenav */}
-            <MobileNav onOpen={onOpen} handleSignout={handleSignOut} user={session?.user} fontFamily={"Poppins"}  />
-            <Box ml={{ base: 0, md: 60 }} p="4" fontFamily={"Poppins"} maxW={"6xl"} >
+            <MobileNav
+                onOpen={onOpen}
+                handleSignout={handleSignOut}
+                user={session?.user}
+                fontFamily={"Poppins"}
+            />
+            <Box
+                ml={{ base: 0, md: 60 }}
+                p="4"
+                fontFamily={"Poppins"}
+                maxW={"6xl"}
+            >
                 {children}
             </Box>
         </Box>
@@ -114,21 +126,20 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     onClick={onClose}
                 />
             </Flex>
-            {LinkItems.map((link) => (
-                <NavItem key={link.name} icon={link.icon}>
-                    {link.name}
-                </NavItem>
-            ))}
+            <NavItem icon={FiHome}>Home</NavItem>
+            <NavItem icon={FiCompass} hrefPath={"/migrate-mongo"}>Migrate From MongoDB</NavItem>
+            <NavItem icon={FiSettings}>Settings</NavItem>
+            
         </Box>
     );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, hrefPath="/dashboard", children, ...rest }) => {
     const router = useRouter();
 
     return (
         <Link
-            onClick={() => router.push('/migrate-mongo')}
+            onClick={() => router.push(`/${hrefPath}`)}
             style={{ textDecoration: "none" }}
             _focus={{ boxShadow: "none" }}
             cursor={"pointer"}
@@ -163,6 +174,7 @@ const NavItem = ({ icon, children, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
+    const router = useRouter();
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -193,6 +205,14 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
             </Text>
 
             <HStack spacing={{ base: "0", md: "6" }}>
+                <Button
+                    colorScheme={"teal"}
+                    leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
+                    variant={"outline"}
+                    onClick={() => router.push('/add-singlestoredb')}
+                >
+                    Add SingleStore DB
+                </Button>
                 <IconButton
                     size="lg"
                     variant="ghost"
@@ -210,7 +230,9 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                                 <Avatar
                                     size={"sm"}
                                     name={"user"}
-                                    src={`https://avatars.dicebear.com/api/adventurer/${String(user?.name)
+                                    src={`https://avatars.dicebear.com/api/adventurer/${String(
+                                        user?.name
+                                    )
                                         ?.toLowerCase()
                                         ?.replaceAll(" ", "")}.svg`}
                                 />
@@ -220,9 +242,12 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                                     spacing="1px"
                                     ml="2"
                                 >
-                                    <Text fontSize="sm">{user?.name || "Justina Clark"}</Text>
+                                    <Text fontSize="sm">
+                                        {user?.name || "Justina Clark"}
+                                    </Text>
                                     <Text fontSize="xs" color="gray.600">
-                                        {user?.email || "justina.clark@gmail.com"}
+                                        {user?.email ||
+                                            "justina.clark@gmail.com"}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: "none", md: "flex" }}>
@@ -241,7 +266,9 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                             <MenuItem>Settings</MenuItem>
                             <MenuItem>Billing</MenuItem>
                             <MenuDivider />
-                            <MenuItem onClick={handleSignout} >Sign out</MenuItem>
+                            <MenuItem onClick={handleSignout}>
+                                Sign out
+                            </MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
