@@ -1,4 +1,3 @@
-import Stepper from "../../components/stepper";
 import {Box, Button, Text,} from "@chakra-ui/react";
 
 export default function MongoStep2({handleNextStepClick, handlePreviousStepClick}) {
