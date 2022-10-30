@@ -30,22 +30,22 @@ import {
     FiBell,
     FiChevronDown,
 } from "react-icons/fi";
-import { MdOutlineAddCircleOutline } from "react-icons/md";
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
+import {MdOutlineAddCircleOutline} from "react-icons/md";
+import {useSession, signOut} from "next-auth/react";
+import {useRouter} from "next/router";
 
 const LinkItems = [
-    { name: "Home", icon: FiHome },
-    { name: "Trending", icon: FiTrendingUp },
-    { name: "Explore", icon: FiCompass },
-    { name: "Favourites", icon: FiStar },
-    { name: "Settings", icon: FiSettings },
+    {name: "Home", icon: FiHome},
+    {name: "Trending", icon: FiTrendingUp},
+    {name: "Explore", icon: FiCompass},
+    {name: "Favourites", icon: FiStar},
+    {name: "Settings", icon: FiSettings},
 ];
 
-export default function Layout({ children }) {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+export default function Layout({children}) {
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
-    const { data: session } = useSession();
+    const {data: session} = useSession();
     const router = useRouter();
 
     const handleSignOut = async () => {
@@ -65,7 +65,7 @@ export default function Layout({ children }) {
         >
             <SidebarContent
                 onClose={() => onClose}
-                display={{ base: "none", md: "block" }}
+                display={{base: "none", md: "block"}}
                 fontFamily={"Poppins"}
             />
             <Drawer
@@ -78,7 +78,7 @@ export default function Layout({ children }) {
                 size="full"
             >
                 <DrawerContent>
-                    <SidebarContent onClose={onClose} />
+                    <SidebarContent onClose={onClose}/>
                 </DrawerContent>
             </Drawer>
             {/* mobilenav */}
@@ -89,7 +89,7 @@ export default function Layout({ children }) {
                 fontFamily={"Poppins"}
             />
             <Box
-                ml={{ base: 0, md: 60 }}
+                ml={{base: 0, md: 60}}
                 p="4"
                 fontFamily={"Poppins"}
                 maxW={"6xl"}
@@ -100,14 +100,14 @@ export default function Layout({ children }) {
     );
 }
 
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = ({onClose, ...rest}) => {
     return (
         <Box
             transition="3s ease"
             bg={useColorModeValue("white", "gray.900")}
             borderRight="1px"
             borderRightColor={useColorModeValue("gray.200", "gray.700")}
-            w={{ base: "full", md: 60 }}
+            w={{base: "full", md: 60}}
             pos="fixed"
             h="full"
             {...rest}
@@ -122,26 +122,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     Novium
                 </Text>
                 <CloseButton
-                    display={{ base: "flex", md: "none" }}
+                    display={{base: "flex", md: "none"}}
                     onClick={onClose}
                 />
             </Flex>
             <NavItem icon={FiHome}>Home</NavItem>
-            <NavItem icon={FiCompass} hrefPath={"/migrate-mongo"}>Migrate From MongoDB</NavItem>
+            <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>Migrate From MongoDB</NavItem>
             <NavItem icon={FiSettings}>Settings</NavItem>
-            
+
         </Box>
     );
 };
 
-const NavItem = ({ icon, hrefPath="/dashboard", children, ...rest }) => {
+const NavItem = ({icon, hrefPath = "/dashboard", children, ...rest}) => {
     const router = useRouter();
 
     return (
         <Link
             onClick={() => router.push(`/${hrefPath}`)}
-            style={{ textDecoration: "none" }}
-            _focus={{ boxShadow: "none" }}
+            style={{textDecoration: "none"}}
+            _focus={{boxShadow: "none"}}
             cursor={"pointer"}
         >
             <Flex
@@ -173,30 +173,37 @@ const NavItem = ({ icon, hrefPath="/dashboard", children, ...rest }) => {
     );
 };
 
-const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
-    const router = useRouter();
+const MobileNav = ({onOpen, user, handleSignout, ...rest}) => {
+    const router = useRouter()
+    const username = (user?.name) || ''
+    let lowerUserName = ''
+    if (username) {
+        lowerUserName = String(username)
+            .toLowerCase()
+            .replaceAll(' ', '')
+    }
     return (
         <Flex
-            ml={{ base: 0, md: 60 }}
-            px={{ base: 4, md: 4 }}
+            ml={{base: 0, md: 60}}
+            px={{base: 4, md: 4}}
             height="20"
             alignItems="center"
             bg={useColorModeValue("white", "gray.900")}
             borderBottomWidth="1px"
             borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-            justifyContent={{ base: "space-between", md: "flex-end" }}
+            justifyContent={{base: "space-between", md: "flex-end"}}
             {...rest}
         >
             <IconButton
-                display={{ base: "flex", md: "none" }}
+                display={{base: "flex", md: "none"}}
                 onClick={onOpen}
                 variant="outline"
                 aria-label="open menu"
-                icon={<FiMenu />}
+                icon={<FiMenu/>}
             />
 
             <Text
-                display={{ base: "flex", md: "none" }}
+                display={{base: "flex", md: "none"}}
                 fontSize="2xl"
                 fontFamily="monospace"
                 fontWeight="bold"
@@ -204,10 +211,10 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                 Novium
             </Text>
 
-            <HStack spacing={{ base: "0", md: "6" }}>
+            <HStack spacing={{base: "0", md: "6"}}>
                 <Button
                     colorScheme={"teal"}
-                    leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
+                    leftIcon={<MdOutlineAddCircleOutline width={10} height={10}/>}
                     variant={"outline"}
                     onClick={() => router.push('/add-singlestoredb')}
                 >
@@ -217,27 +224,23 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                     size="lg"
                     variant="ghost"
                     aria-label="open menu"
-                    icon={<FiBell />}
+                    icon={<FiBell/>}
                 />
                 <Flex alignItems={"center"}>
                     <Menu>
                         <MenuButton
                             py={2}
                             transition="all 0.3s"
-                            _focus={{ boxShadow: "none" }}
+                            _focus={{boxShadow: "none"}}
                         >
                             <HStack>
                                 <Avatar
                                     size={"sm"}
                                     name={"user"}
-                                    src={`https://avatars.dicebear.com/api/adventurer/${String(
-                                        user?.name
-                                    )
-                                        ?.toLowerCase()
-                                        ?.replaceAll(" ", "")}.svg`}
+                                    src={`https://avatars.dicebear.com/api/adventurer/${lowerUserName}.svg`}
                                 />
                                 <VStack
-                                    display={{ base: "none", md: "flex" }}
+                                    display={{base: "none", md: "flex"}}
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2"
@@ -250,8 +253,8 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                                             "justina.clark@gmail.com"}
                                     </Text>
                                 </VStack>
-                                <Box display={{ base: "none", md: "flex" }}>
-                                    <FiChevronDown />
+                                <Box display={{base: "none", md: "flex"}}>
+                                    <FiChevronDown/>
                                 </Box>
                             </HStack>
                         </MenuButton>
@@ -265,7 +268,7 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                             <MenuItem>Profile</MenuItem>
                             <MenuItem>Settings</MenuItem>
                             <MenuItem>Billing</MenuItem>
-                            <MenuDivider />
+                            <MenuDivider/>
                             <MenuItem onClick={handleSignout}>
                                 Sign out
                             </MenuItem>
