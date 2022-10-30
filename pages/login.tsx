@@ -26,7 +26,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { signIn } from 'next-auth/react'
 
-export default function Login() {
+export default () => {
   const toast = useToast()
   const router = useRouter()
   const [email, setEmail] = useState('')
