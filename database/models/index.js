@@ -1,5 +1,5 @@
-import { dbDetails } from "../config/config";
-import { Sequelize, DataTypes } from "sequelize";
+import { dbDetails } from '../config/config'
+import { Sequelize, DataTypes } from 'sequelize'
 
 const sequelize = new Sequelize(
   dbDetails.DB,
@@ -15,13 +15,13 @@ const sequelize = new Sequelize(
     },
     logging: false,
   }
-);
+)
 
-const db = {};
+const db = {}
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.Sequelize = Sequelize
+db.sequelize = sequelize
 
-db.users = require("./user.js").default(sequelize, DataTypes);
+db.users = require('./user.js').default(sequelize, DataTypes)
 
-export default db;
+export default db

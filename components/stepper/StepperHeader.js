@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledStepperHeaderItem = styled.div`
   position: relative;
@@ -23,7 +23,7 @@ export const StyledStepperHeaderItem = styled.div`
 
   &::after {
     position: absolute;
-    content: "";
+    content: '';
     border-bottom: 2px solid #ccc;
     width: 100%;
     top: 17px;
@@ -37,7 +37,7 @@ export const StyledStepperHeaderItem = styled.div`
     }
     &::before {
       position: absolute;
-      content: "";
+      content: '';
       border-bottom: 2px solid #4bb543;
       width: 100%;
       top: 17px;
@@ -61,11 +61,11 @@ export const StyledStepperHeaderItem = styled.div`
   @media (max-width: 768px) {
     font-size: 12px;
   }
-`;
+`
 
 export const StyledStepperHeader = styled.div`
   margin-top: auto;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-`;
+`

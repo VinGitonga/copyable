@@ -1,41 +1,41 @@
-import { MongoClient } from "mongodb";
+import { MongoClient } from 'mongodb'
 
 export default function handler(req, res) {
   switch (req.method) {
-    case "POST":
-      testConnectToDB(req, res);
+    case 'POST':
+      testConnectToDB(req, res)
   }
 }
 
 async function testConnectToDB(req, res) {
-  const { host } = req.body;
+  const { host } = req.body
 
-  const client = new MongoClient(host, {});
+  const client = new MongoClient(host, {})
 
   try {
-    let db = client.db("testings");
+    let db = client.db('testings')
 
-    let readyToConnect = await isConnected(db);
-    console.log(readyToConnect);
+    let readyToConnect = await isConnected(db)
+    console.log(readyToConnect)
 
-    res.json(readyToConnect);
+    res.json(readyToConnect)
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 const isConnected = async (db) => {
   if (!db) {
-    return false;
+    return false
   }
 
-  let res;
+  let res
 
   try {
-    res = await db.admin().ping();
+    res = await db.admin().ping()
   } catch (err) {
-    return false;
+    return false
   }
 
-  return Object.prototype.hasOwnProperty.call(res, "ok") && res.ok === 1;
-};
+  return Object.prototype.hasOwnProperty.call(res, 'ok') && res.ok === 1
+}

@@ -1,6 +1,6 @@
 export default function userModel(sequelize, DataTypes) {
   const User = sequelize.define(
-    "user",
+    'user',
     {
       name: {
         type: DataTypes.STRING,
@@ -36,7 +36,7 @@ export default function userModel(sequelize, DataTypes) {
     {
       timestamps: false,
     }
-  );
+  )
 
-  return User;
+  return User
 }

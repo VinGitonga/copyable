@@ -19,7 +19,7 @@ import {
   MenuItem,
   MenuList,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 import {
   FiHome,
   FiTrendingUp,
@@ -29,44 +29,44 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
-} from "react-icons/fi";
-import { MdOutlineAddCircleOutline } from "react-icons/md";
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
+} from 'react-icons/fi'
+import { MdOutlineAddCircleOutline } from 'react-icons/md'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const LinkItems = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
-];
+  { name: 'Home', icon: FiHome },
+  { name: 'Trending', icon: FiTrendingUp },
+  { name: 'Explore', icon: FiCompass },
+  { name: 'Favourites', icon: FiStar },
+  { name: 'Settings', icon: FiSettings },
+]
 
 export default function Layout({ children }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const { data: session } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const handleSignOut = async () => {
     await signOut({
       redirect: false,
-      callbackUrl: "/",
-    });
-    router.push("/");
-  };
-  console.log(session);
+      callbackUrl: '/',
+    })
+    router.push('/')
+  }
+  console.log(session)
 
   return (
     <Box
       minH="100vh"
-      bg={useColorModeValue("gray.100", "gray.900")}
-      fontFamily={"Poppins"}
+      bg={useColorModeValue('gray.100', 'gray.900')}
+      fontFamily={'Poppins'}
     >
       <SidebarContent
         onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-        fontFamily={"Poppins"}
+        display={{ base: 'none', md: 'block' }}
+        fontFamily={'Poppins'}
       />
       <Drawer
         autoFocus={false}
@@ -86,23 +86,23 @@ export default function Layout({ children }) {
         onOpen={onOpen}
         handleSignout={handleSignOut}
         user={session?.user}
-        fontFamily={"Poppins"}
+        fontFamily={'Poppins'}
       />
-      <Box ml={{ base: 0, md: 60 }} p="4" fontFamily={"Poppins"} maxW={"6xl"}>
+      <Box ml={{ base: 0, md: 60 }} p="4" fontFamily={'Poppins'} maxW={'6xl'}>
         {children}
       </Box>
     </Box>
-  );
+  )
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       {...rest}
@@ -111,26 +111,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Novium
         </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       <NavItem icon={FiHome}>Home</NavItem>
-      <NavItem icon={FiCompass} hrefPath={"/mongo/mongo-wizard"}>
+      <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
         Migrate From MongoDB
       </NavItem>
       <NavItem icon={FiSettings}>Settings</NavItem>
     </Box>
-  );
-};
+  )
+}
 
-const NavItem = ({ icon, hrefPath = "/dashboard", children, ...rest }) => {
-  const router = useRouter();
+const NavItem = ({ icon, hrefPath = '/dashboard', children, ...rest }) => {
+  const router = useRouter()
 
   return (
     <Link
       onClick={() => router.push(`/${hrefPath}`)}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-      cursor={"pointer"}
+      style={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
+      cursor={'pointer'}
     >
       <Flex
         align="center"
@@ -140,8 +140,8 @@ const NavItem = ({ icon, hrefPath = "/dashboard", children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
-          color: "white",
+          bg: 'cyan.400',
+          color: 'white',
         }}
         {...rest}
       >
@@ -150,7 +150,7 @@ const NavItem = ({ icon, hrefPath = "/dashboard", children, ...rest }) => {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: "white",
+              color: 'white',
             }}
             as={icon}
           />
@@ -158,15 +158,15 @@ const NavItem = ({ icon, hrefPath = "/dashboard", children, ...rest }) => {
         {children}
       </Flex>
     </Link>
-  );
-};
+  )
+}
 
 const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
-  const router = useRouter();
-  const username = user?.name || "";
-  let lowerUserName = "";
+  const router = useRouter()
+  const username = user?.name || ''
+  let lowerUserName = ''
   if (username) {
-    lowerUserName = String(username).toLowerCase().replaceAll(" ", "");
+    lowerUserName = String(username).toLowerCase().replaceAll(' ', '')
   }
   return (
     <Flex
@@ -174,14 +174,14 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
+      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+      justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}
     >
       <IconButton
-        display={{ base: "flex", md: "none" }}
+        display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
@@ -189,7 +189,7 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
       />
 
       <Text
-        display={{ base: "flex", md: "none" }}
+        display={{ base: 'flex', md: 'none' }}
         fontSize="2xl"
         fontFamily="monospace"
         fontWeight="bold"
@@ -197,12 +197,12 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
         Novium
       </Text>
 
-      <HStack spacing={{ base: "0", md: "6" }}>
+      <HStack spacing={{ base: '0', md: '6' }}>
         <Button
-          colorScheme={"teal"}
+          colorScheme={'teal'}
           leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
-          variant={"outline"}
-          onClick={() => router.push("/add-singlestoredb")}
+          variant={'outline'}
+          onClick={() => router.push('/add-singlestoredb')}
         >
           Add SingleStore DB
         </Button>
@@ -212,38 +212,38 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
           aria-label="open menu"
           icon={<FiBell />}
         />
-        <Flex alignItems={"center"}>
+        <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
               py={2}
               transition="all 0.3s"
-              _focus={{ boxShadow: "none" }}
+              _focus={{ boxShadow: 'none' }}
             >
               <HStack>
                 <Avatar
-                  size={"sm"}
-                  name={"user"}
+                  size={'sm'}
+                  name={'user'}
                   src={`https://avatars.dicebear.com/api/adventurer/${lowerUserName}.svg`}
                 />
                 <VStack
-                  display={{ base: "none", md: "flex" }}
+                  display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{user?.name || "Justina Clark"}</Text>
+                  <Text fontSize="sm">{user?.name || 'Justina Clark'}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {user?.email || "justina.clark@gmail.com"}
+                    {user?.email || 'justina.clark@gmail.com'}
                   </Text>
                 </VStack>
-                <Box display={{ base: "none", md: "flex" }}>
+                <Box display={{ base: 'none', md: 'flex' }}>
                   <FiChevronDown />
                 </Box>
               </HStack>
             </MenuButton>
             <MenuList
-              bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
+              bg={useColorModeValue('white', 'gray.900')}
+              borderColor={useColorModeValue('gray.200', 'gray.700')}
             >
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
@@ -255,5 +255,5 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
         </Flex>
       </HStack>
     </Flex>
-  );
-};
+  )
+}

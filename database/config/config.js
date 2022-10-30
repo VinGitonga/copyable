@@ -3,5 +3,5 @@ export const dbDetails = {
   USER: process.env.SINGLESTORE_USER,
   PASSWORD: process.env.SINGLESTORE_PASS,
   DB: process.env.SINGLESTORE_DB,
-  dialect: process.env.SINGLESTORE_DRIVER || "mysql",
-};
+  dialect: process.env.SINGLESTORE_DRIVER || 'mysql',
+}
