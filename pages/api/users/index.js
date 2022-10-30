@@ -2,10 +2,10 @@ import db from "../../../database/models";
 import { generateSalt, generateHashedPassword } from "../../../utils/utils";
 import { nanoid } from "nanoid";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     switch (req.method) {
         case "POST":
-            createUser(req, res);
+            await createUser(req, res);
             break;
         default:
             res.status(405).end();
