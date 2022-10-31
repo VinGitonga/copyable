@@ -127,7 +127,7 @@ const NavItem = ({ icon, hrefPath = '/dashboard', children, ...rest }) => {
 
   return (
     <Link
-      onClick={() => router.push(`/${hrefPath}`)}
+      onClick={() => router.push(`${hrefPath}`)}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
       cursor={'pointer'}

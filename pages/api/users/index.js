@@ -21,7 +21,7 @@ async function createUser(req, res) {
     const salt = generateSalt()
     const hashedPassword = generateHashedPassword(password, salt)
 
-    await db.users.sync({ force: true })
+    await db.users.sync()
 
     // confirm that user does not exist
     const user = await db.users.findOne({
