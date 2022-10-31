@@ -44,7 +44,7 @@ const LoginPage: NextPageWithLayout = () => {
   }
 
   const clickSubmit = async () => {
-    let emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
     if (!email || !password) {
       toast({
         title: 'Error',
