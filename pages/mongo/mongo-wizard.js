@@ -5,10 +5,10 @@ import Layout from '../../components/Layout'
 import Head from 'next/head'
 import { useState } from 'react'
 import axios from 'axios'
-import MongoStep1 from './mongo-step1'
-import MongoStep2 from './mongo-step2'
-import MongoStep3 from './mongo-step3'
-import MongoStep4 from './mongo-step4'
+import MongoStep1 from '../../component/mongo-step1'
+import MongoStep2 from '../../component/mongo-step2'
+import MongoStep3 from '../../component/mongo-step3'
+import MongoStep4 from '../../component/mongo-step4'
 
 export default function MongoWizard() {
   const { incrementCurrentStep, decrementCurrentStep } = useStepper()
