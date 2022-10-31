@@ -17,8 +17,7 @@ import { TbPlugConnected } from 'react-icons/tb'
 import { testConnectToDB } from '../../services/migrate-mongo'
 
 // @todo: extend from Stepper.Step
-export default function MongoStep1({ handleNextStepClick }) {
-  const [host, setHost] = useState('')
+export default function MongoStep1({ host, setHost, handleNextStepClick }) {
   const [readyToConnect, setReadyToConnect] = useState(false)
   const [loadingTest, setLoadingTest] = useState(false)
   const toast = useToast()

@@ -9,35 +9,36 @@ export default function handler(req, res) {
 
 async function retrieveDbs(req, res) {
   const { host } = req.body
-
+  let databases = []
   const client = new MongoClient(host, {})
+  try {
+    const admin = client.db().admin()
 
-  const admin = client.db().admin()
+    const dbInfo = await admin.listDatabases()
 
-  const dbInfo = await admin.listDatabases()
+    let dbs = []
 
-  let dbs = []
-
-  for (const db of dbInfo.databases) {
-    let dbObj = {
-      name: db.name,
-      size: db.sizeOnDisk,
-      isEmpty: db.empty,
+    for (const db of dbInfo.databases) {
+      let dbObj = {
+        name: db.name,
+        size: db.sizeOnDisk,
+        isEmpty: db.empty,
+      }
+      dbs.push(dbObj)
     }
-    dbs.push(dbObj)
+
+    databases = filterDbs(dbs)
+    console.log(databases)
+  } catch (err) {
+    console.error(err)
+  } finally {
+    await client.close()
   }
-
-  let mongoDbs = filterDbs(dbs)
-
-  console.log(mongoDbs)
-
-  res.json(mongoDbs)
+  res.json(databases)
 }
 
 function filterDbs(allDbs) {
   let dbsFilter = ['admin', 'local']
 
-  let filteredDbs = allDbs.filter((item) => !dbsFilter.includes(item.name))
-
-  return filteredDbs
+  return allDbs.filter((item) => !dbsFilter.includes(item.name))
 }
