@@ -8,6 +8,7 @@ const sequelize = new Sequelize(
   {
     host: dbDetails.HOST,
     dialect: dbDetails.dialect,
+    dialectModule: require('mysql2'),
     dialectOptions: {
       ssl: {
         rejectUnauthorized: false,
