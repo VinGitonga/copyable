@@ -48,6 +48,11 @@ export default function MongoWizard() {
       <Head>
         <title>Welcome to the MongoDB migration Wizard</title>
       </Head>
+      <MongoStep1
+        host={host}
+        setHost={setHost}
+        handleNextStepClick={onClickNextToStep2}
+      />
       <Stepper>
         <Stepper.Steps>
           <Stepper.Step id={'addMongoDbHost'} name={'Add MongoDB Host'}>
