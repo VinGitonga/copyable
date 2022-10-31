@@ -6,7 +6,9 @@ export default function MongoStep3({
   handleNextStepClick,
   handlePreviousStepClick,
 }) {
-  const [checkedItems, setCheckedItems] = useState(collections.map(() => false))
+  const [checkedItems, setCheckedItems] = useState(
+    collections?.map(() => false)
+  )
 
   const allChecked = checkedItems.every(Boolean)
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
@@ -22,12 +24,12 @@ export default function MongoStep3({
         <Checkbox
           isChecked={allChecked}
           isIndeterminate={isIndeterminate}
-          onChange={(e) => setCheckedItems(collections.map(() => !allChecked))}
+          onChange={(e) => setCheckedItems(collections?.map(() => !allChecked))}
         >
           Import all collections
         </Checkbox>
         <Stack pl={6} mt={1} spacing={1}>
-          {collections.map((collectionName, idx) => {
+          {collections?.map((collectionName, idx) => {
             return (
               <Checkbox
                 key={idx}
