@@ -11,7 +11,6 @@ export default function MongoStep3({
   const allChecked = checkedItems.every(Boolean)
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
-  // @todo: Show collections to import // @todo: Allow selecting collections to import
   // @todo: Maybe also show the schema definition to check if the user is happy with it
   return (
     <>
