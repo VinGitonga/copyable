@@ -1,37 +1,37 @@
 import {
-  IconButton,
   Avatar,
   Box,
+  Button,
   CloseButton,
-  Flex,
-  HStack,
-  VStack,
-  Icon,
-  useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
-  Text,
-  useDisclosure,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
-  Button,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
   FiBell,
   FiChevronDown,
+  FiCompass,
+  FiHome,
+  FiMenu,
+  FiSettings,
+  FiStar,
+  FiTrendingUp,
 } from 'react-icons/fi'
 import { MdOutlineAddCircleOutline } from 'react-icons/md'
-import { useSession, signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 const LinkItems = [
@@ -53,7 +53,7 @@ export default function Layout({ children }) {
       redirect: false,
       callbackUrl: '/',
     })
-    router.push('/')
+    await router.push('/')
   }
   console.log(session)
 
