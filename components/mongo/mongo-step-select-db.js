@@ -1,7 +1,7 @@
 import { Box, Button, Text } from '@chakra-ui/react'
 import { Select } from '@chakra-ui/react'
 
-export default function MongoStep2({
+export default function MongoStepSelectDb({
   databases,
   setCurrentDb,
   handleNextStepClick,
