@@ -9,6 +9,7 @@ import MongoStep1 from '../../components/mongo/mongo-step1'
 import MongoStep2 from '../../components/mongo/mongo-step2'
 import MongoStep3 from '../../components/mongo/mongo-step3'
 import MongoStep4 from '../../components/mongo/mongo-step4'
+import ConditionalRender from '../../components/ConditionalRender'
 
 export default function MongoWizard() {
   const { incrementCurrentStep, decrementCurrentStep } = useStepper()
@@ -48,43 +49,41 @@ export default function MongoWizard() {
       <Head>
         <title>Welcome to the MongoDB migration Wizard</title>
       </Head>
-      <MongoStep1
-        host={host}
-        setHost={setHost}
-        handleNextStepClick={onClickNextToStep2}
-      />
-      <Stepper>
-        <Stepper.Steps>
-          <Stepper.Step id={'addMongoDbHost'} name={'Add MongoDB Host'}>
-            <MongoStep1
-              host={host}
-              setHost={setHost}
-              handleNextStepClick={onClickNextToStep2}
-            />
-          </Stepper.Step>
-          <Stepper.Step id={'selectDb'} name={'Select Database'}>
-            <MongoStep2
-              databases={databases}
-              setCurrentDb={setCurrentDb}
-              handlePreviousStepClick={decrementCurrentStep}
-              handleNextStepClick={onClickNextToStep3}
-            />
-          </Stepper.Step>
-          <Stepper.Step id={'third'} name={'Step 3'}>
-            <MongoStep3
-              collections={collections}
-              handlePreviousStepClick={decrementCurrentStep}
-              handleNextStepClick={incrementCurrentStep}
-            />
-          </Stepper.Step>
-          <Stepper.Step id={'forth'} name={'Step 4'}>
-            <MongoStep4
-              handlePreviousStepClick={decrementCurrentStep}
-              handleNextStepClick={incrementCurrentStep}
-            />
-          </Stepper.Step>
-        </Stepper.Steps>
-      </Stepper>
+
+      <ConditionalRender client>
+        <Stepper>
+          <Stepper.Steps>
+            <Stepper.Step id={'addMongoDbHost'} name={'Add MongoDB Host'}>
+              <MongoStep1
+                host={host}
+                setHost={setHost}
+                handleNextStepClick={onClickNextToStep2}
+              />
+            </Stepper.Step>
+            <Stepper.Step id={'selectDb'} name={'Select Database'}>
+              <MongoStep2
+                databases={databases}
+                setCurrentDb={setCurrentDb}
+                handlePreviousStepClick={decrementCurrentStep}
+                handleNextStepClick={onClickNextToStep3}
+              />
+            </Stepper.Step>
+            <Stepper.Step id={'third'} name={'Step 3'}>
+              <MongoStep3
+                collections={collections}
+                handlePreviousStepClick={decrementCurrentStep}
+                handleNextStepClick={incrementCurrentStep}
+              />
+            </Stepper.Step>
+            <Stepper.Step id={'forth'} name={'Step 4'}>
+              <MongoStep4
+                handlePreviousStepClick={decrementCurrentStep}
+                handleNextStepClick={incrementCurrentStep}
+              />
+            </Stepper.Step>
+          </Stepper.Steps>
+        </Stepper>
+      </ConditionalRender>
     </Box>
   )
 }
