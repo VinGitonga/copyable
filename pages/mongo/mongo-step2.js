@@ -1,17 +1,37 @@
 import { Box, Button, Text } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react'
 
 export default function MongoStep2({
+  databases,
+  setCurrentDb,
   handleNextStepClick,
   handlePreviousStepClick,
 }) {
+  function handleSelectDatabase(e) {
+    setCurrentDb(e.target.value)
+  }
+
+  if (!databases || databases.length === 0) {
+    return <Box textAlign={'center'}>Ups, no database found</Box>
+  }
+
   return (
-    // @todo: List databases
-    // @todo: Allow selecting database to clone
-    // @todo: Show collections to import
-    // @todo: Allow selecting collections to import
-    // @todo: Maybe also show the schema definition to check if the user is happy with it
     <Box textAlign={'center'}>
-      <Text>Lorem ipsum dolor sit amet, consectetur adipisicing elit</Text>
+      <Text>
+        Great! We have found some databases, please pick the one you want to
+        import below
+      </Text>
+      <br />
+      <Select placeholder="Select a database" onChange={handleSelectDatabase}>
+        {databases.map(function (db) {
+          return (
+            <option key={db.name} value={db.name}>
+              {db.name}
+            </option>
+          )
+        })}
+      </Select>
+      <br />
       <Button onClick={handlePreviousStepClick}>Prev Step</Button>
       <Button onClick={handleNextStepClick}>Next Step</Button>
     </Box>

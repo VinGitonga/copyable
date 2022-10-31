@@ -14,6 +14,8 @@ export default function MongoWizard() {
   const { incrementCurrentStep, decrementCurrentStep } = useStepper()
   const [host, setHost] = useState('')
   const [databases, setDatabases] = useState([])
+  const [collections, setCollections] = useState([])
+  const [currentDb, setCurrentDb] = useState([])
 
   const getDbs = async () => {
     let resp = await axios.post(`/api/migrate-mongo/details/get-dbs`, {
@@ -22,8 +24,22 @@ export default function MongoWizard() {
     setDatabases(resp.data)
   }
 
+  const getCollections = async () => {
+    let resp = await axios.post(`/api/migrate-mongo/details/get-collections`, {
+      host: host,
+      db: currentDb,
+    })
+    setCollections(resp.data)
+  }
+
   const onClickNextToStep2 = async () => {
     await getDbs()
+    incrementCurrentStep()
+  }
+
+  const onClickNextToStep3 = async () => {
+    const collections = await getCollections()
+    console.log(collections)
     incrementCurrentStep()
   }
 
@@ -35,16 +51,23 @@ export default function MongoWizard() {
       <Stepper>
         <Stepper.Steps>
           <Stepper.Step id={'addMongoDbHost'} name={'Add MongoDB Host'}>
-            <MongoStep1 handleNextStepClick={onClickNextToStep2} />
+            <MongoStep1
+              host={host}
+              setHost={setHost}
+              handleNextStepClick={onClickNextToStep2}
+            />
           </Stepper.Step>
           <Stepper.Step id={'selectDb'} name={'Select Database'}>
             <MongoStep2
+              databases={databases}
+              setCurrentDb={setCurrentDb}
               handlePreviousStepClick={decrementCurrentStep}
-              handleNextStepClick={incrementCurrentStep}
+              handleNextStepClick={onClickNextToStep3}
             />
           </Stepper.Step>
           <Stepper.Step id={'third'} name={'Step 3'}>
             <MongoStep3
+              collections={collections}
               handlePreviousStepClick={decrementCurrentStep}
               handleNextStepClick={incrementCurrentStep}
             />
