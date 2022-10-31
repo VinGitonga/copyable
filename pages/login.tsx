@@ -25,8 +25,9 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { signIn } from 'next-auth/react'
+import { NextPageWithLayout } from '../types/Layout'
 
-export default () => {
+const LoginPage: NextPageWithLayout = () => {
   const toast = useToast()
   const router = useRouter()
   const [email, setEmail] = useState('')
@@ -188,3 +189,9 @@ export default () => {
     </Flex>
   )
 }
+
+LoginPage.getLayout = (page) => {
+  return page
+}
+
+export default LoginPage
