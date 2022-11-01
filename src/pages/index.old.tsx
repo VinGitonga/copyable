@@ -7,13 +7,7 @@ const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   return (
     <>
-      <Box
-        pos="relative"
-        overflow="hidden"
-        bg={'#1a202c'}
-        h={'100vh'}
-        fontFamily={'Poppins'}
-      >
+      <Box pos="relative" overflow="hidden" bg={'#1a202c'} h={'100vh'}>
         <Head>
           <title>Copyable</title>
         </Head>

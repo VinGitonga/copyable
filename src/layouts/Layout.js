@@ -27,20 +27,10 @@ import {
   FiHome,
   FiMenu,
   FiSettings,
-  FiStar,
-  FiTrendingUp,
 } from 'react-icons/fi'
 import { MdOutlineAddCircleOutline } from 'react-icons/md'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-
-const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
-]
 
 export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -103,7 +93,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Novium
+          Copyable
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -188,7 +178,7 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
         fontFamily="monospace"
         fontWeight="bold"
       >
-        Novium
+        Copyable
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>

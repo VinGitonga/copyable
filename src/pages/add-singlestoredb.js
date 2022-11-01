@@ -22,6 +22,9 @@ import { FiEdit3, FiEye, FiEyeOff } from 'react-icons/fi'
 import { RiDatabase2Fill } from 'react-icons/ri'
 import { BiLock } from 'react-icons/bi'
 import Layout from '../components/Layout'
+import { useSession } from 'next-auth/react'
+import { saveDbToProfile } from '../services/save-db-to-profile'
+import { useRouter } from 'next/router'
 
 export default function AddSingleStoreDB() {
   const [host, setHost] = useState('')
@@ -31,6 +34,8 @@ export default function AddSingleStoreDB() {
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const toast = useToast()
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const handleShowPass = () => setShowPass(!showPass)
 
@@ -51,10 +56,39 @@ export default function AddSingleStoreDB() {
     setLoading(false)
   }
 
-  const clickSubmit = () => {
-    setLoading(true)
-    customToast({ text: 'Database details saved successfully' })
-    setTimeout(() => resetForm(), 2000)
+  const clickSubmit = async () => {
+    if (!host || !dbUser || !dbPassword || !dbName) {
+      customToast({ text: 'Fill all the inputs', status: 'warning' })
+      return
+    } else {
+      // validate user is logged in
+      if (!session.user) {
+        customToast({
+          text: 'Login first to create db to profile',
+          status: 'error',
+        })
+        return
+      } else {
+        setLoading(true)
+        let dbInfo = {
+          dbName: dbName,
+          dbHost: host,
+          dbUser: dbUser,
+          dbPassword: dbPassword,
+          dbOwner: session.user?.id,
+        }
+
+        let { message, status } = await saveDbToProfile({ dbDetails: dbInfo })
+        if (status) {
+          resetForm()
+          customToast({ text: message, status: 'success' })
+          router.push('/dashboard')
+        } else {
+          setLoading(false)
+          customToast({ text: message, status: 'error' })
+        }
+      }
+    }
   }
 
   return (
@@ -63,10 +97,9 @@ export default function AddSingleStoreDB() {
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}
-      fontFamily={'Poppins'}
     >
       <Head>
-        <title>Novium | Add Singlestore DB</title>
+        <title>Copyable | Add Singlestore DB</title>
       </Head>
       <Stack spacing={8} mx={'auto'} w={'450px'}>
         <Stack align={'center'}>

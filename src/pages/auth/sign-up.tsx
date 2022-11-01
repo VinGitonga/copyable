@@ -128,7 +128,6 @@ export default function Register() {
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}
-      fontFamily={'Poppins'}
     >
       <Head>
         <title>Novium | Register</title>

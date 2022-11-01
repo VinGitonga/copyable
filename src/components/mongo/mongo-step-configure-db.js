@@ -15,12 +15,14 @@ import { GrFormNextLink, GrHost } from 'react-icons/gr'
 import { useState } from 'react'
 import { TbPlugConnected } from 'react-icons/tb'
 import { testConnectToDB } from '../../services/migrate-mongo'
+import { useDatabaseMigrationStore } from '../../context/useDatabaseMigrationStore'
 
 // @todo: extend from Stepper.Step
-export default function MongoStep1({ host, setHost, handleNextStepClick }) {
+export default function MongoStepConfigureDb({ handleNextStepClick }) {
   const [readyToConnect, setReadyToConnect] = useState(false)
   const [loadingTest, setLoadingTest] = useState(false)
   const toast = useToast()
+  const { mongoHost, setMongoHost } = useDatabaseMigrationStore()
 
   const customToast = ({ text, status = 'info' }) => {
     return toast({
@@ -33,7 +35,7 @@ export default function MongoStep1({ host, setHost, handleNextStepClick }) {
 
   const clickTest = async () => {
     setLoadingTest(true)
-    let status = await testConnectToDB({ mongoDbUri: host })
+    let status = await testConnectToDB({ mongoDbUri: mongoHost })
     if (status) {
       setLoadingTest(false)
       customToast({
@@ -62,8 +64,8 @@ export default function MongoStep1({ host, setHost, handleNextStepClick }) {
           <Input
             variant={'flushed'}
             color={'gray.500'}
-            value={host}
-            onChange={(e) => setHost(e.target.value)}
+            value={mongoHost || ''}
+            onChange={(e) => setMongoHost(e.target.value)}
             placeholder={
               'mongodb+srv://<username>:<password>@<clustername>.gdf0p.mongodb.net/?retryWrites=true&w=majority'
             }
@@ -76,7 +78,7 @@ export default function MongoStep1({ host, setHost, handleNextStepClick }) {
       <Flex align={'center'} justify={'space-between'}>
         <Button
           onClick={clickTest}
-          disabled={!host}
+          disabled={!mongoHost}
           colorScheme={'cyan'}
           leftIcon={<TbPlugConnected />}
           isLoading={loadingTest}
@@ -86,7 +88,7 @@ export default function MongoStep1({ host, setHost, handleNextStepClick }) {
         </Button>
         <Button
           onClick={handleNextStepClick}
-          disabled={!host || !readyToConnect}
+          disabled={!mongoHost || !readyToConnect}
           rightIcon={<GrFormNextLink />}
         >
           Next Step
