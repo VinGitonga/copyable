@@ -48,7 +48,7 @@ const HomePage: NextPageWithLayout = () => {
                     }}
                     color={'#cbceeb'}
                   >
-                    Novium
+                    Copyable
                   </chakra.span>
                   <br />
                 </chakra.h1>

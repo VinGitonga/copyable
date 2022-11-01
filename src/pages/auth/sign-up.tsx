@@ -130,7 +130,7 @@ export default function Register() {
       bg={useColorModeValue('gray.50', 'gray.800')}
     >
       <Head>
-        <title>Novium | Register</title>
+        <title>Copyable | Register</title>
       </Head>
       <Stack spacing={8} mx={'auto'} w={'600px'}>
         <Stack align={'center'}>
