@@ -1,4 +1,4 @@
-import { NextPageWithLayout } from '../types/Layout'
+import { NextPageWithLayout } from 'types/Layout'
 import { Button, Box, chakra, Stack, useColorModeValue } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'

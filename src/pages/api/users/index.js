@@ -1,5 +1,5 @@
-import db from '../../../database/models'
-import { generateSalt, generateHashedPassword } from '../../../utils/utils'
+import db from 'database/models'
+import { generateSalt, generateHashedPassword } from 'utils/utils'
 import { nanoid } from 'nanoid'
 
 export default async function handler(req, res) {

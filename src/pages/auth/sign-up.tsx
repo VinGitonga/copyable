@@ -24,7 +24,7 @@ import { FiUser, FiEye, FiEyeOff } from 'react-icons/fi'
 import { HiOutlineMail } from 'react-icons/hi'
 import { BiLock } from 'react-icons/bi'
 import Head from 'next/head'
-import { createUser } from '../../services/user'
+import { createUser } from 'services/user'
 
 export default function Register() {
   const router = useRouter()

@@ -1,5 +1,5 @@
-import { customSequelize } from '../../../database/customSequelizeDBconfig'
-import db from '../../../database/models'
+import { customSequelize } from 'database/customSequelizeDBconfig'
+import db from 'database/models'
 
 export default function handler(req, res) {
   switch (req.method) {

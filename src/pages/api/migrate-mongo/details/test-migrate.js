@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { DataTypes } from 'sequelize'
-import { customSequelize } from '../../../../database/customSequelizeDBconfig'
-import migrationCustomModel from '../../../../database/models/migration'
+import { customSequelize } from 'database/customSequelizeDBconfig'
+import migrationCustomModel from 'database/models/migration'
 
 export default function handler(req, res) {
   switch (req.method) {

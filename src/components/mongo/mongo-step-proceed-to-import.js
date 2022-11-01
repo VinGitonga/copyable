@@ -1,6 +1,5 @@
 import { Box, Button, Text, Select, Stack, Badge } from '@chakra-ui/react'
-import { useDatabaseMigrationStore } from '../../context/useDatabaseMigrationStore'
-
+import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 
 export default function MongoStepProceedToImport({
   handleNextStepClick,
@@ -9,7 +8,7 @@ export default function MongoStepProceedToImport({
   const { selectedCollections, singlestoreDatabases } =
     useDatabaseMigrationStore()
 
-    // @todo Add Button to Activate Db Migration with backend functionality
+  // @todo Add Button to Activate Db Migration with backend functionality
   return (
     <Box>
       <Text>Selected Collections</Text>

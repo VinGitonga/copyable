@@ -14,8 +14,8 @@ import {
 import { GrFormNextLink, GrHost } from 'react-icons/gr'
 import { useState } from 'react'
 import { TbPlugConnected } from 'react-icons/tb'
-import { testConnectToDB } from '../../services/migrate-mongo'
-import { useDatabaseMigrationStore } from '../../context/useDatabaseMigrationStore'
+import { testConnectToDB } from 'services/migrate-mongo'
+import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 
 // @todo: extend from Stepper.Step
 export default function MongoStepConfigureDb({ handleNextStepClick }) {

@@ -21,9 +21,9 @@ import { GrHost, GrUserAdmin } from 'react-icons/gr'
 import { FiEdit3, FiEye, FiEyeOff } from 'react-icons/fi'
 import { RiDatabase2Fill } from 'react-icons/ri'
 import { BiLock } from 'react-icons/bi'
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 import { useSession } from 'next-auth/react'
-import { saveDbToProfile } from '../services/save-db-to-profile'
+import { saveDbToProfile } from 'services/save-db-to-profile'
 import { useRouter } from 'next/router'
 
 export default function AddSingleStoreDB() {
