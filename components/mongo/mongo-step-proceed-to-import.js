@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react'
 
-export default function MongoStep4({
+export default function MongoStepProceedToImport({
   handleNextStepClick,
   handlePreviousStepClick,
 }) {

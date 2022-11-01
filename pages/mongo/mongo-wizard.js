@@ -5,28 +5,27 @@ import Layout from '../../components/Layout'
 import Head from 'next/head'
 import { useState } from 'react'
 import axios from 'axios'
-import MongoStep1 from '../../components/mongo/mongo-step1'
-import MongoStep2 from '../../components/mongo/mongo-step2'
-import MongoStep3 from '../../components/mongo/mongo-step3'
-import MongoStep4 from '../../components/mongo/mongo-step4'
+import MongoStepConfigureDb from '../../components/mongo/mongo-step-configure-db'
+import MongoStepSelectDb from '../../components/mongo/mongo-step-select-db'
+import MongoStepSelectCollections from '../../components/mongo/mongo-step-select-collections'
+import MongoStepProceedToImport from '../../components/mongo/mongo-step-proceed-to-import'
+import { useDatabaseMigrationStore } from '../../context/useDatabaseMigrationStore'
 
 export default function MongoWizard() {
   const { incrementCurrentStep, decrementCurrentStep } = useStepper()
-  const [host, setHost] = useState('')
   const [databases, setDatabases] = useState([])
   const [collections, setCollections] = useState([])
   const [currentDb, setCurrentDb] = useState([])
+  const host = useDatabaseMigrationStore(({ mongoHost }) => mongoHost)
 
   const getDbs = async () => {
-    let resp = await axios.post(`/api/migrate-mongo/details/get-dbs`, {
-      host: host,
-    })
+    let resp = await axios.post(`/api/migrate-mongo/details/get-dbs`, { host })
     setDatabases(resp.data)
   }
 
   const getCollections = async () => {
     let resp = await axios.post(`/api/migrate-mongo/details/get-collections`, {
-      host: host,
+      host,
       db: currentDb,
     })
     setCollections(resp.data)
@@ -51,14 +50,10 @@ export default function MongoWizard() {
       <Stepper>
         <Stepper.Steps>
           <Stepper.Step id={'addMongoDbHost'} name={'Add MongoDB Host'}>
-            <MongoStep1
-              host={host}
-              setHost={setHost}
-              handleNextStepClick={onClickNextToStep2}
-            />
+            <MongoStepConfigureDb handleNextStepClick={onClickNextToStep2} />
           </Stepper.Step>
           <Stepper.Step id={'selectDb'} name={'Select Database'}>
-            <MongoStep2
+            <MongoStepSelectDb
               databases={databases}
               setCurrentDb={setCurrentDb}
               handlePreviousStepClick={decrementCurrentStep}
@@ -66,14 +61,14 @@ export default function MongoWizard() {
             />
           </Stepper.Step>
           <Stepper.Step id={'third'} name={'Step 3'}>
-            <MongoStep3
+            <MongoStepSelectCollections
               collections={collections}
               handlePreviousStepClick={decrementCurrentStep}
               handleNextStepClick={incrementCurrentStep}
             />
           </Stepper.Step>
           <Stepper.Step id={'forth'} name={'Step 4'}>
-            <MongoStep4
+            <MongoStepProceedToImport
               handlePreviousStepClick={decrementCurrentStep}
               handleNextStepClick={incrementCurrentStep}
             />

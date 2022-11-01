@@ -1,4 +1,4 @@
-import { StepperSteps, StepperStep } from './StepperSteps'
+import { StepperSteps, StepperStep } from './stepper-steps'
 import { useStepper } from '../../context'
 import { Box, Stack, Flex, Center, Divider, Text } from '@chakra-ui/react'
 
