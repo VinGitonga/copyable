@@ -1,8 +1,9 @@
+import { NextPageWithLayout } from '../types/Layout'
 import { Button, Box, chakra, Stack, useColorModeValue } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
-const Landing = () => {
+const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   return (
     <>
@@ -14,7 +15,7 @@ const Landing = () => {
         fontFamily={'Poppins'}
       >
         <Head>
-          <title>Novium</title>
+          <title>Copyable</title>
         </Head>
         <Box maxW="7xl" mx="auto">
           <Box
@@ -104,4 +105,4 @@ const Landing = () => {
   )
 }
 
-export default Landing
+export default HomePage
