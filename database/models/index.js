@@ -24,5 +24,6 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 db.users = require('./user.js').default(sequelize, DataTypes)
+db.singlestoredbs = require('./singlestore.js').default(sequelize, DataTypes)
 
 export default db

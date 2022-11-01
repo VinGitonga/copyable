@@ -61,7 +61,7 @@ export default function MongoWizard() {
               handleNextStepClick={onClickNextToStep3}
             />
           </Stepper.Step>
-          <Stepper.Step id={'third'} name={'Step 3'}>
+          <Stepper.Step id={'third'} name={'Select Collections'}>
             <MongoStepSelectCollections
               collections={collections}
               handlePreviousStepClick={decrementCurrentStep}
