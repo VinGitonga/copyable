@@ -16,7 +16,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Novium | Dashboard</title>
+        <title>Copyable | Dashboard</title>
       </Head>
 
       <Container maxW={'3xl'} fontFamily={'Poppins'}>

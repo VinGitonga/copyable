@@ -131,7 +131,7 @@ export default function Register() {
       fontFamily={'Poppins'}
     >
       <Head>
-        <title>Novium | Register</title>
+        <title>Copyable | Register</title>
       </Head>
       <Stack spacing={8} mx={'auto'} w={'600px'}>
         <Stack align={'center'}>

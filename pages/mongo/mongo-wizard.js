@@ -46,7 +46,7 @@ export default function MongoWizard() {
   return (
     <Box>
       <Head>
-        <title>Welcome to the MongoDB migration Wizard</title>
+        <title>Copyable | MongoDB Migration Wizard</title>
       </Head>
       <Stepper>
         <Stepper.Steps>

@@ -106,7 +106,7 @@ const LoginPage: NextPageWithLayout = () => {
       fontFamily={'Poppins'}
     >
       <Head>
-        <title>Novium | Login</title>
+        <title>Copyable | Login</title>
       </Head>
       <Stack spacing={8} mx={'auto'} w={'450px'}>
         <Stack align={'center'}>

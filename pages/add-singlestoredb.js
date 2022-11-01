@@ -66,7 +66,7 @@ export default function AddSingleStoreDB() {
       fontFamily={'Poppins'}
     >
       <Head>
-        <title>Novium | Add Singlestore DB</title>
+        <title>Copyable | Add Singlestore DB</title>
       </Head>
       <Stack spacing={8} mx={'auto'} w={'450px'}>
         <Stack align={'center'}>
