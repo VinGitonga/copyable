@@ -247,7 +247,10 @@ export default function Register() {
             >
               Sign up
             </Button>
-            <Link color={'blue.400'} onClick={() => router.push('/login')}>
+            <Link
+              color={'blue.400'}
+              onClick={() => router.push('/auth/sign-in')}
+            >
               {' '}
               Already have an account? Login
             </Link>

@@ -4,8 +4,8 @@ import { useEffect } from 'react'
 
 enum AuthRoutes {
   LOGIN = '/auth/sign-in',
-  SIGNUP = '/register',
-  FORGOT_PASSWORD = '/forgot',
+  SIGNUP = '/auth/sign-up',
+  FORGOT_PASSWORD = '/auth/forgot',
 }
 
 enum PublicRoutes {
