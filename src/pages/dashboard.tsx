@@ -10,7 +10,7 @@ import {
   useColorModeValue,
   createIcon,
 } from '@chakra-ui/react'
-import Layout from '../components/Layout'
+import Layout from 'layouts/Layout'
 
 export default function Dashboard() {
   return (
@@ -19,7 +19,7 @@ export default function Dashboard() {
         <title>Novium | Dashboard</title>
       </Head>
 
-      <Container maxW={'3xl'} fontFamily={'Poppins'}>
+      <Container maxW={'3xl'} fontFamily={'Rubik'}>
         <Stack
           as={Box}
           textAlign={'center'}

@@ -58,15 +58,10 @@ export default function Layout({ children }) {
   console.log(session)
 
   return (
-    <Box
-      minH="100vh"
-      bg={useColorModeValue('gray.100', 'gray.900')}
-      fontFamily={'Poppins'}
-    >
+    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
-        fontFamily={'Poppins'}
       />
       <Drawer
         autoFocus={false}
@@ -86,9 +81,8 @@ export default function Layout({ children }) {
         onOpen={onOpen}
         handleSignout={handleSignOut}
         user={session?.user}
-        fontFamily={'Poppins'}
       />
-      <Box ml={{ base: 0, md: 60 }} p="4" fontFamily={'Poppins'} maxW={'6xl'}>
+      <Box ml={{ base: 0, md: 60 }} p="4" maxW={'6xl'}>
         {children}
       </Box>
     </Box>
