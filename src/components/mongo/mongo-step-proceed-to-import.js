@@ -19,12 +19,16 @@ export default function MongoStepProceedToImport({
       </Stack>
       {singlestoreDatabases.length > 0 ? (
         <Select placeholder="Select Singlestore Database for which to Migrate To">
-          {singlestoreDatabases.map((dbs) => (
-            <option value={dbs.dbName}>{dbs.dbName}</option>
+          {singlestoreDatabases.map((dbs, i) => (
+            <option key={i} value={dbs.dbName}>
+              {dbs.dbName}
+            </option>
           ))}
         </Select>
       ) : (
-        <Text>You haven't added any Singlestore Database to your profile</Text>
+        <Text>
+          {"You haven't added any Singlestore Database to your profile"}
+        </Text>
       )}
       <Box mt={2}>
         <Button onClick={handlePreviousStepClick}>Prev Step</Button>
