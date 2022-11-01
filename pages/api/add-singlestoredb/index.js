@@ -19,6 +19,7 @@ async function addSingleStoreDBToProfile(req, res) {
     res.status(400).json({
       message:
         'Connection to Singlestore Database failed!, Check your details and try again',
+      status: false,
     })
   } else {
     // sync dbs
@@ -34,6 +35,7 @@ async function addSingleStoreDBToProfile(req, res) {
     if (dbInstance) {
       res.status(400).json({
         message: 'Database already exists in your profile',
+        status: false,
       })
     } else {
       // proceed to create the dbInstance to profile
@@ -49,6 +51,7 @@ async function addSingleStoreDBToProfile(req, res) {
 
       res.status(200).json({
         message: 'Database Info has been successfully to your profile',
+        status: true,
       })
     }
   }

@@ -1,5 +1,7 @@
 import { Box, Button, Checkbox, Stack, Text } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useDatabaseMigrationStore } from "../../context/useDatabaseMigrationStore"
+import { fetchMyDbs } from '../../services/save-db-to-profile'
 
 export default function MongoStepSelectCollections({
   collections,
@@ -10,8 +12,30 @@ export default function MongoStepSelectCollections({
     collections?.map(() => false)
   )
 
+  const { selectedCollections,setSelectedCollections, setSinglestoreDatabases } = useDatabaseMigrationStore()
+
   const allChecked = checkedItems.every(Boolean)
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
+
+  // get singlestore dbs for the currently logged in user
+  const getDbs = async () => {
+    let data = await fetchMyDbs()
+    setSinglestoreDatabases(data)
+  }
+
+
+  const onClickNext = async () => {
+    let selectedCols = []
+    checkedItems.map((item, idx) => {
+      if (item){
+        selectedCols.push(collections[idx])
+      }
+    })
+    setSelectedCollections(selectedCols)
+    await getDbs()
+    handleNextStepClick()
+  }
+
 
   // @todo: Maybe also show the schema definition to check if the user is happy with it
   return (
@@ -47,9 +71,9 @@ export default function MongoStepSelectCollections({
           })}
         </Stack>
       </Box>
-      <Box textAlign={'left'}>
+      <Box textAlign={'left'} mt={2}>
         <Button onClick={handlePreviousStepClick}>Prev Step</Button>
-        <Button onClick={handleNextStepClick}>Next Step</Button>
+        <Button disabled={selectedCollections?.length === 0} onClick={onClickNext}>Next Step</Button>
       </Box>
     </>
   )
