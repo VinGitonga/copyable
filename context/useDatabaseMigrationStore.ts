@@ -14,7 +14,8 @@ export interface IDatabaseMigrationData {
   mongoHost: string
   selectedDb: string
   selectedCollections: string[]
-  collectionModels: ICollectionsModels
+  collectionModels: ICollectionsModels,
+  singlestoreDatabases: string[]
 }
 
 export interface IDatabaseMigrationState extends IDatabaseMigrationData {
@@ -24,6 +25,7 @@ export interface IDatabaseMigrationState extends IDatabaseMigrationData {
     v: IDatabaseMigrationData['selectedCollections']
   ) => void
   setCollectionModels: (v: IDatabaseMigrationData['collectionModels']) => void
+  setSinglestoreDatabases: (v: IDatabaseMigrationData['singlestoreDatabases']) => void
 }
 
 export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
@@ -32,6 +34,7 @@ export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
     selectedDb: null,
     selectedCollections: null,
     collectionModels: null,
+    singlestoreDatabases: null,
     setMongoHost: (v: IDatabaseMigrationData['mongoHost']) =>
       set((state) => ({ mongoHost: v })),
     setSelectedDb: (v: IDatabaseMigrationData['selectedDb']) =>
@@ -41,5 +44,7 @@ export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
     ) => set((state) => ({ selectedCollections: v })),
     setCollectionModels: (v: IDatabaseMigrationData['collectionModels']) =>
       set((state) => ({ collectionModels: v })),
+      setSinglestoreDatabases: (v: IDatabaseMigrationData['singlestoreDatabases']) =>
+      set((state) => ({ singlestoreDatabases: v })),
   })
 )
