@@ -79,6 +79,7 @@ export default function AddSingleStoreDB() {
         }
 
         let { message, status } = await saveDbToProfile({ dbDetails: dbInfo })
+        console.log(message, status)
         if (status) {
           resetForm()
           customToast({ text: message, status: 'success' })

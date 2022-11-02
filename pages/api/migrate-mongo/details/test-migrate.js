@@ -11,12 +11,13 @@ export default function handler(req, res) {
 }
 
 async function testMigrate(req, res) {
-  const { mongoDbConfig, singleStoreConfig } = req.body
+  const { mongoConfig: mongoDbConfig, singleStoreConfig } = req.body
+  console.log(mongoDbConfig)
 
   const client = new MongoClient(mongoDbConfig.host, {})
   const sequelize = customSequelize({
     dbName: singleStoreConfig.dbName,
-    dbUser: singleStoreConfig.dbName,
+    dbUser: singleStoreConfig.dbUser,
     dbPassword: singleStoreConfig.dbPassword,
     dbHost: singleStoreConfig.dbHost,
   })
@@ -56,7 +57,7 @@ async function testMigrate(req, res) {
     let idObj = {
       id: {
         type: DataTypes.INTEGER,
-        primary: true,
+        primaryKey: true,
         autoIncrement: true,
       },
     }
@@ -69,7 +70,7 @@ async function testMigrate(req, res) {
     })
 
     // sync the model
-    await Model.sync({ alter: true })
+    await Model.sync({ force: true })
 
     let documentsArr = Array.from(await toArray(collection.find()))
 

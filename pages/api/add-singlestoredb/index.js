@@ -16,7 +16,7 @@ async function addSingleStoreDBToProfile(req, res) {
   let connectionStatus = await testConnectToDB(sequelize)
 
   if (!connectionStatus) {
-    res.status(400).json({
+    return res.status(400).json({
       message:
         'Connection to Singlestore Database failed!, Check your details and try again',
       status: false,
@@ -29,11 +29,12 @@ async function addSingleStoreDBToProfile(req, res) {
     let dbInstance = await db.singlestoredbs.findOne({
       where: {
         dbName: dbName,
+        dbOwner: dbOwner,
       },
     })
 
     if (dbInstance) {
-      res.status(400).json({
+      res.json({
         message: 'Database already exists in your profile',
         status: false,
       })
