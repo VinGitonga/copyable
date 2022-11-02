@@ -14,6 +14,7 @@ function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
+console.error('no app')
   const getLayout = Component.getLayout || ((page) => page)
   return (
     <AppProviders session={session} theme={theme}>
