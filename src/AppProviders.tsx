@@ -1,7 +1,7 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { SessionProvider } from 'next-auth/react'
-import { StepperProvider } from 'contexts'
-import { FC, ReactNode } from 'react'
+import {ChakraProvider} from '@chakra-ui/react'
+import {SessionProvider} from 'next-auth/react'
+import {StepperProvider} from 'contexts'
+import {FC, ReactNode} from 'react'
 import AppServices from './AppServices'
 
 const AppProviders: FC<{

@@ -1,24 +1,12 @@
 // Chakra imports
-import {
-	AvatarGroup,
-	Avatar,
-	Box,
-	Button,
-	Flex,
-	Icon,
-	Link,
-	Text,
-	useColorModeValue,
-	Spacer,
-	AspectRatio
-} from '@chakra-ui/react';
+import {AspectRatio, AvatarGroup, Box, Button, Flex, Icon, Link, Text, useColorModeValue} from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
-import { NextAvatar } from 'components/image/Avatar';
-import { Image } from 'components/image/Image';
+import {NextAvatar} from 'components/image/Avatar';
+import {Image} from 'components/image/Image';
 // Assets
-import { useState } from 'react';
-import { IoHeart, IoHeartOutline } from 'react-icons/io5';
+import {useState} from 'react';
+import {IoHeart, IoHeartOutline} from 'react-icons/io5';
 
 export default function NFT(props: {
 	image: string;

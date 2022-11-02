@@ -1,5 +1,4 @@
-import { Column } from "react-table";
-import tableDataCheck from "./tableDataCheck.json";
+import {Column} from "react-table";
 
 export const columnsDataCheck = [
   {

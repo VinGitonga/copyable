@@ -1,7 +1,7 @@
-import { Box, Button, Checkbox, Stack, Text } from '@chakra-ui/react'
-import { useState } from 'react'
-import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
-import { fetchMyDbs } from 'services/save-db-to-profile'
+import {Box, Button, Checkbox, Stack, Text} from '@chakra-ui/react'
+import {useState} from 'react'
+import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
+import {fetchMyDbs} from 'services/save-db-to-profile'
 
 export default function MongoStepSelectCollections({
   collections,

@@ -1,7 +1,7 @@
-import { Box, ChakraComponent } from '@chakra-ui/react'
+import {Box, ChakraComponent} from '@chakra-ui/react'
 import * as React from 'react'
+import {ComponentProps} from 'react'
 import NextImage from 'next/image'
-import { ComponentProps } from 'react'
 
 interface ImageProps extends ComponentProps<ChakraComponent<'div', {}>> {}
 

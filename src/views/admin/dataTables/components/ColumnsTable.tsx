@@ -1,26 +1,12 @@
-import {
-  Flex,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue
-} from '@chakra-ui/react'
-import React, { useMemo } from 'react'
-import {
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable
-} from 'react-table'
+import {Flex, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue} from '@chakra-ui/react'
+import React, {useMemo} from 'react'
+import {useGlobalFilter, usePagination, useSortBy, useTable} from 'react-table'
 
 // Custom components
 import Card from 'components/card/Card'
 import Menu from 'components/menu/MainMenu'
-import { TableProps } from 'views/admin/default/variables/columnsData'
+import {TableProps} from 'views/admin/default/variables/columnsData'
+
 export default function ColumnsTable (props: TableProps) {
   const { columnsData, tableData } = props
 

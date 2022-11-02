@@ -1,10 +1,6 @@
-import { useReducer, createContext, useCallback, useContext } from 'react'
-import { defaultStepperState, reducer } from './store'
-import {
-  DECREMENT_CURRENT_STEP,
-  INCREMENT_CURRENT_STEP,
-  SET_STEPS,
-} from './store/constants'
+import {createContext, useCallback, useContext, useReducer} from 'react'
+import {defaultStepperState, reducer} from './store'
+import {DECREMENT_CURRENT_STEP, INCREMENT_CURRENT_STEP, SET_STEPS,} from './store/constants'
 
 export const StepperContext = createContext()
 

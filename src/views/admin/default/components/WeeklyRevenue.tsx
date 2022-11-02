@@ -1,21 +1,11 @@
 // Chakra imports
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  Text,
-  useColorModeValue
-} from '@chakra-ui/react'
+import {Box, Button, Flex, Icon, Text, useColorModeValue} from '@chakra-ui/react'
 import Card from 'components/card/Card'
 // Custom components
 import BarChart from 'components/charts/BarChart'
 import React from 'react'
-import {
-  barChartDataConsumption,
-  barChartOptionsConsumption
-} from 'variables/charts'
-import { MdBarChart } from 'react-icons/md'
+import {barChartDataConsumption, barChartOptionsConsumption} from 'variables/charts'
+import {MdBarChart} from 'react-icons/md'
 
 export default function WeeklyRevenue (props: { [x: string]: any }) {
   const { ...rest } = props

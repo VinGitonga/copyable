@@ -1,30 +1,30 @@
 import {
-  Flex,
-  Stack,
-  Text,
   Box,
-  useColorModeValue,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
-  Input,
-  Button,
-  InputGroup,
-  InputLeftElement,
   Icon,
   IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
   InputRightElement,
+  Stack,
+  Text,
+  useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useState } from 'react'
-import { GrHost, GrUserAdmin } from 'react-icons/gr'
-import { FiEdit3, FiEye, FiEyeOff } from 'react-icons/fi'
-import { RiDatabase2Fill } from 'react-icons/ri'
-import { BiLock } from 'react-icons/bi'
+import {useState} from 'react'
+import {GrHost, GrUserAdmin} from 'react-icons/gr'
+import {FiEdit3, FiEye, FiEyeOff} from 'react-icons/fi'
+import {RiDatabase2Fill} from 'react-icons/ri'
+import {BiLock} from 'react-icons/bi'
 import Layout from '../layouts/Layout'
-import { useSession } from 'next-auth/react'
-import { saveDbToProfile } from 'services/save-db-to-profile'
-import { useRouter } from 'next/router'
+import {useSession} from 'next-auth/react'
+import {saveDbToProfile} from 'services/save-db-to-profile'
+import {useRouter} from 'next/router'
 
 export default function AddSingleStoreDB() {
   const [host, setHost] = useState('')

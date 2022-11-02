@@ -7,7 +7,7 @@ import 'styles/Contact.css'
 import 'react-calendar/dist/Calendar.css'
 import 'styles/MiniCalendar.css'
 import Head from 'next/head'
-import { AppPropsWithLayout } from 'types/Layout'
+import {AppPropsWithLayout} from 'types/Layout'
 import AppProviders from 'AppProviders'
 
 function MyApp({

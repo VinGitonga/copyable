@@ -1,31 +1,32 @@
 // Chakra Imports
 import {
-	Avatar,
-	Button,
-	Flex,
-	Icon,
-	Link,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	Text,
-	useColorModeValue,
-	useColorMode
+    Avatar,
+    Button,
+    Flex,
+    Icon,
+    Link,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Text,
+    useColorMode,
+    useColorModeValue
 } from '@chakra-ui/react';
 // Custom Components
-import { ItemContent } from 'components/menu/ItemContent';
-import { SearchBar } from 'components/navbar/searchBar/SearchBar';
-import { SidebarResponsive } from 'components/sidebar/Sidebar';
+import {ItemContent} from 'components/menu/ItemContent';
+import {SearchBar} from 'components/navbar/searchBar/SearchBar';
+import {SidebarResponsive} from 'components/sidebar/Sidebar';
 import PropTypes from 'prop-types';
 import React from 'react';
 // Assets
 import navImage from '../../../public/static/img/layout/Navbar.png';
-import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
-import { IoMdMoon, IoMdSunny } from 'react-icons/io';
-import { FaEthereum } from 'react-icons/fa';
+import {MdInfoOutline, MdNotificationsNone} from 'react-icons/md';
+import {IoMdMoon, IoMdSunny} from 'react-icons/io';
+import {FaEthereum} from 'react-icons/fa';
 import routes from 'routes';
-import { Image } from 'components/image/Image';
+import {Image} from 'components/image/Image';
+
 export default function HeaderLinks(props: { secondary: boolean }) {
 	const { secondary } = props;
 	const { colorMode, toggleColorMode } = useColorMode();

@@ -1,12 +1,12 @@
 // Chakra imports
-import { Box, Flex, Text, Icon, useColorModeValue, Checkbox } from '@chakra-ui/react';
+import {Box, Checkbox, Flex, Icon, Text, useColorModeValue} from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import IconBox from 'components/icons/IconBox';
 
 // Assets
-import { MdCheckBox, MdDragIndicator } from 'react-icons/md';
+import {MdCheckBox, MdDragIndicator} from 'react-icons/md';
 
 export default function Conversion(props: { [x: string]: any }) {
 	const { ...rest } = props;

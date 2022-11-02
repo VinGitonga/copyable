@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import {FC, ReactNode} from 'react'
 import useAuthRedirect from 'hooks/useAuthRedirect'
 
 const AppServices: FC<{ children: ReactNode | ReactNode[] }> = ({

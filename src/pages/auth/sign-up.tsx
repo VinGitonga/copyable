@@ -1,30 +1,30 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Button,
-  Heading,
-  Text,
-  useColorModeValue,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  IconButton,
-  Icon,
-  Link,
-  useToast,
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Icon,
+    IconButton,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    InputRightElement,
+    Link,
+    Stack,
+    Text,
+    useColorModeValue,
+    useToast,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import { RiLoginCircleFill } from 'react-icons/ri'
-import { FiUser, FiEye, FiEyeOff } from 'react-icons/fi'
-import { HiOutlineMail } from 'react-icons/hi'
-import { BiLock } from 'react-icons/bi'
+import {useRouter} from 'next/router'
+import {RiLoginCircleFill} from 'react-icons/ri'
+import {FiEye, FiEyeOff, FiUser} from 'react-icons/fi'
+import {HiOutlineMail} from 'react-icons/hi'
+import {BiLock} from 'react-icons/bi'
 import Head from 'next/head'
-import { createUser } from 'services/user'
+import {createUser} from 'services/user'
 
 export default function Register() {
   const router = useRouter()

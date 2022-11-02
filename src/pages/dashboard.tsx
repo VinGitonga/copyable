@@ -1,15 +1,5 @@
 import Head from 'next/head'
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
-} from '@chakra-ui/react'
+import {Box, Button, Container, createIcon, Heading, Icon, Stack, Text, useColorModeValue,} from '@chakra-ui/react'
 import Layout from 'layouts/Layout'
 
 export default function Dashboard() {

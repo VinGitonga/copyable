@@ -1,12 +1,5 @@
 // Chakra imports
-import {
-  Flex,
-  FormLabel,
-  Input,
-  SpaceProps,
-  Text,
-  useColorModeValue
-} from '@chakra-ui/react'
+import {Flex, FormLabel, Input, SpaceProps, Text, useColorModeValue} from '@chakra-ui/react'
 // Custom components
 
 export default function Default (props: {

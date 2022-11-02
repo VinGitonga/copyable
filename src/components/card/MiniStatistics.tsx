@@ -1,5 +1,5 @@
 // Chakra imports
-import { Flex, Stat, StatLabel, StatNumber, useColorModeValue, Text } from '@chakra-ui/react';
+import {Flex, Stat, StatLabel, StatNumber, Text, useColorModeValue} from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
 

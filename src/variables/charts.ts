@@ -1,4 +1,4 @@
-import { ApexOptions } from "apexcharts";
+import {ApexOptions} from "apexcharts";
 
 type ApexGeneric = ApexOptions & any;
 

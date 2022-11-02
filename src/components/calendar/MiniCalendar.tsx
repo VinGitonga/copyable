@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import Calendar from 'react-calendar'
-import { Text, Icon } from '@chakra-ui/react'
+import {Icon, Text} from '@chakra-ui/react'
 // Chakra imports
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
+import {MdChevronLeft, MdChevronRight} from 'react-icons/md'
 // Custom components
 import Card from 'components/card/Card'
 

@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/react'
+import {getSession} from 'next-auth/react'
 import db from 'database/models'
 
 export default function handler(req, res) {

@@ -1,13 +1,6 @@
 /* eslint-disable */
 
-import {
-  Flex,
-  Link,
-  List,
-  ListItem,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import {Flex, Link, List, ListItem, Text, useColorModeValue,} from '@chakra-ui/react'
 
 export default function Footer(props: { [x: string]: any }) {
   let textColor = useColorModeValue('gray.400', 'white')

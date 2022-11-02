@@ -1,32 +1,19 @@
+import {Checkbox, Flex, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue} from '@chakra-ui/react'
+import {useMemo} from 'react'
 import {
-  Flex,
-  Table,
-  Checkbox,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue
-} from '@chakra-ui/react'
-import { useMemo } from 'react'
-import {
-  ColumnInstance,
-  HeaderGroup,
-  Row,
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
-  UseTableColumnProps
+    ColumnInstance,
+    Row,
+    useGlobalFilter,
+    usePagination,
+    useSortBy,
+    useTable,
+    UseTableColumnProps
 } from 'react-table'
 
 // Custom components
 import Card from 'components/card/Card'
 import Menu from 'components/menu/MainMenu'
-import {} from 'components/charts/LineAreaChart'
-import { TableProps } from '../variables/columnsData'
+import {TableProps} from '../variables/columnsData'
 
 export default function CheckTable (props: TableProps) {
   const { columnsData, tableData } = props
