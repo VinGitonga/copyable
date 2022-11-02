@@ -2,16 +2,16 @@ import React from 'react'
 
 // chakra imports
 import {
-  Box,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-  Flex,
-  Icon,
-  useColorModeValue,
-  useDisclosure
+    Box,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerOverlay,
+    Flex,
+    Icon,
+    useColorModeValue,
+    useDisclosure
 } from '@chakra-ui/react'
 import Content from 'components/sidebar/components/Content'
 import {renderThumb, renderTrack, renderView} from 'components/scrollbar/Scrollbar'
@@ -20,7 +20,6 @@ import {Scrollbars} from 'react-custom-scrollbars-2'
 // Assets
 import {IoMenuOutline} from 'react-icons/io5'
 import {IRoute} from 'types/navigation'
-import {isWindowAvailable} from 'utils/navigation'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
@@ -97,11 +96,7 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
       <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        placement={
-          isWindowAvailable() && window.document.documentElement.dir === 'rtl'
-            ? 'right'
-            : 'left'
-        }
+        placement={'left'}
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />

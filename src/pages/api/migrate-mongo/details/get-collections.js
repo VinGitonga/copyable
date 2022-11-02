@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import {MongoClient} from 'mongodb'
 
 export default function handler(req, res) {
   switch (req.method) {

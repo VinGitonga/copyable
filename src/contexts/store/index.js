@@ -1,8 +1,4 @@
-import {
-  DECREMENT_CURRENT_STEP,
-  INCREMENT_CURRENT_STEP,
-  SET_STEPS,
-} from './constants'
+import {DECREMENT_CURRENT_STEP, INCREMENT_CURRENT_STEP, SET_STEPS,} from './constants'
 
 export const defaultStepperState = {
   steps: [],

@@ -1,16 +1,16 @@
 import Stepper from 'components/stepper'
-import { useStepper } from 'context'
-import { Box } from '@chakra-ui/react'
-import Layout from 'components/Layout'
+import {useStepper} from 'contexts'
+import {Box} from '@chakra-ui/react'
+import Layout from 'layouts/Layout'
 import Head from 'next/head'
-import { useState } from 'react'
+import {useState} from 'react'
 import axios from 'axios'
 
 import MongoStepConfigureDb from 'components/mongo/mongo-step-configure-db'
 import MongoStepSelectDb from 'components/mongo/mongo-step-select-db'
 import MongoStepSelectCollections from 'components/mongo/mongo-step-select-collections'
 import MongoStepProceedToImport from 'components/mongo/mongo-step-proceed-to-import'
-import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
+import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
 
 export default function MongoWizard() {
   const { incrementCurrentStep, decrementCurrentStep } = useStepper()

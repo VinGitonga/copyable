@@ -7,13 +7,14 @@ import 'styles/Contact.css'
 import 'react-calendar/dist/Calendar.css'
 import 'styles/MiniCalendar.css'
 import Head from 'next/head'
-import { AppPropsWithLayout } from 'types/Layout'
+import {AppPropsWithLayout} from 'types/Layout'
 import AppProviders from 'AppProviders'
 
 function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
+console.error('no app')
   const getLayout = Component.getLayout || ((page) => page)
   return (
     <AppProviders session={session} theme={theme}>

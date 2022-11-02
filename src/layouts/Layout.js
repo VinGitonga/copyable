@@ -20,17 +20,10 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import {
-  FiBell,
-  FiChevronDown,
-  FiCompass,
-  FiHome,
-  FiMenu,
-  FiSettings,
-} from 'react-icons/fi'
-import { MdOutlineAddCircleOutline } from 'react-icons/md'
-import { signOut, useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
+import {FiBell, FiChevronDown, FiCompass, FiHome, FiMenu, FiSettings,} from 'react-icons/fi'
+import {MdOutlineAddCircleOutline} from 'react-icons/md'
+import {signOut, useSession} from 'next-auth/react'
+import {useRouter} from 'next/router'
 
 export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()

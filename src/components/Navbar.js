@@ -1,21 +1,21 @@
 import {
-  Box,
-  Flex,
-  Avatar,
-  HStack,
-  Link,
-  IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
-  useColorModeValue,
-  Stack,
+    Avatar,
+    Box,
+    Button,
+    Flex,
+    HStack,
+    IconButton,
+    Link,
+    Menu,
+    MenuButton,
+    MenuDivider,
+    MenuItem,
+    MenuList,
+    Stack,
+    useColorModeValue,
+    useDisclosure,
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
+import {AddIcon, CloseIcon, HamburgerIcon} from '@chakra-ui/icons'
 
 const Links = ['Dashboard', 'Projects', 'Team']
 

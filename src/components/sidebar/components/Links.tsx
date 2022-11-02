@@ -1,10 +1,10 @@
 /* eslint-disable */
 
 // chakra imports
-import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import {Box, Flex, HStack, Text, useColorModeValue} from '@chakra-ui/react'
+import {useRouter} from 'next/router'
 import Link from 'next/link'
-import { IRoute } from 'types/navigation'
+import {IRoute} from 'types/navigation'
 
 interface SidebarLinksProps {
   routes: IRoute[]
@@ -35,8 +35,7 @@ export function SidebarLinks (props: SidebarLinksProps) {
     return routes.map((route, index: number) => {
       if (
         route.layout === '/admin' ||
-        route.layout === '/auth' ||
-        route.layout === '/rtl'
+        route.layout === '/auth'
       ) {
         return (
           <Link key={index} href={route.layout + route.path}>

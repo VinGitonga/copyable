@@ -1,5 +1,5 @@
 import db from 'database/models'
-import { authenticateUser } from 'utils/utils'
+import {authenticateUser} from 'utils/utils'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 

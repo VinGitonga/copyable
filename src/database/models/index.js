@@ -1,5 +1,5 @@
-import { dbDetails } from '../config/config'
-import { Sequelize, DataTypes } from 'sequelize'
+import {dbDetails} from '../config/config'
+import {DataTypes, Sequelize} from 'sequelize'
 
 const sequelize = new Sequelize(
   dbDetails.DB,

@@ -1,5 +1,5 @@
-import { useEffect, Children } from 'react'
-import { useStepper } from 'contexts'
+import {Children, useEffect} from 'react'
+import {useStepper} from 'contexts'
 
 export const StepperSteps = ({ children }) => {
   const { currentStep, steps, setSteps } = useStepper()

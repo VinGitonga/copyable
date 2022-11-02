@@ -1,6 +1,6 @@
-import { StepperSteps, StepperStep } from './stepper-steps'
-import { useStepper } from 'contexts'
-import { Box, Stack, Flex, Center, Divider, Text } from '@chakra-ui/react'
+import {StepperStep, StepperSteps} from './stepper-steps'
+import {useStepper} from 'contexts'
+import {Box, Center, Flex, Stack, Text} from '@chakra-ui/react'
 
 const Stepper = ({ children }) => {
   const { currentStep, steps } = useStepper()

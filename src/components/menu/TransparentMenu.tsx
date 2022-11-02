@@ -2,18 +2,19 @@ import React from 'react';
 
 // Chakra imports
 import {
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	useDisclosure,
-	useColorModeValue,
-	Flex,
-	Icon,
-	Text
+    Flex,
+    Icon,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Text,
+    useColorModeValue,
+    useDisclosure
 } from '@chakra-ui/react';
 // Assets
-import { MdOutlinePerson, MdOutlineCardTravel, MdOutlineLightbulb, MdOutlineSettings } from 'react-icons/md';
+import {MdOutlineCardTravel, MdOutlineLightbulb, MdOutlinePerson, MdOutlineSettings} from 'react-icons/md';
+
 export default function Banner(props: { icon: JSX.Element | string; [x: string]: any }) {
 	const { icon, ...rest } = props;
 

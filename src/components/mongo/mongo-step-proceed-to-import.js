@@ -1,5 +1,5 @@
-import { Box, Button, Text, Select, Stack, Badge } from '@chakra-ui/react'
-import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
+import {Badge, Box, Button, Select, Stack, Text} from '@chakra-ui/react'
+import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
 
 export default function MongoStepProceedToImport({
   handleNextStepClick,

@@ -21,7 +21,7 @@
 */
 
 // Chakra imports
-import { Box, Grid } from '@chakra-ui/react'
+import {Box, Grid} from '@chakra-ui/react'
 import AdminLayout from 'layouts/admin'
 
 // Custom components
@@ -33,8 +33,8 @@ import Storage from 'views/admin/profile/components/Storage'
 import Upload from 'views/admin/profile/components/Upload'
 
 // Assets
-import banner from 'img/auth/banner.png'
-import avatar from 'img/avatars/avatar4.png'
+import banner from '../../../public/static/img/auth/banner.png'
+import avatar from '../../../public/static/img/avatars/avatar4.png'
 
 export default function ProfileOverview () {
   return (

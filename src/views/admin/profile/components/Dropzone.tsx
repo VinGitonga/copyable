@@ -1,7 +1,7 @@
 // Chakra imports
-import { Button, Flex, useColorModeValue } from '@chakra-ui/react';
+import {Button, Flex, useColorModeValue} from '@chakra-ui/react';
 // Assets
-import { useDropzone } from 'react-dropzone';
+import {useDropzone} from 'react-dropzone';
 
 function Dropzone(props: { content: JSX.Element | string; [x: string]: any }) {
 	const { content, ...rest } = props;

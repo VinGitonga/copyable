@@ -1,28 +1,12 @@
 /* eslint-disable */
-import {
-  Flex,
-  Progress,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue
-} from '@chakra-ui/react'
+import {Flex, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue} from '@chakra-ui/react'
 // Custom components
 import Card from 'components/card/Card'
-import { AndroidLogo, AppleLogo, WindowsLogo } from 'components/icons/Icons'
+import {AndroidLogo, AppleLogo, WindowsLogo} from 'components/icons/Icons'
 import Menu from 'components/menu/MainMenu'
-import React, { useEffect, useMemo, useState } from 'react'
-import {
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable
-} from 'react-table'
-import { TableProps } from 'views/admin/default/variables/columnsData'
+import React, {useEffect, useMemo, useState} from 'react'
+import {useGlobalFilter, usePagination, useSortBy, useTable} from 'react-table'
+import {TableProps} from 'views/admin/default/variables/columnsData'
 
 export default function DevelopmentTable (props: TableProps) {
   const { columnsData, tableData } = props

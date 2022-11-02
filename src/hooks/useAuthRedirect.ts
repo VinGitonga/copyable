@@ -1,6 +1,6 @@
-import { useSession } from 'next-auth/react'
-import Router, { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import {useSession} from 'next-auth/react'
+import Router, {useRouter} from 'next/router'
+import {useEffect} from 'react'
 
 enum AuthRoutes {
   LOGIN = '/auth/sign-in',

@@ -2,23 +2,23 @@ import React from 'react';
 
 // Chakra imports
 import {
-	Icon,
-	Flex,
-	Text,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	useDisclosure,
-	useColorModeValue
+    Flex,
+    Icon,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Text,
+    useColorModeValue,
+    useDisclosure
 } from '@chakra-ui/react';
 // Assets
 import {
-	MdOutlineMoreHoriz,
-	MdOutlinePerson,
-	MdOutlineCardTravel,
-	MdOutlineLightbulb,
-	MdOutlineSettings
+    MdOutlineCardTravel,
+    MdOutlineLightbulb,
+    MdOutlineMoreHoriz,
+    MdOutlinePerson,
+    MdOutlineSettings
 } from 'react-icons/md';
 
 export default function Banner(props: { [x: string]: any }) {
