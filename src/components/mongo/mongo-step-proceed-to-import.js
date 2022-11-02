@@ -83,7 +83,7 @@ export default function MongoStepProceedToImport({
             onChange={handleSelectedSinglestoreDb}
           >
             {singlestoreDatabases.map((dbs) => (
-              <option value={dbs.dbName}>{dbs.dbName}</option>
+              <option key={dbs.dbName} value={dbs.dbName}>{dbs.dbName}</option>
             ))}
           </Select>
 
@@ -99,7 +99,7 @@ export default function MongoStepProceedToImport({
           </Box>
         </>
       ) : (
-        <Text>You haven't added any Singlestore Database to your profile</Text>
+        <Text>You haven&apos;t added any Singlestore Database to your profile</Text>
       )}
       <Box mt={2}>
         <Button onClick={handlePreviousStepClick}>Prev Step</Button>
