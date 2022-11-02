@@ -307,7 +307,7 @@ const SignInPage: NextPageWithLayout = () => {
 
 SignInPage.getLayout = (page) => {
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
+    <DefaultAuthLayout illustrationBackground={'/static/img/auth/auth.png'}>
       {page}
     </DefaultAuthLayout>
   )

@@ -1,11 +1,11 @@
 // Chakra imports
-import { Flex, Box, Icon, Text, Spacer } from '@chakra-ui/react'
+import {Box, Flex, Icon, Spacer, Text} from '@chakra-ui/react'
 // Custom components
 import Card from 'components/card/Card'
 
 // Assets
-import bgMastercard from 'img/dashboards/Debit.png'
-import { RiMastercardFill } from 'react-icons/ri'
+import bgMastercard from '../../../public/static/img/dashboards/Debit.png'
+import {RiMastercardFill} from 'react-icons/ri'
 
 export default function Banner(props: {
   exp: string
