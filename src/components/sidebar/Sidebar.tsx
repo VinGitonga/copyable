@@ -97,11 +97,7 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
       <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        placement={
-          isWindowAvailable() && window.document.documentElement.dir === 'rtl'
-            ? 'right'
-            : 'left'
-        }
+        placement={'left'}
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />

@@ -5,7 +5,6 @@ import {MdBarChart, MdHome, MdLock, MdOutlineShoppingCart, MdPerson} from 'react
 import MainDashboard from 'pages/admin/default'
 import Profile from 'pages/admin/profile'
 import DataTables from 'pages/admin/data-tables'
-import RTL from 'pages/rtl/rtl-default'
 
 // Auth Imports
 import SignInCentered from 'pages/auth/sign-in'
