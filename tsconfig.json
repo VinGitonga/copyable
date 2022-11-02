@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types", "src/types"],
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext", "es2015.iterable"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "incremental": true,
@@ -13,8 +15,20 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": "src",
+    "paths": {
+      "@assets/*": ["./src/assetsassets/*"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/migrate-mongo.js"],
+  "include": [
+    "./src",
+    "next.config.js",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
+  ],
   "exclude": ["node_modules"]
 }
