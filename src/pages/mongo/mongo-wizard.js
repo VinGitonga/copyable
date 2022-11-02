@@ -72,6 +72,7 @@ export default function MongoWizard() {
             <MongoStepProceedToImport
               handlePreviousStepClick={decrementCurrentStep}
               handleNextStepClick={incrementCurrentStep}
+              currentDb={currentDb}
             />
           </Stepper.Step>
         </Stepper.Steps>
