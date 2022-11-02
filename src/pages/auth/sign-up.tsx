@@ -1,30 +1,30 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Heading,
-    Icon,
-    IconButton,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    InputRightElement,
-    Link,
-    Stack,
-    Text,
-    useColorModeValue,
-    useToast,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Icon,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Link,
+  Stack,
+  Text,
+  useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
-import {useRouter} from 'next/router'
-import {RiLoginCircleFill} from 'react-icons/ri'
-import {FiEye, FiEyeOff, FiUser} from 'react-icons/fi'
-import {HiOutlineMail} from 'react-icons/hi'
-import {BiLock} from 'react-icons/bi'
+import { useRouter } from 'next/router'
+import { RiLoginCircleFill } from 'react-icons/ri'
+import { FiEye, FiEyeOff, FiUser } from 'react-icons/fi'
+import { HiOutlineMail } from 'react-icons/hi'
+import { BiLock } from 'react-icons/bi'
 import Head from 'next/head'
-import {createUser} from 'services/user'
+import { createUser } from 'services/user'
 
 export default function Register() {
   const router = useRouter()
@@ -134,7 +134,7 @@ export default function Register() {
       </Head>
       <Stack spacing={8} mx={'auto'} w={'600px'}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Get Started with Novium</Heading>
+          <Heading fontSize={'4xl'}>Get Started with Copyable</Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
             Create an account
           </Text>

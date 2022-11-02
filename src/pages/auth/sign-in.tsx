@@ -272,6 +272,8 @@ const SignInPage: NextPageWithLayout = () => {
               h="50"
               mb="24px"
               type="submit"
+              isLoading={loading}
+              loadingText={"Authenticating ..."}
             >
               Sign In
             </Button>
