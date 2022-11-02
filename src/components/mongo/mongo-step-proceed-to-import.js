@@ -7,9 +7,9 @@ import {
   Badge,
   useToast,
 } from '@chakra-ui/react'
-import { useDatabaseMigrationStore } from '../../context/useDatabaseMigrationStore'
+import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
 import { useState } from 'react'
-import { testMigrate } from '../../services/migrate-mongo'
+import { testMigrate } from 'services/migrate-mongo'
 
 export default function MongoStepProceedToImport({
   handlePreviousStepClick,
