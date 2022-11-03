@@ -1,6 +1,13 @@
 /* eslint-disable */
 
-import {Flex, Link, List, ListItem, Text, useColorModeValue,} from '@chakra-ui/react'
+import {
+  Flex,
+  Link,
+  List,
+  ListItem,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
 
 export default function Footer(props: { [x: string]: any }) {
   let textColor = useColorModeValue('gray.400', 'white')
@@ -45,7 +52,7 @@ export default function Footer(props: { [x: string]: any }) {
         </Text>
       </Text>
       <List display="flex">
-        <ListItem
+        {/* <ListItem
           me={{
             base: '20px',
             md: '44px',
@@ -95,7 +102,7 @@ export default function Footer(props: { [x: string]: any }) {
           >
             Blog
           </Link>
-        </ListItem>
+        </ListItem> */}
       </List>
     </Flex>
   )

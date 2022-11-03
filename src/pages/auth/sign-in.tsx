@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 // Chakra imports
 import {
   Box,
@@ -17,18 +17,18 @@ import {
   useToast,
 } from '@chakra-ui/react'
 // Custom components
-import {HSeparator} from 'components/separator/Separator'
+import { HSeparator } from 'components/separator/Separator'
 import DefaultAuthLayout from 'layouts/auth/Default'
 // Assets
 import Link from 'next/link'
-import {FcGoogle} from 'react-icons/fc'
-import {MdOutlineRemoveRedEye} from 'react-icons/md'
-import {RiEyeCloseLine} from 'react-icons/ri'
-import {signIn} from 'next-auth/react'
-import {NextPageWithLayout} from 'types/Layout'
-import {yupResolver} from '@hookform/resolvers/yup'
-import {object, string} from 'yup'
-import {useForm} from 'react-hook-form'
+import { FcGoogle } from 'react-icons/fc'
+import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { RiEyeCloseLine } from 'react-icons/ri'
+import { signIn } from 'next-auth/react'
+import { NextPageWithLayout } from 'types/Layout'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { object, string } from 'yup'
+import { useForm } from 'react-hook-form'
 
 const formSchema = object({
   email: string(),
@@ -129,7 +129,7 @@ const SignInPage: NextPageWithLayout = () => {
       justifyContent="center"
       mb={{ base: '30px', md: '60px' }}
       px={{ base: '25px', md: '0px' }}
-      mt={{ base: '40px', md: '14vh' }}
+      mt={{ base: '40px', md: '6.5vh' }}
       flexDirection="column"
     >
       <Box me="auto">
@@ -273,7 +273,7 @@ const SignInPage: NextPageWithLayout = () => {
               mb="24px"
               type="submit"
               isLoading={loading}
-              loadingText={"Authenticating ..."}
+              loadingText={'Authenticating ...'}
             >
               Sign In
             </Button>
