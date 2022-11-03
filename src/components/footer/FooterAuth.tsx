@@ -43,7 +43,7 @@ export default function Footer(props: { [x: string]: any }) {
           <Link
             mx="3px"
             color={textColor}
-            href="https://www.simmmple.com"
+            href="https://github.com/VinGitonga/copyable"
             target="_blank"
             fontWeight="700"
           >
