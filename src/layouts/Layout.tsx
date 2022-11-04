@@ -20,10 +20,19 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import {FiBell, FiChevronDown, FiCompass, FiHome, FiMenu, FiSettings,} from 'react-icons/fi'
-import {MdOutlineAddCircleOutline} from 'react-icons/md'
-import {signOut, useSession} from 'next-auth/react'
-import {useRouter} from 'next/router'
+import {
+  FiBell,
+  FiChevronDown,
+  FiCompass,
+  FiHome,
+  FiMenu,
+  FiSettings,
+} from 'react-icons/fi'
+import { MdOutlineAddCircleOutline } from 'react-icons/md'
+import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import NextLink from 'next/link'
+import Footer from 'components/footer/FooterAdmin'
 
 export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -38,14 +47,10 @@ export default function Layout({ children }) {
     })
     await router.push('/')
   }
-  console.log(session)
 
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
+      <SidebarContent onClose={() => onClose} display="none" />
       <Drawer
         autoFocus={false}
         isOpen={isOpen}
@@ -56,7 +61,7 @@ export default function Layout({ children }) {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} onClick={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -65,8 +70,11 @@ export default function Layout({ children }) {
         handleSignout={handleSignOut}
         user={session?.user}
       />
-      <Box ml={{ base: 0, md: 60 }} p="4" maxW={'6xl'}>
+      <Box ml={{ base: 0 }} p="4">
         {children}
+      </Box>
+      <Box>
+        <Footer />
       </Box>
     </Box>
   )
@@ -79,7 +87,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      w={{ base: 'full' }}
       pos="fixed"
       h="full"
       {...rest}
@@ -88,13 +96,17 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Copyable
         </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton onClick={onClose} />
       </Flex>
-      <NavItem icon={FiHome}>Home</NavItem>
+      <NavItem icon={FiHome} hrefPath="/">
+        Dasboard
+      </NavItem>
       <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
         Migrate From MongoDB
       </NavItem>
-      <NavItem icon={FiSettings}>Settings</NavItem>
+      <NavItem icon={FiSettings} hrefPath="/profile">
+        Settings
+      </NavItem>
     </Box>
   )
 }
@@ -147,18 +159,18 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
   }
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
       bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent={{ base: 'space-between', md: 'flex-end' }}
+      justifyContent={{ base: 'space-between' }}
       {...rest}
     >
       <IconButton
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: 'flex' }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
@@ -222,8 +234,12 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
+              <NextLink href="/profile">
+                <MenuItem>Profile</MenuItem>
+              </NextLink>
+              <NextLink href="/profile">
+                <MenuItem>Settings</MenuItem>
+              </NextLink>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
               <MenuItem onClick={handleSignout}>Sign out</MenuItem>

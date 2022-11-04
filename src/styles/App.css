@@ -1,14 +1,3 @@
-@font-face {
-  font-family: 'Rubik';
-  src: url('/static/fonts/Rubik/Rubik-VariableFont_wght.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-html {
-  font-family: Rubik, sans-serif;
-}
-
 option {
   color: black;
 }

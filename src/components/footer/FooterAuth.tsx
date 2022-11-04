@@ -32,7 +32,7 @@ export default function Footer(props: { [x: string]: any }) {
         {' '}
         &copy; {new Date().getFullYear()}
         <Text as="span" fontWeight="500" ms="4px">
-          Copyable. All Rights Reserved. Made with love by
+          &nbsp;Copyable. All Rights Reserved. Made with love by
           <Link
             mx="3px"
             color={textColor}
