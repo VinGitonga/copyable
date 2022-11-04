@@ -374,7 +374,11 @@ const SignUpPage: NextPageWithLayout = () => {
                   gap="1"
                 >
                   <span>I accept the application</span>
-                  <Link href="/static/documents/terms.pdf">
+                  <Link
+                    href="/static/documents/terms.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Text
                       color={textColorBrand}
                       fontSize="sm"
