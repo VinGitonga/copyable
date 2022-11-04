@@ -2,52 +2,95 @@ import { useState } from 'react'
 import {
   Box,
   Button,
+  Checkbox,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Icon,
-  IconButton,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
   Link,
-  Stack,
   Text,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import { RiLoginCircleFill } from 'react-icons/ri'
-import { FiEye, FiEyeOff, FiUser } from 'react-icons/fi'
-import { HiOutlineMail } from 'react-icons/hi'
-import { BiLock } from 'react-icons/bi'
-import Head from 'next/head'
+import { HSeparator } from 'components/separator/Separator'
+import DefaultAuthLayout from 'layouts/auth/Default'
+import { NextPageWithLayout } from 'types/Layout'
 import { createUser } from 'services/user'
+import { useRouter } from 'next/router'
+import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { boolean, object, ref, string } from 'yup'
+import { RiEyeCloseLine } from 'react-icons/ri'
+import { useForm } from 'react-hook-form'
+import { FcGoogle } from 'react-icons/fc'
 
-export default function Register() {
+const formSchema = object({
+  terms: boolean().oneOf([true], 'You must agree to continue.'),
+  name: string().required('Required.'),
+  email: string().required('Required.'),
+  password: string().required('Required.'),
+  passwordConfirm: string()
+    .required('Required.')
+    .min(4, 'Password length should be at least 4 characters')
+    .max(12, 'Password cannot exceed more than 12 characters')
+    .oneOf([ref('password')], 'Passwords do not match'),
+})
+
+interface FormValues {
+  name: string
+  email: string
+  password: string
+  passwordConfirm: string
+  terms: boolean
+}
+
+const SignUpPage: NextPageWithLayout = () => {
+  const formMethods = useForm<FormValues>({ resolver: yupResolver(formSchema) })
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = formMethods
+
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const toast = useToast()
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [showPass, setShowPass] = useState(false)
 
-  const handleShowPass = () => setShowPass(!showPass)
+  // Chakra color mode
+  const textColor = useColorModeValue('navy.700', 'white')
+  const textColorSecondary = 'gray.400'
+  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600')
+  const textColorBrand = useColorModeValue('brand.500', 'white')
+  const brandStars = useColorModeValue('brand.500', 'brand.400')
+  const googleBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.200')
+  const googleText = useColorModeValue('navy.700', 'white')
+  const googleHover = useColorModeValue(
+    { bg: 'gray.200' },
+    { bg: 'whiteAlpha.300' }
+  )
+  const googleActive = useColorModeValue(
+    { bg: 'secondaryGray.300' },
+    { bg: 'whiteAlpha.200' }
+  )
+  const [show, setShow] = useState(false)
 
-  const resetForm = () => {
-    setName('')
-    setEmail('')
-    setPassword('')
-    setConfirmPassword('')
-    setLoading(false)
-  }
+  const handleClick = () => setShow(!show)
 
-  const clickSubmit = async () => {
+  const onSubmit = async ({
+    name,
+    email,
+    password,
+    passwordConfirm,
+    terms,
+  }: FormValues) => {
     let emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+
     if (!email || !password) {
       toast({
         title: 'Error',
@@ -57,7 +100,8 @@ export default function Register() {
         description: 'Please fill all the inputs.',
       })
       return
-    } else if (!emailRegex.test(email)) {
+    }
+    if (!emailRegex.test(email)) {
       toast({
         title: 'Error',
         status: 'error',
@@ -66,7 +110,8 @@ export default function Register() {
         description: 'Please input a valid email address',
       })
       return
-    } else if (password.length < 8) {
+    }
+    if (password.length < 8) {
       toast({
         title: 'Error',
         status: 'error',
@@ -75,7 +120,8 @@ export default function Register() {
         description: 'Passwords must be at least 8 characters',
       })
       return
-    } else if (password !== confirmPassword) {
+    }
+    if (password !== passwordConfirm) {
       toast({
         title: 'Error',
         status: 'error',
@@ -84,178 +130,310 @@ export default function Register() {
         description: 'Passwords dont match',
       })
       return
-    } else {
-      setLoading(true)
-      let userInfo = {
-        name: name,
-        email: email,
-        password: password,
-      }
+    }
 
-      try {
-        const response = await createUser(userInfo)
-        if (response.status === 200) {
-          toast({
-            title: 'Success',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-            description: 'Account created successfully',
-          })
-          console.log(response?.data)
-          resetForm()
-          router.push('/login')
-        }
-      } catch (error) {
-        console.log(error)
+    setLoading(true)
+    let userInfo = {
+      name: name,
+      email: email,
+      password: password,
+    }
+
+    try {
+      const response = await createUser(userInfo)
+      if (response.status === 200) {
         toast({
-          title: 'Error',
-          status: 'error',
+          title: 'Success',
+          status: 'success',
           duration: 5000,
           isClosable: true,
-          description: 'Something not okay',
+          description: 'Account created successfully',
         })
-        setLoading(false)
-      } finally {
-        setLoading(false)
+        console.log(response?.data)
+        router.push('/login')
+        reset()
       }
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Error',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        description: 'Something not okay',
+      })
     }
+
+    setLoading(false)
   }
 
   return (
     <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      maxW={{ base: '100%', md: 'max-content' }}
+      w="100%"
+      mx={{ base: 'auto', lg: '0px' }}
+      me="auto"
+      h="100%"
+      alignItems="start"
+      justifyContent="center"
+      mb={{ base: '30px', md: '60px' }}
+      px={{ base: '25px', md: '0px' }}
+      mt={{ base: '40px', md: '6.5vh' }}
+      flexDirection="column"
     >
-      <Head>
-        <title>Copyable | Register</title>
-      </Head>
-      <Stack spacing={8} mx={'auto'} w={'600px'}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Get Started with Copyable</Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
-            Create an account
-          </Text>
-        </Stack>
-        <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}
+      <Box me="auto">
+        <Heading color={textColor} fontSize="36px" mb="10px">
+          Sign Up
+        </Heading>
+        <Text
+          mb="36px"
+          ms="4px"
+          color={textColorSecondary}
+          fontWeight="400"
+          fontSize="md"
         >
-          <Stack spacing={4}>
-            <FormControl id="name">
-              <FormLabel>Name</FormLabel>
-              <InputGroup>
-                <InputLeftElement>
-                  <Icon as={FiUser} w={4} h={4} />
-                </InputLeftElement>
+          Get Started with Copyable!
+        </Text>
+      </Box>
+      <Flex
+        zIndex="2"
+        direction="column"
+        w={{ base: '100%', md: '420px' }}
+        maxW="100%"
+        background="transparent"
+        borderRadius="15px"
+        mx={{ base: 'auto', lg: 'unset' }}
+        me="auto"
+        mb={{ base: '20px', md: 'auto' }}
+      >
+        <Button
+          shadow="md"
+          border="solid"
+          borderColor="brand.500"
+          fontSize="sm"
+          me="0px"
+          mb="26px"
+          py="15px"
+          h="50px"
+          borderRadius="16px"
+          bgColor={googleBg}
+          color={googleText}
+          fontWeight="500"
+          _hover={googleHover}
+          _active={googleActive}
+          _focus={googleActive}
+        >
+          <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
+          Signup with Google
+        </Button>
+        <Flex align="center" mb="25px">
+          <HSeparator />
+          <Text color="gray.400" mx="14px">
+            or
+          </Text>
+          <HSeparator />
+        </Flex>
 
-                <Input
-                  type="text"
-                  variant={'flushed'}
-                  color={'gray.500'}
-                  placeholder={'Jack Ryan'}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isInvalid={!!errors.name} mb="24px">
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+            >
+              Name<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              {...register('name')}
+              variant="auth"
+              required
+              fontSize="sm"
+              placeholder="Jack Ryan"
+              fontWeight="500"
+              size="lg"
+            />
+            <FormErrorMessage>
+              {errors.name && errors.name.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.email} mb="24px">
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+            >
+              Email<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              {...register('email')}
+              variant="auth"
+              fontSize="sm"
+              required
+              type="email"
+              placeholder="mail@copyable.com"
+              fontWeight="500"
+              size="lg"
+            />
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.password} mb="24px">
+            <FormLabel
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              display="flex"
+            >
+              Password<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <InputGroup size="md">
+              <Input
+                fontSize="sm"
+                placeholder="Min. 8 characters"
+                size="lg"
+                type={show ? 'text' : 'password'}
+                variant="auth"
+                required
+                {...register('password')}
+              />
+              <InputRightElement display="flex" alignItems="center" mt="4px">
+                <Icon
+                  color={textColorSecondary}
+                  _hover={{ cursor: 'pointer' }}
+                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                  onClick={handleClick}
                 />
-              </InputGroup>
-            </FormControl>
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <InputGroup>
-                <InputLeftElement>
-                  <Icon as={HiOutlineMail} w={4} h={4} />
-                </InputLeftElement>
-                <Input
-                  type="email"
-                  variant={'flushed'}
-                  color={'gray.500'}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={'jack@outlook.com'}
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>
+              {errors.password && errors.password.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.passwordConfirm} mb="24px">
+            <FormLabel
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              display="flex"
+            >
+              Password Confirmation<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <InputGroup size="md">
+              <Input
+                required
+                fontSize="sm"
+                placeholder="Min. 8 characters"
+                size="lg"
+                type={show ? 'text' : 'password'}
+                variant="auth"
+                {...register('passwordConfirm')}
+              />
+              <InputRightElement display="flex" alignItems="center" mt="4px">
+                <Icon
+                  color={textColorSecondary}
+                  _hover={{ cursor: 'pointer' }}
+                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                  onClick={handleClick}
                 />
-              </InputGroup>
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <InputLeftElement>
-                  <Icon as={BiLock} w={4} h={4} />
-                </InputLeftElement>
-                <Input
-                  type={showPass ? 'text' : 'password'}
-                  variant={'flushed'}
-                  color={'gray.500'}
-                  placeholder={'Password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>
+              {errors.passwordConfirm && errors.passwordConfirm.message}
+            </FormErrorMessage>
+          </FormControl>
+          <Flex justifyContent="space-evenly" align="center" mb="24px">
+            <FormControl
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              w="full"
+              isInvalid={!!errors?.terms}
+            >
+              <Flex w="full">
+                <Checkbox
+                  colorScheme="brandScheme"
+                  me="10px"
+                  {...register('terms')}
                 />
-                <InputRightElement>
-                  <IconButton
-                    size={'sm'}
-                    aria-label={'type'}
-                    icon={showPass ? <FiEye /> : <FiEyeOff />}
-                    isRound
-                    onClick={handleShowPass}
-                    bg={'gray.300'}
-                  />
-                </InputRightElement>
-              </InputGroup>
+                <FormLabel
+                  htmlFor="service-terms"
+                  mb="0"
+                  fontWeight="normal"
+                  color={textColor}
+                  fontSize="sm"
+                  flex="1"
+                  flexDirection="row"
+                  display="flex"
+                  gap="1"
+                >
+                  <span>I accept the application</span>
+                  <Link href="/static/documents/terms.pdf">
+                    <Text
+                      color={textColorBrand}
+                      fontSize="sm"
+                      minW="max"
+                      fontWeight="500"
+                    >
+                      Terms and Conditions.
+                    </Text>
+                  </Link>
+                </FormLabel>
+              </Flex>
+              <FormErrorMessage>
+                {errors.terms && errors.terms.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl id="confirmPassword">
-              <FormLabel>Confirm Password</FormLabel>
-              <InputGroup>
-                <InputLeftElement>
-                  <Icon as={BiLock} w={4} h={4} />
-                </InputLeftElement>
-                <Input
-                  type={showPass ? 'text' : 'password'}
-                  variant={'flushed'}
-                  color={'gray.500'}
-                  placeholder={'Confirm Password'}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <InputRightElement>
-                  <IconButton
-                    size={'sm'}
-                    aria-label={'type'}
-                    icon={showPass ? <FiEye /> : <FiEyeOff />}
-                    isRound
-                    onClick={handleShowPass}
-                    bg={'gray.300'}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
+          </Flex>
+          <Button
+            fontSize="sm"
+            variant="brand"
+            fontWeight="500"
+            w="100%"
+            h="50"
+            mb="24px"
+            mt="12px"
+            type="submit"
+            isLoading={loading}
+            loadingText={'Authenticating ...'}
+          >
+            Signup
+          </Button>
+        </form>
 
-            <Button
-              bg={'blue.400'}
-              color={'white'}
-              isLoading={loading}
-              loadingText={'Saving your info ...'}
-              onClick={clickSubmit}
-              mt={10}
-              leftIcon={<RiLoginCircleFill />}
-              _hover={{
-                bg: 'blue.500',
-              }}
-            >
-              Sign up
-            </Button>
-            <Link
-              color={'blue.400'}
-              onClick={() => router.push('/auth/sign-in')}
-            >
-              {' '}
-              Already have an account? Login
+        <Flex
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="start"
+          maxW="100%"
+          mt="0px"
+        >
+          <Text color={textColorDetails} fontWeight="400" fontSize="14px">
+            Already registered?
+            <Link href="/auth/sign-in">
+              <Text color={textColorBrand} as="span" ms="5px" fontWeight="500">
+                Sign In
+              </Text>
             </Link>
-          </Stack>
-        </Box>
-      </Stack>
+          </Text>
+        </Flex>
+      </Flex>
     </Flex>
   )
 }
+
+SignUpPage.getLayout = (page) => {
+  return (
+    <DefaultAuthLayout illustrationBackground={'/static/img/auth/auth.png'}>
+      {page}
+    </DefaultAuthLayout>
+  )
+}
+
+export default SignUpPage

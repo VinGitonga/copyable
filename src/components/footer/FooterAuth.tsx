@@ -1,10 +1,17 @@
 /* eslint-disable */
 
-import {Flex, Link, List, ListItem, Text, useColorModeValue,} from '@chakra-ui/react'
+import {
+  Flex,
+  Link,
+  List,
+  ListItem,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
 
 export default function Footer(props: { [x: string]: any }) {
   let textColor = useColorModeValue('gray.400', 'white')
-  let linkColor = useColorModeValue({ base: 'gray.400', lg: 'white' }, 'white')
+  let linkColor = useColorModeValue('brand.500', 'white')
   return (
     <Flex
       zIndex="3"
@@ -35,8 +42,9 @@ export default function Footer(props: { [x: string]: any }) {
           Copyable. All Rights Reserved. Made with love by
           <Link
             mx="3px"
-            color={textColor}
-            href="https://www.simmmple.com"
+            _hover={{ color: 'brand.700' }}
+            color={linkColor}
+            href="https://github.com/VinGitonga/copyable"
             target="_blank"
             fontWeight="700"
           >
@@ -45,7 +53,7 @@ export default function Footer(props: { [x: string]: any }) {
         </Text>
       </Text>
       <List display="flex">
-        <ListItem
+        {/* <ListItem
           me={{
             base: '20px',
             md: '44px',
@@ -95,7 +103,7 @@ export default function Footer(props: { [x: string]: any }) {
           >
             Blog
           </Link>
-        </ListItem>
+        </ListItem> */}
       </List>
     </Flex>
   )

@@ -1,28 +1,34 @@
 // Chakra imports
-import {Box, Flex, useColorModeValue} from '@chakra-ui/react'
+import { Box, Flex, useColorModeValue } from '@chakra-ui/react'
 import Footer from 'components/footer/FooterAuth'
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
 // Assets
-import {ReactNode} from 'react'
+import { ReactNode } from 'react'
 
 function AuthIllustration(props: {
   children: ReactNode
   illustrationBackground: string
 }) {
-  const authBg = useColorModeValue('white', 'navy.900')
+  const authBg = useColorModeValue('gray.50', 'navy.900')
   const { children, illustrationBackground } = props
   // Chakra color mode
   return (
-    <Flex minW="100vh" bg={authBg} position="relative" h="max-content">
+    <Flex
+      minW="100vw"
+      overflowY="auto"
+      bg={authBg}
+      position="relative"
+      h="max-content"
+    >
       <Flex
         h={{
-          sm: 'initial',
-          md: 'unset',
+          sm: '100vh',
+          md: '100vh',
           lg: '100vh',
           xl: '100vh',
         }}
         w="100%"
-        maxW={{ md: '66%', lg: '1313px' }}
+        maxW={{ base: '90%', md: '66%', lg: '1313px' }}
         mx="auto"
         pt={{ sm: '50px', md: '0px' }}
         px={{ lg: '30px', xl: '0px' }}
