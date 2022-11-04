@@ -170,6 +170,9 @@ const SignInPage: NextPageWithLayout = () => {
           _hover={googleHover}
           _active={googleActive}
           _focus={googleActive}
+          shadow="md"
+          border="solid"
+          borderColor="brand.500"
         >
           <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
           Sign in with Google
@@ -256,7 +259,7 @@ const SignInPage: NextPageWithLayout = () => {
                   <Text
                     color={textColorBrand}
                     fontSize="sm"
-                    w="124px"
+                    minW="max"
                     fontWeight="500"
                   >
                     Forgot password?

@@ -11,7 +11,7 @@ import {
 
 export default function Footer(props: { [x: string]: any }) {
   let textColor = useColorModeValue('gray.400', 'white')
-  let linkColor = useColorModeValue({ base: 'gray.400', lg: 'white' }, 'white')
+  let linkColor = useColorModeValue('brand.500', 'white')
   return (
     <Flex
       zIndex="3"
@@ -42,7 +42,8 @@ export default function Footer(props: { [x: string]: any }) {
           Copyable. All Rights Reserved. Made with love by
           <Link
             mx="3px"
-            color={textColor}
+            _hover={{ color: 'brand.700' }}
+            color={linkColor}
             href="https://github.com/VinGitonga/copyable"
             target="_blank"
             fontWeight="700"
