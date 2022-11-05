@@ -16,6 +16,7 @@ import {
   MenuItem,
   MenuList,
   Text,
+  useColorMode,
   useColorModeValue,
   useDisclosure,
   VStack,
@@ -33,6 +34,8 @@ import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 import Footer from 'components/footer/FooterAdmin'
+import { IoMdMoon, IoMdSunny } from 'react-icons/io'
+import AppLogo from 'components/icons/AppLogo'
 
 export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -93,12 +96,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Copyable
-        </Text>
+        <Flex display={{ base: 'flex' }} h="100%" align="center">
+          <AppLogo responsive={false} />
+        </Flex>
         <CloseButton onClick={onClose} />
       </Flex>
-      <NavItem icon={FiHome} hrefPath="/">
+      <NavItem icon={FiHome} hrefPath="/dashboard">
         Dasboard
       </NavItem>
       <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
@@ -129,7 +132,7 @@ const NavItem = ({ icon, hrefPath = '/dashboard', children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
+          bg: 'brand.400',
           color: 'white',
         }}
         {...rest}
@@ -151,12 +154,15 @@ const NavItem = ({ icon, hrefPath = '/dashboard', children, ...rest }) => {
 }
 
 const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
+  const navbarIcon = useColorModeValue('brand.500', 'white')
+  const { colorMode, toggleColorMode } = useColorMode()
   const router = useRouter()
   const username = user?.name || ''
   let lowerUserName = ''
   if (username) {
     lowerUserName = String(username).toLowerCase().replaceAll(' ', '')
   }
+
   return (
     <Flex
       ml={{ base: 0 }}
@@ -169,31 +175,27 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
       justifyContent={{ base: 'space-between' }}
       {...rest}
     >
-      <IconButton
-        display={{ base: 'flex' }}
-        onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
+      <Flex gap={{ base: 2, md: 4 }} align="center" mr="4" h="100%">
+        <AppLogo />
 
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Copyable
-      </Text>
+        <IconButton
+          display={{ base: 'flex' }}
+          onClick={onOpen}
+          variant="outline"
+          aria-label="open menu"
+          icon={<FiMenu />}
+        />
+      </Flex>
 
       <HStack spacing={{ base: '0', md: '6' }}>
         <Button
-          colorScheme={'teal'}
+          colorScheme={'brand'}
           leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
           variant={'outline'}
           onClick={() => router.push('/add-singlestoredb')}
         >
-          Add SingleStore DB
+          <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
+          <Text display={{ base: 'flex', md: 'none' }}>SS DB</Text>
         </Button>
         <IconButton
           size="lg"
@@ -201,6 +203,24 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
           aria-label="open menu"
           icon={<FiBell />}
         />
+        <Button
+          variant="no-hover"
+          bg="transparent"
+          p="0px"
+          minW="unset"
+          minH="unset"
+          h="18px"
+          w="max-content"
+          onClick={toggleColorMode}
+        >
+          <Icon
+            me="10px"
+            h="18px"
+            w="18px"
+            color={navbarIcon}
+            as={colorMode === 'light' ? IoMdMoon : IoMdSunny}
+          />
+        </Button>
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
