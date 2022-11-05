@@ -2,6 +2,7 @@ import {
   Checkbox,
   Flex,
   Icon,
+  Select,
   Table,
   Tbody,
   Td,
@@ -11,7 +12,7 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   ColumnInstance,
   Row,
@@ -26,12 +27,100 @@ import {
 import Card from 'components/card/Card'
 import Menu from 'components/menu/MainMenu'
 import { TableProps } from '../variables/columnsData'
-import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md'
+import {
+  MdCancel,
+  MdCheckCircle,
+  MdOutlineError,
+  MdPending,
+} from 'react-icons/md'
+import { MigrationCheckTableStatus, TableData } from 'types/TableData'
+import { object, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 
-export default function CheckTable(props: TableProps) {
-  const { columnsData, tableData } = props
+const formSchema = object({
+  range: string(),
+})
 
-  const columns = useMemo(() => columnsData, [columnsData])
+interface FormValues {
+  range: string
+}
+
+export enum MigrationsCheckTableRange {
+  DAILY = 'daily',
+  MONTHLY = 'monthly',
+  YEARLY = 'yearly',
+}
+
+export const columnsDataCheck = [
+  {
+    Header: 'NAME',
+    accessor: 'name',
+  },
+  {
+    Header: 'STATUS',
+    accessor: 'status',
+  },
+  // {
+  //   Header: "PROGRESS",
+  //   accessor: "progress",
+  // },
+  {
+    Header: 'TABLES',
+    accessor: 'quantity',
+  },
+  {
+    Header: 'DATE',
+    accessor: 'date',
+  },
+]
+
+export default function MigrationsCheckTable() {
+  const [tableData, setTableData] = useState<TableData[]>([
+    {
+      name: ['Siglestore DB US-WEST-1', false],
+      quantity: 2458,
+      status: MigrationCheckTableStatus.PROCESSING,
+      date: '12 Jan 2021',
+      progress: 17.5,
+    },
+    {
+      name: ['Copy of Company (Postgres)', true],
+      status: MigrationCheckTableStatus.COMPLETED,
+      quantity: 1485,
+      date: '21 Feb 2021',
+      progress: 10.8,
+    },
+    {
+      name: ['Copy of Mongo DB', true],
+      status: MigrationCheckTableStatus.COMPLETED,
+      quantity: 1024,
+      date: '13 Mar 2021',
+      progress: 21.3,
+    },
+    {
+      name: ['Copy of .CSV', true],
+      quantity: 858,
+      status: MigrationCheckTableStatus.ERROR,
+      date: '24 Jan 2021',
+      progress: 31.5,
+    },
+    {
+      name: ['Copy of .JSON', false],
+      quantity: 258,
+      date: '24 Oct 2022',
+      status: MigrationCheckTableStatus.COMPLETED,
+      progress: 12.2,
+    },
+  ])
+  const formMethods = useForm<FormValues>({
+    resolver: yupResolver(formSchema),
+    defaultValues: { range: MigrationsCheckTableRange.MONTHLY },
+  })
+  const { register, watch } = formMethods
+  const selectedRange = watch('range')
+
+  const columns = useMemo(() => columnsDataCheck, [columnsDataCheck])
   const data = useMemo(() => tableData, [tableData])
 
   const tableInstance = useTable(
@@ -56,6 +145,13 @@ export default function CheckTable(props: TableProps) {
 
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100')
+
+  useEffect(() => {
+    // TODO: Update data here.
+    console.log(selectedRange)
+    setTableData((d) => d)
+  }, [selectedRange])
+
   return (
     <Card
       flexDirection="column"
@@ -70,9 +166,20 @@ export default function CheckTable(props: TableProps) {
           fontWeight="700"
           lineHeight="100%"
         >
-          Check Table
+          Single Store DBs
         </Text>
-        <Menu />
+        <Select
+          fontSize="sm"
+          variant="subtle"
+          defaultValue="monthly"
+          width="unset"
+          fontWeight="700"
+          {...register('range')}
+        >
+          <option value="daily">Daily</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </Select>
       </Flex>
       <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
         <Thead>
@@ -144,20 +251,22 @@ export default function CheckTable(props: TableProps) {
                           h="24px"
                           me="5px"
                           color={
-                            cell.value === 'Approved'
+                            cell.value === MigrationCheckTableStatus.COMPLETED
                               ? 'green.500'
-                              : cell.value === 'Disable'
+                              : cell.value === MigrationCheckTableStatus.ERROR
                               ? 'red.500'
-                              : cell.value === 'Error'
+                              : cell.value ===
+                                MigrationCheckTableStatus.PROCESSING
                               ? 'orange.500'
                               : null
                           }
                           as={
-                            cell.value === 'Approved'
+                            cell.value === MigrationCheckTableStatus.COMPLETED
                               ? MdCheckCircle
-                              : cell.value === 'Disable'
-                              ? MdCancel
-                              : cell.value === 'Error'
+                              : cell.value ===
+                                MigrationCheckTableStatus.PROCESSING
+                              ? MdPending
+                              : cell.value === MigrationCheckTableStatus.ERROR
                               ? MdOutlineError
                               : null
                           }
@@ -167,15 +276,20 @@ export default function CheckTable(props: TableProps) {
                         </Text>
                       </Flex>
                     )
-                  } else if (cell.column.Header === 'QUANTITY') {
+                  } else if (cell.column.Header === 'TABLES') {
                     data = (
-                      <Text color={textColor} fontSize="sm" fontWeight="700">
+                      <Text color="brand.400" fontSize="sm" fontWeight="700">
                         {cell.value}
                       </Text>
                     )
                   } else if (cell.column.Header === 'DATE') {
                     data = (
-                      <Text color={textColor} fontSize="sm" fontWeight="700">
+                      <Text
+                        color={textColor}
+                        fontSize="sm"
+                        minW="max"
+                        fontWeight="700"
+                      >
                         {cell.value}
                       </Text>
                     )
