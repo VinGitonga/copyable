@@ -1,55 +1,59 @@
-import {Column} from "react-table";
+import { Column } from 'react-table'
 
 export const columnsDataCheck = [
   {
-    Header: "NAME",
-    accessor: "name",
+    Header: 'NAME',
+    accessor: 'name',
   },
   {
-    Header: "PROGRESS",
-    accessor: "progress",
+    Header: 'STATUS',
+    accessor: 'status',
+  },
+  // {
+  //   Header: "PROGRESS",
+  //   accessor: "progress",
+  // },
+  {
+    Header: 'QUANTITY',
+    accessor: 'quantity',
   },
   {
-    Header: "QUANTITY",
-    accessor: "quantity",
+    Header: 'DATE',
+    accessor: 'date',
   },
-  {
-    Header: "DATE",
-    accessor: "date",
-  },
-];
+]
 export const columnsDataComplex = [
   {
-    Header: "NAME",
-    accessor: "name",
+    Header: 'NAME',
+    accessor: 'name',
   },
   {
-    Header: "STATUS",
-    accessor: "status",
+    Header: 'STATUS',
+    accessor: 'status',
   },
   {
-    Header: "DATE",
-    accessor: "date",
+    Header: 'DATE',
+    accessor: 'date',
   },
   {
-    Header: "PROGRESS",
-    accessor: "progress",
+    Header: 'PROGRESS',
+    accessor: 'progress',
   },
-];
+]
 
-export type ColumnData = Column[];
+export type ColumnData = Column[]
 
 export type TableData = Column<{
-  name: (string | boolean)[];
-  date: string;
-  progress: number;
-  quantity?: number;
-  status?: string;
-  artworks?: string;
-  rating?: number;
-}>;
+  name: (string | boolean)[]
+  date: string
+  progress: number
+  quantity?: number
+  status?: string
+  artworks?: string
+  rating?: number
+}>
 
 export type TableProps = {
-  columnsData: ColumnData;
-  tableData: TableData[];
-};
+  columnsData: ColumnData
+  tableData: TableData[]
+}
