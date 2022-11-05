@@ -14,6 +14,7 @@ function AuthIllustration(props: {
   // Chakra color mode
   return (
     <Flex
+      minH="100%"
       minW="100vw"
       overflowY="auto"
       bg={authBg}
@@ -73,7 +74,7 @@ function AuthIllustration(props: {
             align="end"
             w="100%"
             h="100%"
-            bgSize="contain"
+            bgSize="cover"
             bgRepeat="no-repeat"
             bgPosition="50%"
             position="absolute"
