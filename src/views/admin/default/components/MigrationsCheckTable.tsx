@@ -158,6 +158,7 @@ export default function MigrationsCheckTable() {
       w="100%"
       px="0px"
       overflowX={{ sm: 'scroll', lg: 'hidden' }}
+      shadow="md"
     >
       <Flex px="25px" justify="space-between" align="center">
         <Text

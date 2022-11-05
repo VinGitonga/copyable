@@ -9,8 +9,8 @@ import Tasks from 'views/admin/default/components/Tasks'
 
 import { NextPageWithLayout } from 'types/Layout'
 import Layout from 'layouts/Layout'
-import MigrationsPieCard from 'views/admin/default/components/MigrationsPieCard'
 import MigrationsCheckTable from 'views/admin/default/components/MigrationsCheckTable'
+import MigrationsPieCard from 'views/admin/default/components/MigrationsPieCard'
 
 const DashboardPage: NextPageWithLayout = () => {
   // Chakra Color Mode
@@ -54,7 +54,6 @@ const DashboardPage: NextPageWithLayout = () => {
           <MigrationsCheckTable />
           <MigrationsPieCard />
         </SimpleGrid>
-
         <Tasks />
       </>
     </Box>

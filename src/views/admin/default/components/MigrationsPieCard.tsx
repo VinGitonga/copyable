@@ -102,6 +102,7 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
       alignItems="center"
       flexDirection="column"
       w="100%"
+      shadow="md"
       {...rest}
     >
       <Flex
