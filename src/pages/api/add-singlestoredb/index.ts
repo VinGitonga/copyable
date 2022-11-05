@@ -1,5 +1,6 @@
-import {customSequelize} from 'database/customSequelizeDBconfig'
+import { customSequelize } from 'database/customSequelizeDBconfig'
 import db from 'database/models'
+import { CreateSinglestoreDBErrorCode } from 'types/Singlestore'
 
 export default function handler(req, res) {
   switch (req.method) {
@@ -35,6 +36,7 @@ async function addSingleStoreDBToProfile(req, res) {
     if (dbInstance) {
       res.status(400).json({
         message: 'Database already exists in your profile',
+        code: CreateSinglestoreDBErrorCode.EXISTS,
         status: false,
       })
     } else {

@@ -17,8 +17,6 @@ import {
 import DefaultAuthLayout from 'layouts/auth/Default'
 import { NextPageWithLayout } from 'types/Layout'
 
-import { useRouter } from 'next/router'
-
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string } from 'yup'
 
@@ -42,7 +40,6 @@ const ForgotPassword: NextPageWithLayout = () => {
   } = formMethods
 
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
   const toast = useToast()
 
   // Chakra color mode

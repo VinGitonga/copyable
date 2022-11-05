@@ -63,7 +63,7 @@ const SignInPage: NextPageWithLayout = () => {
     { bg: 'secondaryGray.300' },
     { bg: 'whiteAlpha.200' }
   )
-  const [show, setShow] = React.useState(false)
+  const [show, setShow] = useState(false)
 
   const handleClick = () => setShow(!show)
 
