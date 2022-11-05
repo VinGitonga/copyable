@@ -19,14 +19,9 @@ function AuthIllustration(props: {
       bg={authBg}
       position="relative"
       h="max-content"
+      bgSize="cover"
     >
       <Flex
-        h={{
-          sm: '100vh',
-          md: '100vh',
-          lg: '100vh',
-          xl: '100vh',
-        }}
         w="100%"
         maxW={{ base: '90%', md: '66%', lg: '1313px' }}
         mx="auto"
@@ -68,16 +63,18 @@ function AuthIllustration(props: {
           h="100%"
           minH="100vh"
           w={{ lg: '50vw', '2xl': '44vw' }}
-          position="absolute"
+          position="fixed"
           right="0px"
         >
           <Flex
             style={{ backgroundImage: `url(${illustrationBackground})` }}
+            bgColor="#8802D5"
             justify="center"
             align="end"
             w="100%"
             h="100%"
-            bgSize="cover"
+            bgSize="contain"
+            bgRepeat="no-repeat"
             bgPosition="50%"
             position="absolute"
             borderBottomLeftRadius={{ lg: '120px', xl: '200px' }}
