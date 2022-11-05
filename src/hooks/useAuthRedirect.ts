@@ -1,11 +1,11 @@
-import {useSession} from 'next-auth/react'
-import Router, {useRouter} from 'next/router'
-import {useEffect} from 'react'
+import { useSession } from 'next-auth/react'
+import Router, { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 enum AuthRoutes {
   LOGIN = '/auth/sign-in',
   SIGNUP = '/auth/sign-up',
-  FORGOT_PASSWORD = '/auth/forgot',
+  FORGOT_PASSWORD = '/auth/forgot-password',
 }
 
 enum PublicRoutes {

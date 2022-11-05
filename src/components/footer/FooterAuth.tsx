@@ -30,16 +30,21 @@ export default function Footer(props: { [x: string]: any }) {
     >
       <Text
         color={textColor}
+        mb={{ base: '20px', lg: '0px' }}
+        w={{ base: '100%', lg: '50%' }}
         textAlign={{
           base: 'center',
           xl: 'start',
         }}
-        mb={{ base: '20px', lg: '0px' }}
       >
         {' '}
         &copy; {new Date().getFullYear()}
-        <Text as="span" fontWeight="500" ms="4px">
-          &nbsp;Copyable. All Rights Reserved. Made with love by
+        <Text as="span" fontWeight="500" ms="4px" textAlign="center">
+          &nbsp;Copyable. All Rights Reserved.
+        </Text>
+        <br />
+        <Text as="span" fontWeight="500" ms="4px" textAlign="center">
+          Made with love by
           <Link
             mx="3px"
             _hover={{ color: 'brand.700' }}

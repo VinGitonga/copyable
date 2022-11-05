@@ -16,7 +16,7 @@ export default function FixedPlugin(props: { [x: string]: any }) {
       {...rest}
       h="60px"
       w="60px"
-      bg="brand.700"
+      bg="brand.900"
       zIndex="99"
       position="fixed"
       variant="no-effects"
