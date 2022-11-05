@@ -1,6 +1,5 @@
 // Chakra imports
 import { Box, Grid } from '@chakra-ui/react'
-import AdminLayout from 'layouts/admin'
 import Layout from 'layouts/Layout'
 
 import { NextPageWithLayout } from 'types/Layout'
