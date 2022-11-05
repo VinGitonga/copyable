@@ -50,6 +50,7 @@
     "zustand": "^4.1.3"
   },
   "devDependencies": {
+    "@svgr/webpack": "^6.5.1",
     "@types/node": "^18.11.8",
     "@types/react": "^18.0.24",
     "@types/react-calendar": "^3.5.3",
