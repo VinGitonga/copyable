@@ -63,9 +63,10 @@ export const pieChartOptions: ApexGeneric = {
   tooltip: {
     enabled: true,
     theme: 'dark',
-    formatter: function (val) {
-      console.log(val)
-      return val + '%'
+    y: {
+      formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+        return value + '%'
+      },
     },
   },
 }
