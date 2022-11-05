@@ -107,7 +107,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
         Migrate From MongoDB
       </NavItem>
-      <NavItem icon={FiSettings} hrefPath="/profile">
+      <NavItem icon={FiSettings} hrefPath="/preferences">
         Settings
       </NavItem>
     </Box>
@@ -257,7 +257,7 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
               <NextLink href="/profile">
                 <MenuItem>Profile</MenuItem>
               </NextLink>
-              <NextLink href="/profile">
+              <NextLink href="/preferences">
                 <MenuItem>Settings</MenuItem>
               </NextLink>
               <MenuItem>Billing</MenuItem>
