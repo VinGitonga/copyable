@@ -1,4 +1,4 @@
-import {customSequelize} from 'database/customSequelizeDBconfig'
+import { customSequelize } from 'database/customSequelizeDBconfig'
 import db from 'database/models'
 
 export default function handler(req, res) {
@@ -9,9 +9,15 @@ export default function handler(req, res) {
 }
 
 async function addSingleStoreDBToProfile(req, res) {
-  const { dbName, dbHost, dbPassword, dbUser, dbOwner } = req.body
+  const { dbName, dbHost, dbPassword, dbUser, dbOwner, dbPort } = req.body
 
-  const sequelize = customSequelize({ dbName, dbUser, dbPassword, dbHost })
+  const sequelize = customSequelize({
+    dbName,
+    dbUser,
+    dbPassword,
+    dbHost,
+    dbPort,
+  })
 
   let connectionStatus = await testConnectToDB(sequelize)
 
@@ -50,7 +56,7 @@ async function addSingleStoreDBToProfile(req, res) {
       console.log(newDbInstance)
 
       res.status(200).json({
-        message: 'Database Info has been successfully to your profile',
+        message: 'Database info has been successfully added to your profile',
         status: true,
       })
     }

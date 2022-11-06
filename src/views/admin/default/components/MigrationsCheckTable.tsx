@@ -167,7 +167,7 @@ export default function MigrationsCheckTable() {
           fontWeight="700"
           lineHeight="100%"
         >
-          Single Store DBs
+          Latest SingleStore Migrations
         </Text>
         <Select
           fontSize="sm"

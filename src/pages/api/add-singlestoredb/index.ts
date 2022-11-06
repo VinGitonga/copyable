@@ -14,9 +14,9 @@ async function addSingleStoreDBToProfile(req, res) {
 
   const sequelize = customSequelize({ dbName, dbUser, dbPassword, dbHost })
 
-  let connectionStatus = await testConnectToDB(sequelize)
+  let success = await testConnectToDB(sequelize)
 
-  if (!connectionStatus) {
+  if (!success) {
     res.status(400).json({
       message:
         'Connection to Singlestore Database failed!, Check your details and try again',
@@ -37,7 +37,7 @@ async function addSingleStoreDBToProfile(req, res) {
       res.status(400).json({
         message: 'Database already exists in your profile',
         code: CreateSinglestoreDBErrorCode.EXISTS,
-        status: false,
+        success: false,
       })
     } else {
       // proceed to create the dbInstance to profile
@@ -53,7 +53,7 @@ async function addSingleStoreDBToProfile(req, res) {
 
       res.status(200).json({
         message: 'Database Info has been successfully to your profile',
-        status: true,
+        success: true,
       })
     }
   }
