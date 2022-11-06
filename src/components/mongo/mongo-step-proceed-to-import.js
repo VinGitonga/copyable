@@ -10,7 +10,7 @@ import {
 import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 import { useState } from 'react'
 import { migrateMongoDBToSingleStore } from 'services/migrate-mongo'
-import { router } from 'next/client'
+import { useRouter } from 'next/router'
 
 export default function MongoStepProceedToImport({
   handlePreviousStepClick,
@@ -19,6 +19,7 @@ export default function MongoStepProceedToImport({
   const [selectedSingleStoreDb, setSelectedSingleStoreDb] = useState(null)
   const [loading, setLoading] = useState(false)
   const toast = useToast()
+  const router = useRouter()
   const { selectedCollections, singlestoreDatabases, mongoHost } =
     useDatabaseMigrationStore()
 
