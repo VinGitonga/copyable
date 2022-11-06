@@ -1,7 +1,7 @@
-import {Box, Button, Checkbox, Stack, Text} from '@chakra-ui/react'
-import {useState} from 'react'
-import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
-import {fetchMyDbs} from 'services/save-db-to-profile'
+import { Box, Button, Checkbox, Stack, Text } from '@chakra-ui/react'
+import { useState } from 'react'
+import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
+import { fetchMySingleStoreDatabases } from 'services/save-db-to-profile'
 
 export default function MongoStepSelectCollections({
   collections,
@@ -22,8 +22,8 @@ export default function MongoStepSelectCollections({
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
   // get singlestore dbs for the currently logged in user
-  const getDbs = async () => {
-    let data = await fetchMyDbs()
+  const getSingleStoreDbs = async () => {
+    let data = await fetchMySingleStoreDatabases()
     setSinglestoreDatabases(data)
   }
 
@@ -35,7 +35,7 @@ export default function MongoStepSelectCollections({
       }
     })
     setSelectedCollections(selectedCols)
-    await getDbs()
+    await getSingleStoreDbs()
     handleNextStepClick()
   }
 

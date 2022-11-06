@@ -1,16 +1,16 @@
-import {MongoClient} from 'mongodb'
-import {DataTypes} from 'sequelize'
-import {customSequelize} from 'database/customSequelizeDBconfig'
+import { MongoClient } from 'mongodb'
+import { DataTypes } from 'sequelize'
+import { customSequelize } from 'database/customSequelizeDBconfig'
 import migrationCustomModel from 'database/models/migration'
 
 export default function handler(req, res) {
   switch (req.method) {
     case 'POST':
-      return testMigrate(req, res)
+      return migrate(req, res)
   }
 }
 
-async function testMigrate(req, res) {
+async function migrate(req, res) {
   const { mongoConfig: mongoDbConfig, singleStoreConfig } = req.body
 
   const client = new MongoClient(mongoDbConfig.host, {})

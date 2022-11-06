@@ -10,7 +10,7 @@ export const saveDbToProfile = async ({ dbDetails }) => {
   return resp.data
 }
 
-export const fetchMyDbs = async () => {
+export const fetchMySingleStoreDatabases = async () => {
   const resp = await axios.get(`${baseUrl}/list-dbs`)
 
   return resp.data

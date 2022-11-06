@@ -77,7 +77,7 @@ const MongoWizard: NextPageWithLayout = () => {
       ),
     },
     {
-      label: 'Step 3',
+      label: 'Start Migrating',
       content: (
         <MongoStepProceedToImport
           handlePreviousStepClick={prevStep}
@@ -96,7 +96,7 @@ const MongoWizard: NextPageWithLayout = () => {
       <Steps activeStep={activeStep}>
         {steps.map(({ label, content }) => (
           <Step label={label} key={label}>
-            {content}
+            <Box style={{ padding: 40 }}>{content}</Box>
           </Step>
         ))}
       </Steps>

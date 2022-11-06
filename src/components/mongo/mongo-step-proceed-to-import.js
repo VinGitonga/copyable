@@ -67,7 +67,6 @@ export default function MongoStepProceedToImport({
     }
   }
 
-  // @todo Add Button to Activate Db Migration with backend functionality
   return (
     <Box>
       <Text>Selected Collections</Text>
@@ -95,6 +94,8 @@ export default function MongoStepProceedToImport({
               loadingText={'Migrating Data'}
               onClick={handleStartMigrationClick}
               disabled={!selectedSingleStoreDb}
+              colorScheme={'cyan'}
+              style={{ margin: 10 }}
             >
               Start Migrating Data
             </Button>

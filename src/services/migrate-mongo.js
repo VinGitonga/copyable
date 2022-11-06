@@ -11,7 +11,7 @@ export const testConnectToDB = async ({ mongoDbUri }) => {
 }
 
 export const testMigrate = async ({ mongoConfig, singleStoreConfig }) => {
-  const resp = await axios.post(`${baseUrl}/details/test-migrate`, {
+  const resp = await axios.post(`${baseUrl}/migrate`, {
     mongoConfig: mongoConfig,
     singleStoreConfig: singleStoreConfig,
   })
