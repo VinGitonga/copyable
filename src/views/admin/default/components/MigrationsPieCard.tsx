@@ -76,8 +76,8 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
   const { totalMigrations, totalErrors, totalSuccess } =
     useDatabaseMigrationStore()
   // useEffect(() => {
-  const successPercentage = Math.round((totalSuccess * 100) / totalMigrations)
-  const failurePercentage = Math.round((totalErrors * 100) / totalMigrations)
+  const successPercentage = Math.round((totalSuccess * 100) / (totalMigrations || 1))
+  const failurePercentage = Math.round((totalErrors * 100) / (totalMigrations || 1))
 
   const [chartData] = useState<number[]>([successPercentage, failurePercentage])
   const formMethods = useForm<FormValues>({

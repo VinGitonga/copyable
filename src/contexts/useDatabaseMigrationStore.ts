@@ -38,9 +38,9 @@ export interface IDatabaseMigrationState extends IDatabaseMigrationData {
 
 export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
   (set) => ({
-    totalMigrations: 1300,
-    totalErrors: 300,
-    totalSuccess: 1000,
+    totalMigrations: 0,
+    totalErrors: 0,
+    totalSuccess: 0,
     mongoHost: null,
     selectedDb: null,
     selectedCollections: null,
