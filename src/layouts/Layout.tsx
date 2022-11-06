@@ -176,8 +176,6 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
       {...rest}
     >
       <Flex gap={{ base: 2, md: 4 }} align="center" mr="4" h="100%">
-        <AppLogo />
-
         <IconButton
           display={{ base: 'flex' }}
           onClick={onOpen}
@@ -185,6 +183,9 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
+        <Link href="/dashboard" style={{ height: 40 }}>
+          <AppLogo />
+        </Link>
       </Flex>
 
       <HStack spacing={{ base: '0', md: '6' }}>
