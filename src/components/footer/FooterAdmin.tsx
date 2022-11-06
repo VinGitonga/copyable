@@ -49,7 +49,7 @@ export default function Footer() {
           Copyable!
         </Link>
       </Text>
-      <List display="flex">
+      <List display="flex" flexWrap="wrap" rowGap="3">
         <ListItem
           me={{
             base: '20px',
@@ -83,6 +83,7 @@ export default function Footer() {
             base: '20px',
             md: '44px',
           }}
+          wordBreak="keep-all"
         >
           <Link
             fontWeight="500"

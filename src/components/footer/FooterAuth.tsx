@@ -57,7 +57,7 @@ export default function Footer(props: { [x: string]: any }) {
           </Link>
         </Text>
       </Text>
-      <List display="flex">
+      <List display="flex" flexWrap="wrap">
         {/* <ListItem
           me={{
             base: '20px',
