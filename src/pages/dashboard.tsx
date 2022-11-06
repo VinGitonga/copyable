@@ -11,11 +11,13 @@ import { NextPageWithLayout } from 'types/Layout'
 import Layout from 'layouts/Layout'
 import MigrationsCheckTable from 'views/admin/default/components/MigrationsCheckTable'
 import MigrationsPieCard from 'views/admin/default/components/MigrationsPieCard'
+import { useDatabaseMigrationStore } from '../contexts/useDatabaseMigrationStore'
 
 const DashboardPage: NextPageWithLayout = () => {
   // Chakra Color Mode
   const brandColor = useColorModeValue('brand.500', 'white')
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
+  const { totalMigrations } = useDatabaseMigrationStore()
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
@@ -47,7 +49,7 @@ const DashboardPage: NextPageWithLayout = () => {
               />
             }
             name="Total DB Migrations"
-            value="2935"
+            value={totalMigrations}
           />
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">

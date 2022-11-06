@@ -10,6 +10,7 @@ import {
 import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 import { useState } from 'react'
 import { migrateMongoDBToSingleStore } from 'services/migrate-mongo'
+import { router } from 'next/client'
 
 export default function MongoStepProceedToImport({
   handlePreviousStepClick,
@@ -46,16 +47,35 @@ export default function MongoStepProceedToImport({
     setLoading(true)
 
     try {
-      let { collectionLen, tableName } = await migrateMongoDBToSingleStore({
+      let response = await migrateMongoDBToSingleStore({
         mongoConfig,
         singleStoreConfig,
       })
+      console.log('Migration complete', response)
+      const { success, error, migratedCollections } = response || {}
       setLoading(false)
+      const errors = []
+      const collections = (migratedCollections || [])
+        .reduce((acc, resultForCollection) => {
+          if (resultForCollection.success) {
+            acc.push(resultForCollection.collection)
+          } else {
+            errors.push(
+              `${resultForCollection.collection}: ${resultForCollection.error}`
+            )
+          }
+          return acc
+        }, [])
+        .join(', ')
       toast({
-        title: `Migrated ${collectionLen} to '${tableName}' Table in Singlestore`,
+        title:
+          `Successfully migrated selected MongoDB Collections "${collections}" to your Singlestore database "${singleStoreConfig.dbName}"` +
+          (errors.length > 0 ? `\nErrors: ${errors}` : ''),
         isClosable: true,
+        duration: 15000,
         status: 'success',
       })
+      await router.push('/dashboard')
     } catch (err) {
       console.log(err)
       setLoading(false)

@@ -37,6 +37,8 @@ import { MigrationCheckTableStatus, TableData } from 'types/TableData'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { useDatabaseMigrationStore } from '../../../../contexts/useDatabaseMigrationStore'
 
 const formSchema = object({
   range: string(),
@@ -75,7 +77,38 @@ export const columnsDataCheck = [
   },
 ]
 
+// @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
+  const { setTotalMigrations } = useDatabaseMigrationStore()
+  useEffect(() => {
+    axios
+      .get(`/api/activities`)
+      .then(function (response) {
+        const activities = response.data ? response.data.activities : []
+        console.log(activities)
+        const cleanData = (activities || []).map((entry) => {
+          const migratedCollections = entry.payload?.migratedCollections || []
+          const errors = migratedCollections.filter((entry) => !entry.success)
+          return {
+            name: [entry.payload?.mongoDbName, true],
+            quantity: migratedCollections.length,
+            errors: errors.map((error) => error.error),
+            status:
+              errors.length > 0
+                ? MigrationCheckTableStatus.ERROR
+                : MigrationCheckTableStatus.COMPLETED,
+            date: new Date(entry.createdAt).toLocaleDateString(),
+            progress: 100,
+          }
+        })
+        setTotalMigrations(cleanData.length)
+        setTableData(cleanData)
+        // console.error('response received', response.data)
+      })
+      .catch((err) => {
+        console.error('Error while fetching data', err)
+      })
+  }, [])
   const [tableData, setTableData] = useState<TableData[]>([
     {
       name: ['Siglestore DB US-WEST-1', false],

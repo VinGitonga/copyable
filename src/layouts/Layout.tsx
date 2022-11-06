@@ -174,7 +174,6 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
     fetchMySingleStoreDatabases().then(setSinglestoreDatabases)
   }, [])
   let singleStoreItem
-  console.log(singlestoreDatabases)
 
   if (singlestoreDatabases && singlestoreDatabases.length > 0) {
     singleStoreItem = (

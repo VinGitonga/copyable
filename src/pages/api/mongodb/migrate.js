@@ -2,6 +2,9 @@ import { MongoClient } from 'mongodb'
 import { DataTypes } from 'sequelize'
 import { customSequelize } from 'database/customSequelizeDBconfig'
 import createSequelizeModelInSingleStore from 'database/models/migration'
+import { getSession } from 'next-auth/react'
+import { ACTIVITY_TYPES, createActivity } from '../../../utils/activities-util'
+import { randomUUID } from 'crypto'
 
 const BULK_SIZE = 1000
 export default function handler(req, res) {
@@ -13,7 +16,8 @@ export default function handler(req, res) {
 
 async function migrate(req, res) {
   const { mongoConfig, singleStoreConfig } = req.body
-
+  const session = await getSession({ req })
+  const createdBy = session.user?.id
   const mongoClient = new MongoClient(mongoConfig.host, {})
   const sequelize = customSequelize({
     dbName: singleStoreConfig.dbName,
@@ -22,22 +26,60 @@ async function migrate(req, res) {
     dbHost: singleStoreConfig.dbHost,
     dbPort: singleStoreConfig.port,
   })
-
+  const migrationId = randomUUID()
   try {
+    await createActivity({
+      description: `Migration ${migrationId} started by user ${createdBy}`,
+      type: ACTIVITY_TYPES.MIGRATION_STARTED,
+      createdBy,
+      migrationId,
+      payload: {
+        singleStoreDbName: singleStoreConfig.dbName,
+        mongoDbName: mongoConfig.dbName,
+        selectedCollections: mongoConfig.selectedCollections,
+      },
+    })
     await mongoClient.connect()
     const currentDB = mongoClient.db(mongoConfig.dbName)
-    const migratedCollections = await migrateSelectedCollections(
-      mongoConfig.selectedCollections,
+    const config = {
+      selectedCollections: mongoConfig.selectedCollections,
       currentDB,
       sequelize,
-      mongoConfig
-    )
+      createdBy,
+      migrationId,
+    }
+    const migratedCollections = await migrateSelectedCollections(config)
+    const message = `Successfully migrated database ${mongoConfig.dbName} to ${singleStoreConfig.dbName}`
+    await createActivity({
+      description: message,
+      type: ACTIVITY_TYPES.MIGRATION_ENDED,
+      createdBy,
+      migrationId,
+      payload: {
+        singleStoreDbName: singleStoreConfig.dbName,
+        mongoDbName: mongoConfig.dbName,
+        selectedCollections: mongoConfig.selectedCollections,
+        migratedCollections,
+      },
+    })
     res.json({
+      message,
       migratedCollections,
       success: true,
     })
   } catch (err) {
-    const message = `Error while migrating collections`
+    const message = `Error while migrating collections in migration ${migrationId}, user ${createdBy}`
+    await createActivity({
+      description: message,
+      type: ACTIVITY_TYPES.MIGRATION_ERROR,
+      createdBy,
+      migrationId,
+      payload: {
+        singleStoreDbName: singleStoreConfig.dbName,
+        mongoDbName: mongoConfig.dbName,
+        selectedCollections: mongoConfig.selectedCollections,
+      },
+    })
     console.error(message, err)
     res.json({
       message,
@@ -49,32 +91,26 @@ async function migrate(req, res) {
   }
 }
 
-async function migrateSelectedCollections(
-  selectedCollections,
-  currentDB,
-  sequelize,
-  mongoConfig
-) {
+async function migrateSelectedCollections(config) {
+  const { selectedCollections } = config
   const results = []
   // @todo: run this asynchronously
   for (let collectionName of selectedCollections) {
     try {
-      const collectionImported = await migrateMongoCollection(
+      const collectionImported = await migrateMongoCollection({
+        ...config,
         collectionName,
-        currentDB,
-        sequelize,
-        mongoConfig
-      )
+      })
       results.push({
         success: true,
-        collectionName,
-        collection: collectionImported,
+        collection: collectionName,
+        result: collectionImported,
       })
     } catch (err) {
       console.error(err)
       results.push({
         success: false,
-        collection: { collectionName },
+        collection: collectionName,
         error: err.message,
       })
     }
@@ -82,15 +118,14 @@ async function migrateSelectedCollections(
   return results
 }
 
-async function migrateMongoCollection(
-  collectionName,
-  currentDB,
-  sequelize,
-  mongoConfig
-) {
+async function migrateMongoCollection(config) {
+  const { collectionName, currentDB, sequelize, createdBy } = config
   const mongoCollection = currentDB.collection(collectionName)
   const modelFields = await guessMongoSchemaForCollection(mongoCollection)
-
+  const result = {
+    migrated: 0,
+    total: 0,
+  }
   modelFields.id = {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -111,18 +146,21 @@ async function migrateMongoCollection(
     `Proceeding to migrate ${totalCount} items in collection "${collectionName}"`
   )
   let migrated = 0
+  result.total = totalCount
+
   while (migrated < totalCount) {
     const chunk = await mongoCollection
       .find({})
       .skip(migrated)
       .limit(BULK_SIZE)
       .toArray()
-
-    migrated += BULK_SIZE
+    result.migrated += chunk.length
+    migrated += chunk.length
     // @todo: handle duplicates from mongodb based on the _id field
     // Now bulk insert to SingleStore
     await Model.bulkCreate(chunk)
   }
+  return result
 }
 
 async function guessMongoSchemaForCollection(mongoCollection) {
@@ -145,17 +183,6 @@ async function guessMongoSchemaForCollection(mongoCollection) {
   return fieldDataTypes
 }
 
-function mergeObjs(obj1, obj2) {
-  let obj3 = {}
-  for (let attrname in obj1) {
-    obj3[attrname] = obj1[attrname]
-  }
-  for (let attrname in obj2) {
-    obj3[attrname] = obj2[attrname]
-  }
-  return obj3
-}
-
 function getSequelizeDataTypeForValue(value) {
   const fieldType = typeof value
   if (value instanceof Date || fieldType === 'date') {
@@ -171,20 +198,4 @@ function getSequelizeDataTypeForValue(value) {
   } else {
     return fieldType
   }
-}
-
-/**
- * fn that retrieves items from an array asynchronousy
- * @param {*} iterator
- */
-function toArray(iterator) {
-  return new Promise((resolve, reject) => {
-    iterator.toArray((err, res) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(res)
-      }
-    })
-  })
 }

@@ -11,7 +11,10 @@ export const saveDbToProfile = async ({ dbDetails }) => {
 }
 
 export const fetchMySingleStoreDatabases = async () => {
-  const resp = await axios.get(`${baseUrl}/list-dbs`)
-
-  return resp.data
+  try {
+    const resp = await axios.get(`${baseUrl}/list-dbs`)
+    return resp.data
+  } catch (err) {
+    return err
+  }
 }
