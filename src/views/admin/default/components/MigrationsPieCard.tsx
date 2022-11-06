@@ -9,6 +9,7 @@ import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { ApexOptions } from 'apexcharts'
+import { useDatabaseMigrationStore } from '../../../../contexts/useDatabaseMigrationStore'
 
 const formSchema = object({
   range: string(),
@@ -72,7 +73,13 @@ export const pieChartOptions: ApexGeneric = {
 }
 
 export default function MigrationsPieCard(props: { [x: string]: any }) {
-  const [chartData, setChartData] = useState<number[]>([95, 5])
+  const { totalMigrations, totalErrors, totalSuccess } =
+    useDatabaseMigrationStore()
+  // useEffect(() => {
+  const successPercentage = Math.round((totalSuccess * 100) / totalMigrations)
+  const failurePercentage = Math.round((totalErrors * 100) / totalMigrations)
+
+  const [chartData] = useState<number[]>([successPercentage, failurePercentage])
   const formMethods = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: { range: MigrationPieRanges.MONTHLY },
@@ -80,7 +87,7 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
   const { register, watch } = formMethods
   const { ...rest } = props
 
-  const selectedRange = watch('range')
+  // const selectedRange = watch('range')
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
@@ -90,11 +97,9 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
     'unset'
   )
 
-  useEffect(() => {
-    // TODO: Update data here.
-    console.log(selectedRange)
-    setChartData((d) => d)
-  }, [selectedRange])
+  // console.log(selectedRange)
+  // setChartData([successPercentage, failurePercentage])
+  // }, [selectedRange])
 
   return (
     <Card

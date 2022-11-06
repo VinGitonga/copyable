@@ -15,7 +15,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { RiEyeCloseLine } from 'react-icons/ri'
 import Layout from '../layouts/Layout'
 import { useSession } from 'next-auth/react'
@@ -29,6 +29,7 @@ import { object, string } from 'yup'
 import { useForm } from 'react-hook-form'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { CreateSinglestoreDBErrorCode } from 'types/Singlestore'
+import { getFromLocalStorage, setInLocalStorage } from '../utils/local-storage'
 
 const formSchema = object({
   host: string().required('Required.'),
@@ -39,19 +40,41 @@ const formSchema = object({
 
 interface FormValues {
   host: string
+  port: string
   dbName: string
   dbUser: string
   dbPassword: string
 }
 
+const LOCAL_STORAGE_DEFAULT_VALUES_KEY = 'singleStoreConnection'
+const getDefaultData = () => {
+  try {
+    return JSON.parse(
+      getFromLocalStorage(LOCAL_STORAGE_DEFAULT_VALUES_KEY) || '{}'
+    ) as FormValues
+  } catch (err) {}
+  return { dbName: '', dbPassword: '', dbUser: '', port: '', host: '' }
+}
+
+const setDefaultData = (defaultData: FormValues) => {
+  try {
+    setInLocalStorage(
+      LOCAL_STORAGE_DEFAULT_VALUES_KEY,
+      JSON.stringify(defaultData)
+    )
+  } catch (err) {}
+}
+
 const AddSingleStoreDBPage: NextPageWithLayout = () => {
-  const formMethods = useForm<FormValues>({ resolver: yupResolver(formSchema) })
+  const [formData, setFormData] = useState<FormValues>(getDefaultData())
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
-  } = formMethods
+  } = useForm<FormValues>({
+    resolver: yupResolver(formSchema),
+    defaultValues: formData,
+  })
 
   const textColor = useColorModeValue('navy.700', 'white')
   const textColorSecondary = 'gray.400'
@@ -77,22 +100,22 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
   }
 
   const onSubmit = useCallback(
-    async ({ dbName, dbPassword, dbUser, host }: FormValues) => {
+    async ({ dbName, dbPassword, dbUser, host, port }: FormValues) => {
       if (!session?.user?.email) {
         return
       }
 
       // @ts-ignore
       const userId = session?.user?.id
-
       if (!host || !dbUser || !dbPassword || !dbName) {
-        customToast({ text: 'Fill all the inputs', status: 'warning' })
+        customToast({ text: 'Please fill all the inputs', status: 'warning' })
         return
       } else {
+        setDefaultData({ dbName, dbPassword, dbUser, host, port })
         // validate user is logged in
         if (!session.user) {
           customToast({
-            text: 'Login first to create db to profile',
+            text: 'Please login first to create a db to profile',
             status: 'error',
           })
           return
@@ -101,6 +124,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
           let dbInfo = {
             dbName: dbName,
             dbHost: host,
+            dbPort: port,
             dbUser: dbUser,
             dbPassword: dbPassword,
             dbOwner: userId,
@@ -113,8 +137,8 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
             console.log('add-singlestore-db:onSbumit:error', err)
           }
           console.log(response)
-          let { message = 'Something Failed.', status, code } = response
-          if (status || code === CreateSinglestoreDBErrorCode.EXISTS) {
+          let { message = 'Something Failed.', success, code } = response
+          if (success || code === CreateSinglestoreDBErrorCode.EXISTS) {
             customToast({ text: message, status: 'success' })
             router.push('/dashboard')
           } else {
@@ -185,9 +209,34 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
               placeholder="svc-46f<......>.svc.singlestore.com"
               fontWeight="500"
               size="lg"
+              // name={'host'}
+              // value={formData.host || ''}
+              // onChange={handleChangeFormField}
             />
             <FormErrorMessage>
               {errors.host && errors.host.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.port} mb="24px">
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+            >
+              Port
+            </FormLabel>
+            <Input
+              {...register('port')}
+              variant="auth"
+              fontSize="sm"
+              placeholder="3306"
+              fontWeight="500"
+              size="lg"
+            />
+            <FormErrorMessage>
+              {errors.port && errors.port.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.dbName} mb="24px">
@@ -229,6 +278,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
               placeholder="admin"
               fontWeight="500"
               size="lg"
+              autoComplete={'dbUser'}
             />
             <FormErrorMessage>
               {errors.dbUser && errors.dbUser.message}
@@ -249,6 +299,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Password"
+                autoComplete={'dbPassword'}
                 mb="24px"
                 size="lg"
                 type={show ? 'text' : 'password'}

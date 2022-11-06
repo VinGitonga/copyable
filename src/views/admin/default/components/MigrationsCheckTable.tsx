@@ -37,6 +37,8 @@ import { MigrationCheckTableStatus, TableData } from 'types/TableData'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { useDatabaseMigrationStore } from '../../../../contexts/useDatabaseMigrationStore'
 
 const formSchema = object({
   range: string(),
@@ -75,42 +77,73 @@ export const columnsDataCheck = [
   },
 ]
 
+// @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
+  const { setTotalMigrations } = useDatabaseMigrationStore()
+  useEffect(() => {
+    axios
+      .get(`/api/activities`)
+      .then(function (response) {
+        const activities = response.data ? response.data.activities : []
+        console.log(activities)
+        const cleanData = (activities || []).map((entry) => {
+          const migratedCollections = entry.payload?.migratedCollections || []
+          const errors = migratedCollections.filter((entry) => !entry.success)
+          return {
+            name: [entry.payload?.mongoDbName, true],
+            quantity: migratedCollections.length,
+            errors: errors.map((error) => error.error),
+            status:
+              errors.length > 0
+                ? MigrationCheckTableStatus.ERROR
+                : MigrationCheckTableStatus.COMPLETED,
+            date: new Date(entry.createdAt).toLocaleString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+              hour: '2-digit',
+              hour12: false,
+              minute: '2-digit',
+            }),
+            progress: 100,
+          }
+        })
+        setTotalMigrations(cleanData.length)
+        setTableData(cleanData)
+        // console.error('response received', response.data)
+      })
+      .catch((err) => {
+        console.error('Error while fetching data', err)
+      })
+  }, [])
   const [tableData, setTableData] = useState<TableData[]>([
     {
       name: ['Siglestore DB US-WEST-1', false],
       quantity: 2458,
       status: MigrationCheckTableStatus.PROCESSING,
-      date: '12 Jan 2021',
+      date: 'Jan 1, 2022, 01:09',
       progress: 17.5,
     },
     {
       name: ['Copy of Company (Postgres)', true],
       status: MigrationCheckTableStatus.COMPLETED,
       quantity: 1485,
-      date: '21 Feb 2021',
+      date: 'Feb 5, 2022, 13:45',
       progress: 10.8,
     },
     {
       name: ['Copy of Mongo DB', true],
       status: MigrationCheckTableStatus.COMPLETED,
       quantity: 1024,
-      date: '13 Mar 2021',
+      date: 'Feb 5, 2022, 13:13',
       progress: 21.3,
     },
     {
       name: ['Copy of .CSV', true],
       quantity: 858,
       status: MigrationCheckTableStatus.ERROR,
-      date: '24 Jan 2021',
+      date: 'Apr 22, 2022, 17:50',
       progress: 31.5,
-    },
-    {
-      name: ['Copy of .JSON', false],
-      quantity: 258,
-      date: '24 Oct 2022',
-      status: MigrationCheckTableStatus.COMPLETED,
-      progress: 12.2,
     },
   ])
   const formMethods = useForm<FormValues>({
@@ -167,7 +200,7 @@ export default function MigrationsCheckTable() {
           fontWeight="700"
           lineHeight="100%"
         >
-          Single Store DBs
+          Latest SingleStore Migrations
         </Text>
         <Select
           fontSize="sm"

@@ -15,6 +15,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Select,
   Text,
   useColorMode,
   useColorModeValue,
@@ -25,6 +26,7 @@ import {
   FiBell,
   FiChevronDown,
   FiCompass,
+  FiDatabase,
   FiHome,
   FiMenu,
   FiSettings,
@@ -36,6 +38,9 @@ import NextLink from 'next/link'
 import Footer from 'components/footer/FooterAdmin'
 import { IoMdMoon, IoMdSunny } from 'react-icons/io'
 import AppLogo from 'components/icons/AppLogo'
+import { useDatabaseMigrationStore } from '../contexts/useDatabaseMigrationStore'
+import { useEffect } from 'react'
+import { fetchMySingleStoreDatabases } from '../services/save-db-to-profile'
 
 export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -102,10 +107,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton onClick={onClose} />
       </Flex>
       <NavItem icon={FiHome} hrefPath="/dashboard">
-        Dasboard
+        Dashboard
       </NavItem>
       <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
         Migrate From MongoDB
+      </NavItem>
+      <NavItem icon={FiDatabase} hrefPath={'/mysql/mysql-wizard'}>
+        Migrate From MySQL
       </NavItem>
       <NavItem icon={FiSettings} hrefPath="/preferences">
         Settings
@@ -163,6 +171,37 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
     lowerUserName = String(username).toLowerCase().replaceAll(' ', '')
   }
 
+  const { singlestoreDatabases, setSinglestoreDatabases } =
+    useDatabaseMigrationStore()
+
+  useEffect(() => {
+    fetchMySingleStoreDatabases().then(setSinglestoreDatabases)
+  }, [])
+  let singleStoreItem
+
+  if (singlestoreDatabases && singlestoreDatabases.length > 0) {
+    singleStoreItem = (
+      <Select title={'My SingleStore Databases'}>
+        {singlestoreDatabases.map((dbs: any) => (
+          <option key={dbs.dbName} value={dbs.dbName}>
+            {dbs.dbName}
+          </option>
+        ))}
+      </Select>
+    )
+  } else {
+    singleStoreItem = (
+      <Button
+        colorScheme={'brand'}
+        leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
+        variant={'outline'}
+        onClick={() => router.push('/add-singlestoredb')}
+      >
+        <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
+        <Text display={{ base: 'flex', md: 'none' }}>SS DB</Text>
+      </Button>
+    )
+  }
   return (
     <Flex
       ml={{ base: 0 }}
@@ -176,8 +215,6 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
       {...rest}
     >
       <Flex gap={{ base: 2, md: 4 }} align="center" mr="4" h="100%">
-        <AppLogo />
-
         <IconButton
           display={{ base: 'flex' }}
           onClick={onOpen}
@@ -185,18 +222,13 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
+        <Link href="/dashboard" style={{ height: 40 }}>
+          <AppLogo />
+        </Link>
       </Flex>
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        <Button
-          colorScheme={'brand'}
-          leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
-          variant={'outline'}
-          onClick={() => router.push('/add-singlestoredb')}
-        >
-          <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
-          <Text display={{ base: 'flex', md: 'none' }}>SS DB</Text>
-        </Button>
+        {singleStoreItem}
         <IconButton
           size="lg"
           variant="ghost"

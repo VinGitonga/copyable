@@ -35,8 +35,8 @@ export default function MongoStepConfigureDb({ handleNextStepClick }) {
 
   const clickTest = async () => {
     setLoadingTest(true)
-    let status = await testConnectToDB({ mongoDbUri: mongoHost })
-    if (status) {
+    let success = await testConnectToDB({ mongoDbUri: mongoHost })
+    if (success) {
       setLoadingTest(false)
       customToast({
         text: 'Connection to MongoDB is Okay 👍',

@@ -25,12 +25,12 @@ const MongoWizard: NextPageWithLayout = () => {
   const host = useDatabaseMigrationStore(({ mongoHost }) => mongoHost)
 
   const getDbs = async () => {
-    let resp = await axios.post(`/api/migrate-mongo/details/get-dbs`, { host })
+    let resp = await axios.post(`/api/mongodb/details/get-dbs`, { host })
     setDatabases(resp.data)
   }
 
   const getCollections = async () => {
-    let resp = await axios.post(`/api/migrate-mongo/details/get-collections`, {
+    let resp = await axios.post(`/api/mongodb/details/get-collections`, {
       host,
       db: currentDb,
     })
@@ -77,7 +77,7 @@ const MongoWizard: NextPageWithLayout = () => {
       ),
     },
     {
-      label: 'Step 3',
+      label: 'Start Migrating',
       content: (
         <MongoStepProceedToImport
           handlePreviousStepClick={prevStep}
@@ -96,7 +96,7 @@ const MongoWizard: NextPageWithLayout = () => {
       <Steps activeStep={activeStep}>
         {steps.map(({ label, content }) => (
           <Step label={label} key={label}>
-            {content}
+            <Box style={{ padding: 40 }}>{content}</Box>
           </Step>
         ))}
       </Steps>

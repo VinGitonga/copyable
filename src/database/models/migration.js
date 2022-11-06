@@ -1,4 +1,4 @@
-export default function migrationCustomModel({
+export default function createSequelizeModelInSingleStore({
   sequelize,
   modelName,
   fields,
