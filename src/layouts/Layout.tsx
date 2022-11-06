@@ -26,6 +26,7 @@ import {
   FiBell,
   FiChevronDown,
   FiCompass,
+  FiDatabase,
   FiHome,
   FiMenu,
   FiSettings,
@@ -110,6 +111,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
       </NavItem>
       <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
         Migrate From MongoDB
+      </NavItem>
+      <NavItem icon={FiDatabase} hrefPath={'/mysql/mysql-wizard'}>
+        Migrate From MySQL
       </NavItem>
       <NavItem icon={FiSettings} hrefPath="/preferences">
         Settings
