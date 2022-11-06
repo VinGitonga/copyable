@@ -1,13 +1,13 @@
 import {
+  Badge,
   Box,
   Button,
-  Text,
   Select,
   Stack,
-  Badge,
+  Text,
   useToast,
 } from '@chakra-ui/react'
-import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
+import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 import { useState } from 'react'
 import { testMigrate } from 'services/migrate-mongo'
 
@@ -29,7 +29,7 @@ export default function MongoStepProceedToImport({
     )
   }
 
-  const clickSubmit = async () => {
+  const handleStartMigrationClick = async () => {
     let mongoConfig = {
       host: mongoHost,
       dbName: currentDb,
@@ -83,7 +83,9 @@ export default function MongoStepProceedToImport({
             onChange={handleSelectedSinglestoreDb}
           >
             {singlestoreDatabases.map((dbs) => (
-              <option key={dbs.dbName} value={dbs.dbName}>{dbs.dbName}</option>
+              <option key={dbs.dbName} value={dbs.dbName}>
+                {dbs.dbName}
+              </option>
             ))}
           </Select>
 
@@ -91,7 +93,7 @@ export default function MongoStepProceedToImport({
             <Button
               isLoading={loading}
               loadingText={'Migrating Data'}
-              onClick={clickSubmit}
+              onClick={handleStartMigrationClick}
               disabled={!selectedSingleStoreDb}
             >
               Start Migrating Data
@@ -99,7 +101,9 @@ export default function MongoStepProceedToImport({
           </Box>
         </>
       ) : (
-        <Text>You haven&apos;t added any Singlestore Database to your profile</Text>
+        <Text>
+          You haven&apos;t added any Singlestore Database to your profile
+        </Text>
       )}
       <Box mt={2}>
         <Button onClick={handlePreviousStepClick}>Prev Step</Button>

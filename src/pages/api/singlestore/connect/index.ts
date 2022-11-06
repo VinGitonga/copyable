@@ -1,5 +1,6 @@
 import { customSequelize } from 'database/customSequelizeDBconfig'
 import db from 'database/models'
+import { CreateSinglestoreDBErrorCode } from 'types/Singlestore'
 
 export default function handler(req, res) {
   switch (req.method) {
@@ -19,9 +20,9 @@ async function addSingleStoreDBToProfile(req, res) {
     dbPort,
   })
 
-  let connectionStatus = await testConnectToDB(sequelize)
+  let success = await testConnectToDB(sequelize)
 
-  if (!connectionStatus) {
+  if (!success) {
     res.status(400).json({
       message:
         'Connection to Singlestore Database failed!, Check your details and try again',
@@ -39,9 +40,10 @@ async function addSingleStoreDBToProfile(req, res) {
     })
 
     if (dbInstance) {
-      res.status(400).json({
+      res.status(200).json({
         message: 'Database already exists in your profile',
-        status: false,
+        code: CreateSinglestoreDBErrorCode.EXISTS,
+        success: true,
       })
     } else {
       // proceed to create the dbInstance to profile
@@ -56,8 +58,8 @@ async function addSingleStoreDBToProfile(req, res) {
       console.log(newDbInstance)
 
       res.status(200).json({
-        message: 'Database info has been successfully added to your profile',
-        status: true,
+        message: 'Database Info has been successfully to your profile',
+        success: true,
       })
     }
   }
