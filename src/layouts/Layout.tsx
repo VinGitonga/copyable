@@ -102,7 +102,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton onClick={onClose} />
       </Flex>
       <NavItem icon={FiHome} hrefPath="/dashboard">
-        Dasboard
+        Dashboard
       </NavItem>
       <NavItem icon={FiCompass} hrefPath={'/mongo/mongo-wizard'}>
         Migrate From MongoDB
