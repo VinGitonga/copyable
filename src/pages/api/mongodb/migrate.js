@@ -17,9 +17,10 @@ async function migrate(req, res) {
   const mongoClient = new MongoClient(mongoConfig.host, {})
   const sequelize = customSequelize({
     dbName: singleStoreConfig.dbName,
-    dbUser: singleStoreConfig.dbName,
+    dbUser: singleStoreConfig.dbUser,
     dbPassword: singleStoreConfig.dbPassword,
     dbHost: singleStoreConfig.dbHost,
+    dbPort: singleStoreConfig.port,
   })
 
   try {
@@ -103,7 +104,7 @@ async function migrateMongoCollection(
     tableName: collectionName,
   })
 
-  await Model.sync({ force: true })
+  await Model.sync()
   // proceed with the migration
   const totalCount = await mongoCollection.count()
   console.log(
