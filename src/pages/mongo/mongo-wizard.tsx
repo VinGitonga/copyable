@@ -25,12 +25,12 @@ const MongoWizard: NextPageWithLayout = () => {
   const host = useDatabaseMigrationStore(({ mongoHost }) => mongoHost)
 
   const getDbs = async () => {
-    let resp = await axios.post(`/api/migrate-mongo/details/get-dbs`, { host })
+    let resp = await axios.post(`/api/mongodb/details/get-dbs`, { host })
     setDatabases(resp.data)
   }
 
   const getCollections = async () => {
-    let resp = await axios.post(`/api/migrate-mongo/details/get-collections`, {
+    let resp = await axios.post(`/api/mongodb/details/get-collections`, {
       host,
       db: currentDb,
     })

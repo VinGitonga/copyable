@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = '/api/migrate-mongo'
+const baseUrl = '/api/mongodb'
 
 export const testConnectToDB = async ({ mongoDbUri }) => {
   const resp = await axios.post(`${baseUrl}/test-connection`, {
@@ -16,5 +16,5 @@ export const testMigrate = async ({ mongoConfig, singleStoreConfig }) => {
     singleStoreConfig: singleStoreConfig,
   })
 
-  return resp.data;
+  return resp.data
 }
