@@ -170,38 +170,38 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
   if (username) {
     lowerUserName = String(username).toLowerCase().replaceAll(' ', '')
   }
+  //
+  // const { singlestoreDatabases, setSinglestoreDatabases } =
+  //   useDatabaseMigrationStore()
+  //
+  // useEffect(() => {
+  //   fetchMySingleStoreDatabases().then(setSinglestoreDatabases)
+  // }, [])
+  // let singleStoreItem
 
-  const { singlestoreDatabases, setSinglestoreDatabases } =
-    useDatabaseMigrationStore()
-
-  useEffect(() => {
-    fetchMySingleStoreDatabases().then(setSinglestoreDatabases)
-  }, [])
-  let singleStoreItem
-
-  if (singlestoreDatabases && singlestoreDatabases.length > 0) {
-    singleStoreItem = (
-      <Select title={'My SingleStore Databases'}>
-        {singlestoreDatabases.map((dbs: any) => (
-          <option key={dbs.dbName} value={dbs.dbName}>
-            {dbs.dbName}
-          </option>
-        ))}
-      </Select>
-    )
-  } else {
-    singleStoreItem = (
-      <Button
-        colorScheme={'brand'}
-        leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
-        variant={'outline'}
-        onClick={() => router.push('/add-singlestoredb')}
-      >
-        <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
-        <Text display={{ base: 'flex', md: 'none' }}>SS DB</Text>
-      </Button>
-    )
-  }
+  // if (singlestoreDatabases && singlestoreDatabases.length > 0) {
+  //   singleStoreItem = (
+  //     <Select title={'My SingleStore Databases'}>
+  //       {singlestoreDatabases.map((dbs: any) => (
+  //         <option key={dbs.dbName} value={dbs.dbName}>
+  //           {dbs.dbName}
+  //         </option>
+  //       ))}
+  //     </Select>
+  //   )
+  // } else {
+  let singleStoreItem = (
+    <Button
+      colorScheme={'brand'}
+      leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
+      variant={'outline'}
+      onClick={() => router.push('/add-singlestoredb')}
+    >
+      <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
+      <Text display={{ base: 'flex', md: 'none' }}>SS DB</Text>
+    </Button>
+  )
+  // }
   return (
     <Flex
       ml={{ base: 0 }}
