@@ -97,7 +97,14 @@ export default function MigrationsCheckTable() {
               errors.length > 0
                 ? MigrationCheckTableStatus.ERROR
                 : MigrationCheckTableStatus.COMPLETED,
-            date: new Date(entry.createdAt).toLocaleDateString(),
+            date: new Date(entry.createdAt).toLocaleString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+              hour: '2-digit',
+              hour12: false,
+              minute: '2-digit',
+            }),
             progress: 100,
           }
         })
@@ -114,36 +121,29 @@ export default function MigrationsCheckTable() {
       name: ['Siglestore DB US-WEST-1', false],
       quantity: 2458,
       status: MigrationCheckTableStatus.PROCESSING,
-      date: '12 Jan 2021',
+      date: 'Jan 1, 2022, 01:09',
       progress: 17.5,
     },
     {
       name: ['Copy of Company (Postgres)', true],
       status: MigrationCheckTableStatus.COMPLETED,
       quantity: 1485,
-      date: '21 Feb 2021',
+      date: 'Feb 5, 2022, 13:45',
       progress: 10.8,
     },
     {
       name: ['Copy of Mongo DB', true],
       status: MigrationCheckTableStatus.COMPLETED,
       quantity: 1024,
-      date: '13 Mar 2021',
+      date: 'Feb 5, 2022, 13:13',
       progress: 21.3,
     },
     {
       name: ['Copy of .CSV', true],
       quantity: 858,
       status: MigrationCheckTableStatus.ERROR,
-      date: '24 Jan 2021',
+      date: 'Apr 22, 2022, 17:50',
       progress: 31.5,
-    },
-    {
-      name: ['Copy of .JSON', false],
-      quantity: 258,
-      date: '24 Oct 2022',
-      status: MigrationCheckTableStatus.COMPLETED,
-      progress: 12.2,
     },
   ])
   const formMethods = useForm<FormValues>({
