@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 import { useState } from 'react'
-import { testMigrate } from 'services/migrate-mongo'
+import { migrateMongoDBToSingleStore } from 'services/migrate-mongo'
 
 export default function MongoStepProceedToImport({
   handlePreviousStepClick,
@@ -33,7 +33,7 @@ export default function MongoStepProceedToImport({
     let mongoConfig = {
       host: mongoHost,
       dbName: currentDb,
-      collectionName: selectedCollections[0],
+      selectedCollections,
     }
 
     let singleStoreConfig = {
@@ -46,7 +46,7 @@ export default function MongoStepProceedToImport({
     setLoading(true)
 
     try {
-      let { collectionLen, tableName } = await testMigrate({
+      let { collectionLen, tableName } = await migrateMongoDBToSingleStore({
         mongoConfig,
         singleStoreConfig,
       })

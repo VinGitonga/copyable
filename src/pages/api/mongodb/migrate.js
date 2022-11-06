@@ -1,8 +1,9 @@
 import { MongoClient } from 'mongodb'
 import { DataTypes } from 'sequelize'
 import { customSequelize } from 'database/customSequelizeDBconfig'
-import migrationCustomModel from 'database/models/migration'
+import createSequelizeModelInSingleStore from 'database/models/migration'
 
+const BULK_SIZE = 1000
 export default function handler(req, res) {
   switch (req.method) {
     case 'POST':
@@ -11,9 +12,9 @@ export default function handler(req, res) {
 }
 
 async function migrate(req, res) {
-  const { mongoConfig: mongoDbConfig, singleStoreConfig } = req.body
+  const { mongoConfig, singleStoreConfig } = req.body
 
-  const client = new MongoClient(mongoDbConfig.host, {})
+  const mongoClient = new MongoClient(mongoConfig.host, {})
   const sequelize = customSequelize({
     dbName: singleStoreConfig.dbName,
     dbUser: singleStoreConfig.dbName,
@@ -22,79 +23,125 @@ async function migrate(req, res) {
   })
 
   try {
-    await client.connect()
-
-    const currentDB = client.db(mongoDbConfig.dbName)
-    const collection = currentDB.collection(mongoDbConfig.collectionName)
-    // retrive the all the columns(fields in MongoDB collection by getting just one collection)
-    let fields = Object.keys(await collection.findOne({}))
-    // remove id field if exists in collection to prevent conflict with Singlestore ID field
-    fields = removeFieldOnce(fields, 'id')
-    let fieldDatatypes = new Map()
-    // loop on each field and get typeof datatype
-    for (let field of fields) {
-      fieldDatatypes.set(field, typeof (await collection.findOne({}))[field])
-    }
-
-    let modelFields = {}
-
-    // populate the model fields
-    fieldDatatypes.forEach((value, key) => {
-      if (value === 'number') {
-        modelFields[key] = DataTypes.FLOAT
-      } else if (value === 'string') {
-        modelFields[key] = DataTypes.STRING
-      } else if (value === 'boolean') {
-        modelFields[key] = DataTypes.BOOLEAN
-      } else if (value === 'object') {
-        modelFields[key] = DataTypes.JSON
-      } else if (value === 'date') {
-        modelFields[key] = DataTypes.DATE
-      }
-    })
-
-    let idObj = {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-    }
-
-    const Model = migrationCustomModel({
+    await mongoClient.connect()
+    const currentDB = mongoClient.db(mongoConfig.dbName)
+    const migratedCollections = await migrateSelectedCollections(
+      mongoConfig.selectedCollections,
+      currentDB,
       sequelize,
-      modelName: mongoDbConfig.collectionName,
-      fields: mergeObjs(idObj, modelFields),
-      tableName: mongoDbConfig.collectionName,
-    })
-
-    // sync the model
-    await Model.sync({ force: true })
-
-    let documentsArr = Array.from(await toArray(collection.find()))
-
-    // Now bulk insert to SingleStore
-
-    await Model.bulkCreate(documentsArr)
-
+      mongoConfig
+    )
     res.json({
-      collectionLen: documentsArr.length,
-      tableName: mongoDbConfig.collectionName,
+      migratedCollections,
+      success: true,
     })
   } catch (err) {
-    console.log(err)
+    const message = `Error while migrating collections`
+    console.error(message, err)
+    res.json({
+      message,
+      error: err,
+      success: true,
+    })
   } finally {
-    await client.close()
+    await mongoClient.close()
   }
 }
 
-function removeFieldOnce(arr, value) {
-  let index = arr.indexOf(value)
-  if (index > -1) {
-    arr.splice(index, 1)
+async function migrateSelectedCollections(
+  selectedCollections,
+  currentDB,
+  sequelize,
+  mongoConfig
+) {
+  const results = []
+  // @todo: run this asynchronously
+  for (let collectionName of selectedCollections) {
+    try {
+      const collectionImported = await migrateMongoCollection(
+        collectionName,
+        currentDB,
+        sequelize,
+        mongoConfig
+      )
+      results.push({
+        success: true,
+        collectionName,
+        collection: collectionImported,
+      })
+    } catch (err) {
+      console.error(err)
+      results.push({
+        success: false,
+        collection: { collectionName },
+        error: err.message,
+      })
+    }
+  }
+  return results
+}
+
+async function migrateMongoCollection(
+  collectionName,
+  currentDB,
+  sequelize,
+  mongoConfig
+) {
+  const mongoCollection = currentDB.collection(collectionName)
+  const modelFields = await guessMongoSchemaForCollection(mongoCollection)
+
+  modelFields.id = {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
   }
 
-  return arr
+  const Model = createSequelizeModelInSingleStore({
+    sequelize,
+    modelName: collectionName,
+    fields: modelFields,
+    tableName: collectionName,
+  })
+
+  await Model.sync({ force: true })
+  // proceed with the migration
+  const totalCount = await mongoCollection.count()
+  console.log(
+    `Proceeding to migrate ${totalCount} items in collection ${collectionName}`
+  )
+  let migrated = 0
+  while (migrated < totalCount) {
+    migrated += BULK_SIZE
+    const chunk = await mongoCollection
+      .find({})
+      .skip(migrated)
+      .limit(BULK_SIZE)
+      .toArray()
+
+    // @todo: handle duplicates from mongodb based on the _id field
+    // Now bulk insert to SingleStore
+    await Model.bulkCreate(chunk)
+  }
+}
+
+async function guessMongoSchemaForCollection(mongoCollection) {
+  const firstPage = await mongoCollection.find({}).limit(100).toArray()
+  let fieldDataTypes = firstPage.reduce((fieldTypes, record) => {
+    const recordKeys = Object.keys(record)
+    recordKeys.forEach(function (key) {
+      const value = record[key]
+      if (
+        !fieldTypes.hasOwnProperty(key) &&
+        typeof value !== 'undefined' &&
+        key !== 'id'
+      ) {
+        fieldTypes[key] = getSequelizeDataTypeForValue(value)
+      }
+    })
+    return fieldTypes
+  }, {})
+
+  return fieldDataTypes
 }
 
 function mergeObjs(obj1, obj2) {
@@ -106,6 +153,23 @@ function mergeObjs(obj1, obj2) {
     obj3[attrname] = obj2[attrname]
   }
   return obj3
+}
+
+function getSequelizeDataTypeForValue(value) {
+  const fieldType = typeof value
+  if (value instanceof Date || fieldType === 'date') {
+    return DataTypes.DATE
+  } else if (fieldType === 'string') {
+    return DataTypes.STRING
+  } else if (fieldType === 'number' || !isNaN(value)) {
+    return DataTypes.FLOAT
+  } else if (fieldType === 'boolean') {
+    return DataTypes.BOOLEAN
+  } else if (fieldType === 'object') {
+    return DataTypes.JSON
+  } else {
+    return fieldType
+  }
 }
 
 /**

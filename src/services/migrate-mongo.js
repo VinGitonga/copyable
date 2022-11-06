@@ -10,10 +10,13 @@ export const testConnectToDB = async ({ mongoDbUri }) => {
   return resp.data
 }
 
-export const testMigrate = async ({ mongoConfig, singleStoreConfig }) => {
+export const migrateMongoDBToSingleStore = async ({
+  mongoConfig,
+  singleStoreConfig,
+}) => {
   const resp = await axios.post(`${baseUrl}/migrate`, {
-    mongoConfig: mongoConfig,
-    singleStoreConfig: singleStoreConfig,
+    mongoConfig,
+    singleStoreConfig,
   })
 
   return resp.data
