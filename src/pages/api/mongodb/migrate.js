@@ -108,17 +108,17 @@ async function migrateMongoCollection(
   // proceed with the migration
   const totalCount = await mongoCollection.count()
   console.log(
-    `Proceeding to migrate ${totalCount} items in collection ${collectionName}`
+    `Proceeding to migrate ${totalCount} items in collection "${collectionName}"`
   )
   let migrated = 0
   while (migrated < totalCount) {
-    migrated += BULK_SIZE
     const chunk = await mongoCollection
       .find({})
       .skip(migrated)
       .limit(BULK_SIZE)
       .toArray()
 
+    migrated += BULK_SIZE
     // @todo: handle duplicates from mongodb based on the _id field
     // Now bulk insert to SingleStore
     await Model.bulkCreate(chunk)
