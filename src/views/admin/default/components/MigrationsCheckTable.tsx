@@ -80,7 +80,7 @@ export const columnsDataCheck = [
 // @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
   const { setTotalMigrations } = useDatabaseMigrationStore()
-  async function fetchActivities(){
+  async function fetchActivities() {
     await axios
       .get(`/api/activities`)
       .then(function (response) {
@@ -121,34 +121,34 @@ export default function MigrationsCheckTable() {
     fetchActivities()
   }, [])
   const [tableData, setTableData] = useState<TableData[]>([
-    {
-      name: ['Siglestore DB US-WEST-1', false],
-      quantity: 2458,
-      status: MigrationCheckTableStatus.PROCESSING,
-      date: 'Jan 1, 2022, 01:09',
-      progress: 17.5,
-    },
-    {
-      name: ['Copy of Company (Postgres)', true],
-      status: MigrationCheckTableStatus.COMPLETED,
-      quantity: 1485,
-      date: 'Feb 5, 2022, 13:45',
-      progress: 10.8,
-    },
-    {
-      name: ['Copy of Mongo DB', true],
-      status: MigrationCheckTableStatus.COMPLETED,
-      quantity: 1024,
-      date: 'Feb 5, 2022, 13:13',
-      progress: 21.3,
-    },
-    {
-      name: ['Copy of .CSV', true],
-      quantity: 858,
-      status: MigrationCheckTableStatus.ERROR,
-      date: 'Apr 22, 2022, 17:50',
-      progress: 31.5,
-    },
+    // {
+    //   name: ['Siglestore DB US-WEST-1', false],
+    //   quantity: 2458,
+    //   status: MigrationCheckTableStatus.PROCESSING,
+    //   date: 'Jan 1, 2022, 01:09',
+    //   progress: 17.5,
+    // },
+    // {
+    //   name: ['Copy of Company (Postgres)', true],
+    //   status: MigrationCheckTableStatus.COMPLETED,
+    //   quantity: 1485,
+    //   date: 'Feb 5, 2022, 13:45',
+    //   progress: 10.8,
+    // },
+    // {
+    //   name: ['Copy of Mongo DB', true],
+    //   status: MigrationCheckTableStatus.COMPLETED,
+    //   quantity: 1024,
+    //   date: 'Feb 5, 2022, 13:13',
+    //   progress: 21.3,
+    // },
+    // {
+    //   name: ['Copy of .CSV', true],
+    //   quantity: 858,
+    //   status: MigrationCheckTableStatus.ERROR,
+    //   date: 'Apr 22, 2022, 17:50',
+    //   progress: 31.5,
+    // },
   ])
   const formMethods = useForm<FormValues>({
     resolver: yupResolver(formSchema),
