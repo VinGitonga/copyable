@@ -272,9 +272,9 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{user?.name || 'Justina Clark'}</Text>
+                  <Text fontSize="sm">{user?.name || ''}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {user?.email || 'justina.clark@gmail.com'}
+                    {user?.email || ''}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
