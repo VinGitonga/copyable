@@ -12,7 +12,7 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ColumnInstance,
   Row,
@@ -72,6 +72,7 @@ export const columnsDataCheck = [
 
 // @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
+  const isFetching = useRef(false)
   const { setTotalMigrations, setFailurePercentage, setSuccessPercentage } =
     useDatabaseMigrationStore()
 
@@ -110,6 +111,9 @@ export default function MigrationsCheckTable() {
       .catch((err) => {
         console.error('Error while fetching data', err)
       })
+      .finally(() => {
+        isFetching.current = false
+      })
   }
 
   function refreshPieChart(activities) {
@@ -131,6 +135,17 @@ export default function MigrationsCheckTable() {
 
   useEffect(() => {
     fetchActivities()
+    const intervalRef = setTimeout(() => {
+      if (isFetching.current) {
+        return
+      }
+
+      fetchActivities()
+    }, 1000 * 15)
+
+    return () => {
+      clearInterval(intervalRef)
+    }
   }, [])
   const [tableData, setTableData] = useState<TableData[]>([
     // {
