@@ -17,8 +17,9 @@ const DashboardPage: NextPageWithLayout = () => {
   // Chakra Color Mode
   const brandColor = useColorModeValue('brand.500', 'white')
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
-  const { totalMigrations } = useDatabaseMigrationStore()
-
+  const totalMigrations = useDatabaseMigrationStore(
+    (state) => state.totalMigrations
+  )
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <>

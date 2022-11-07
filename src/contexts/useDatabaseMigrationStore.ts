@@ -12,8 +12,8 @@ export interface ICollectionsModels {
 // TODO: Define variables here for every step using ts interface
 export interface IDatabaseMigrationData {
   totalMigrations: number
-  totalErrors: number
-  totalSuccess: number
+  failurePercentage: number
+  successPercentage: number
   mongoHost: string
   selectedDb: string
   selectedCollections: string[]
@@ -23,8 +23,8 @@ export interface IDatabaseMigrationData {
 
 export interface IDatabaseMigrationState extends IDatabaseMigrationData {
   setTotalMigrations: (v: IDatabaseMigrationData['totalMigrations']) => void
-  setTotalErrors: (v: IDatabaseMigrationData['totalErrors']) => void
-  setTotalSuccess: (v: IDatabaseMigrationData['totalSuccess']) => void
+  setFailurePercentage: (v: IDatabaseMigrationData['failurePercentage']) => void
+  setSuccessPercentage: (v: IDatabaseMigrationData['successPercentage']) => void
   setMongoHost: (v: IDatabaseMigrationData['mongoHost']) => void
   setSelectedDb: (v: IDatabaseMigrationData['selectedDb']) => void
   setSelectedCollections: (
@@ -39,8 +39,8 @@ export interface IDatabaseMigrationState extends IDatabaseMigrationData {
 export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
   (set) => ({
     totalMigrations: 0,
-    totalErrors: 0,
-    totalSuccess: 0,
+    failurePercentage: 0,
+    successPercentage: 0,
     mongoHost: null,
     selectedDb: null,
     selectedCollections: null,
@@ -60,9 +60,12 @@ export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
     ) => set((state) => ({ singlestoreDatabases: v })),
     setTotalMigrations: (v: IDatabaseMigrationData['totalMigrations']) =>
       set((state) => ({ totalMigrations: v })),
-    setTotalErrors: (v: IDatabaseMigrationData['totalErrors']) =>
-      set((state) => ({ totalErrors: v })),
-    setTotalSuccess: (v: IDatabaseMigrationData['totalSuccess']) =>
-      set((state) => ({ totalSuccess: v })),
+    setFailurePercentage: (v: IDatabaseMigrationData['failurePercentage']) =>
+      set((state) => ({ failurePercentage: v })),
+    setSuccessPercentage: (v: IDatabaseMigrationData['successPercentage']) =>
+      set((state) => {
+        console.log('new value', v)
+        return { successPercentage: v }
+      }),
   })
 )
