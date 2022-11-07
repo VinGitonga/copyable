@@ -93,7 +93,7 @@ const MongoWizard: NextPageWithLayout = () => {
         <title>Copyable | MongoDB Migration Wizard</title>
       </Head>
 
-      <Steps activeStep={activeStep}>
+      <Steps activeStep={activeStep} colorScheme={'mongo'}>
         {steps.map(({ label, content }) => (
           <Step label={label} key={label}>
             <Box style={{ padding: 40 }}>{content}</Box>

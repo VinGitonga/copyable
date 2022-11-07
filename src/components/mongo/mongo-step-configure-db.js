@@ -1,21 +1,21 @@
 import {
-    Button,
-    Flex,
-    FormControl,
-    FormHelperText,
-    FormLabel,
-    Icon,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Stack,
-    useToast,
+  Button,
+  Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Icon,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Stack,
+  useToast,
 } from '@chakra-ui/react'
-import {GrFormNextLink, GrHost} from 'react-icons/gr'
-import {useState} from 'react'
-import {TbPlugConnected} from 'react-icons/tb'
-import {testConnectToDB} from 'services/migrate-mongo'
-import {useDatabaseMigrationStore} from 'contexts/useDatabaseMigrationStore'
+import { GrFormNextLink, GrHost } from 'react-icons/gr'
+import { useState } from 'react'
+import { TbPlugConnected } from 'react-icons/tb'
+import { testConnectToDB } from 'services/migrate-mongo'
+import { useDatabaseMigrationStore } from 'contexts/useDatabaseMigrationStore'
 
 // @todo: extend from Stepper.Step
 export default function MongoStepConfigureDb({ handleNextStepClick }) {
@@ -79,7 +79,7 @@ export default function MongoStepConfigureDb({ handleNextStepClick }) {
         <Button
           onClick={clickTest}
           disabled={!mongoHost}
-          colorScheme={'cyan'}
+          colorScheme={'mongo'}
           leftIcon={<TbPlugConnected />}
           isLoading={loadingTest}
           loadingText={'Connecting to MongoDB ....'}
