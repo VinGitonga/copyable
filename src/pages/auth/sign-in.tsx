@@ -29,6 +29,7 @@ import { NextPageWithLayout } from 'types/Layout'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string } from 'yup'
 import { useForm } from 'react-hook-form'
+import FormAppLogo from 'components/sidebar/FormAppLogo'
 
 const formSchema = object({
   email: string(),
@@ -132,6 +133,7 @@ const SignInPage: NextPageWithLayout = () => {
       mt={{ base: '40px', md: '6.5vh' }}
       flexDirection="column"
     >
+      <FormAppLogo />
       <Box me="auto">
         <Heading color={textColor} fontSize="36px" mb="10px">
           Sign In
