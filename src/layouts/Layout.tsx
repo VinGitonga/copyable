@@ -31,7 +31,7 @@ import {
   FiMenu,
   FiSettings,
 } from 'react-icons/fi'
-import { MdOutlineAddCircleOutline } from 'react-icons/md'
+import { MdOutlineAdd, MdOutlineAddCircleOutline } from 'react-icons/md'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
@@ -170,38 +170,48 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
   if (username) {
     lowerUserName = String(username).toLowerCase().replaceAll(' ', '')
   }
-  //
-  // const { singlestoreDatabases, setSinglestoreDatabases } =
-  //   useDatabaseMigrationStore()
-  //
-  // useEffect(() => {
-  //   fetchMySingleStoreDatabases().then(setSinglestoreDatabases)
-  // }, [])
-  // let singleStoreItem
 
-  // if (singlestoreDatabases && singlestoreDatabases.length > 0) {
-  //   singleStoreItem = (
-  //     <Select title={'My SingleStore Databases'}>
-  //       {singlestoreDatabases.map((dbs: any) => (
-  //         <option key={dbs.dbName} value={dbs.dbName}>
-  //           {dbs.dbName}
-  //         </option>
-  //       ))}
-  //     </Select>
-  //   )
-  // } else {
-  let singleStoreItem = (
-    <Button
-      colorScheme={'brand'}
-      leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
-      variant={'outline'}
-      onClick={() => router.push('/add-singlestoredb')}
-    >
-      <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
-      <Text display={{ base: 'flex', md: 'none' }}>SS DB</Text>
-    </Button>
-  )
-  // }
+  const { singlestoreDatabases, setSinglestoreDatabases } =
+    useDatabaseMigrationStore()
+
+  useEffect(() => {
+    fetchMySingleStoreDatabases().then(setSinglestoreDatabases)
+  }, [])
+  let singleStoreItem
+
+  if (singlestoreDatabases && singlestoreDatabases.length > 0) {
+    singleStoreItem = (
+      <>
+        <Select title={'My SingleStore Databases'}>
+          {singlestoreDatabases.map((dbs: any) => (
+            <option key={dbs.dbName} value={dbs.dbName}>
+              {dbs.dbName}
+            </option>
+          ))}
+        </Select>
+        <Button
+          colorScheme={'brand'}
+          variant={'outline'}
+          p={0}
+          onClick={() => router.push('/add-singlestoredb')}
+        >
+          <MdOutlineAdd size={25} />
+        </Button>
+      </>
+    )
+  } else {
+    singleStoreItem = (
+      <Button
+        colorScheme={'brand'}
+        leftIcon={<MdOutlineAddCircleOutline width={10} height={10} />}
+        variant={'outline'}
+        minWidth={'min'}
+        onClick={() => router.push('/add-singlestoredb')}
+      >
+        <Text display={{ base: 'none', md: 'flex' }}>Add SingleStore DB</Text>
+      </Button>
+    )
+  }
   return (
     <Flex
       ml={{ base: 0 }}

@@ -74,10 +74,11 @@ export const pieChartOptions: ApexGeneric = {
 
 export default function MigrationsPieCard(props: { [x: string]: any }) {
   const { failurePercentage, successPercentage } = useDatabaseMigrationStore()
-  const [chartData, setChartData] = useState<number[]>([
-    successPercentage,
-    failurePercentage,
-  ])
+  const [chartData, setChartData] = useState<number[]>([0, 0])
+  useEffect(() => {
+    setChartData([successPercentage, failurePercentage])
+  }, [successPercentage, failurePercentage])
+
   const formMethods = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: { range: MigrationPieRanges.MONTHLY },
@@ -93,10 +94,6 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
     'unset'
   )
 
-  useEffect(() => {
-    setChartData([successPercentage, failurePercentage])
-  }, [successPercentage, failurePercentage])
-
   return (
     <Card
       p="20px"
@@ -104,6 +101,7 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
       flexDirection="column"
       w="100%"
       shadow="md"
+      key={Date.now()}
       {...rest}
     >
       <Flex
