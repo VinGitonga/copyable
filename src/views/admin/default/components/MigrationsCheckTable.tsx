@@ -80,10 +80,11 @@ export const columnsDataCheck = [
 // @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
   const { setTotalMigrations } = useDatabaseMigrationStore()
-  useEffect(() => {
-    axios
+  async function fetchActivities(){
+    await axios
       .get(`/api/activities`)
       .then(function (response) {
+        // console.log(response.data)
         const activities = response.data ? response.data.activities : []
         console.log(activities)
         const cleanData = (activities || []).map((entry) => {
@@ -115,6 +116,9 @@ export default function MigrationsCheckTable() {
       .catch((err) => {
         console.error('Error while fetching data', err)
       })
+  }
+  useEffect(() => {
+    fetchActivities()
   }, [])
   const [tableData, setTableData] = useState<TableData[]>([
     {

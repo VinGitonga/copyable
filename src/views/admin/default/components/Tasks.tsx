@@ -15,6 +15,29 @@ import IconBox from 'components/icons/IconBox'
 // Assets
 import { MdCheckBox, MdDragIndicator } from 'react-icons/md'
 
+const tasks = [
+  {
+    text: 'Migrate data from MongoDB',
+    isChecked: true,
+  },
+  {
+    text: 'MySQL DB data migration',
+    isChecked: true,
+  },
+  {
+    text: 'CSV to Singlestore DB',
+    isChecked: false,
+  },
+  {
+    text: 'Migrate data from JSON',
+    isChecked: false,
+  },
+  {
+    text: 'Migration Pipeline setup',
+    isChecked: true,
+  },
+]
+
 export default function Conversion(props: { [x: string]: any }) {
   const { ...rest } = props
 
@@ -46,97 +69,31 @@ export default function Conversion(props: { [x: string]: any }) {
         <Menu ms="auto" />
       </Flex>
       <Box px="11px" w="100%">
-        <Flex w="100%" mb="20px">
-          <Checkbox me="16px" colorScheme="brandScheme" />
-          <Text
-            fontWeight="bold"
-            color={textColor}
-            fontSize="md"
-            textAlign="start"
-          >
-            Landing Page Design
-          </Text>
-          <Icon
-            ms="auto"
-            as={MdDragIndicator}
-            color="secondaryGray.600"
-            w="24px"
-            h="24px"
+        {tasks.map((item, i) => (
+          <TaskItem
+            isChecked={item.isChecked}
+            text={item.text}
+            textColor={textColor}
+            key={i}
           />
-        </Flex>
-        <Flex w="100%" mb="20px">
-          <Checkbox me="16px" defaultChecked colorScheme="brandScheme" />
-          <Text
-            fontWeight="bold"
-            color={textColor}
-            fontSize="md"
-            textAlign="start"
-          >
-            Dashboard Builder
-          </Text>
-          <Icon
-            ms="auto"
-            as={MdDragIndicator}
-            color="secondaryGray.600"
-            w="24px"
-            h="24px"
-          />
-        </Flex>
-        <Flex w="100%" mb="20px">
-          <Checkbox defaultChecked me="16px" colorScheme="brandScheme" />
-          <Text
-            fontWeight="bold"
-            color={textColor}
-            fontSize="md"
-            textAlign="start"
-          >
-            Mobile App Design
-          </Text>
-          <Icon
-            ms="auto"
-            as={MdDragIndicator}
-            color="secondaryGray.600"
-            w="24px"
-            h="24px"
-          />
-        </Flex>
-        <Flex w="100%" mb="20px">
-          <Checkbox me="16px" colorScheme="brandScheme" />
-          <Text
-            fontWeight="bold"
-            color={textColor}
-            fontSize="md"
-            textAlign="start"
-          >
-            Illustrations
-          </Text>
-          <Icon
-            ms="auto"
-            as={MdDragIndicator}
-            color="secondaryGray.600"
-            w="24px"
-            h="24px"
-          />
-        </Flex>
-        <Flex w="100%" mb="20px">
-          <Checkbox defaultChecked me="16px" colorScheme="brandScheme" />
-          <Text
-            fontWeight="bold"
-            color={textColor}
-            fontSize="md"
-            textAlign="start"
-          >
-            Promotional LP
-          </Text>
-          <Icon
-            ms="auto"
-            as={MdDragIndicator}
-            color="secondaryGray.600"
-            w="24px"
-            h="24px"
-          />
-        </Flex>
+        ))}
       </Box>
     </Card>
   )
 }
+
+const TaskItem = ({ isChecked, textColor, text }) => (
+  <Flex w="100%" mb="20px">
+    <Checkbox defaultChecked={isChecked} me="16px" colorScheme="brandScheme" />
+    <Text fontWeight="bold" color={textColor} fontSize="md" textAlign="start">
+      {text}
+    </Text>
+    <Icon
+      ms="auto"
+      as={MdDragIndicator}
+      color="secondaryGray.600"
+      w="24px"
+      h="24px"
+    />
+  </Flex>
+)
