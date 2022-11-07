@@ -28,6 +28,7 @@ import { RiEyeCloseLine } from 'react-icons/ri'
 import { useForm } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
 import Link from 'next/link'
+import FormAppLogo from 'components/sidebar/FormAppLogo'
 
 const formSchema = object({
   terms: boolean().oneOf([true], 'You must agree to continue.'),
@@ -181,6 +182,7 @@ const SignUpPage: NextPageWithLayout = () => {
       mt={{ base: '40px', md: '6.5vh' }}
       flexDirection="column"
     >
+      <FormAppLogo />
       <Box me="auto">
         <Heading color={textColor} fontSize="36px" mb="10px">
           Sign Up

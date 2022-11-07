@@ -4,12 +4,20 @@ import { useMemo } from 'react'
 import { FC } from 'react'
 import AppLogoType from './AppLogoType'
 
-const AppLogo: FC<{ responsive?: boolean }> = ({ responsive = true }) => {
+const AppLogo: FC<{ responsive?: boolean; center?: boolean }> = ({
+  responsive = true,
+  center = false,
+}) => {
   const iconFill = useColorModeValue('#8802D5', 'white')
 
   return useMemo(
     () => (
-      <Flex flex="1" h="100%" maxH="45px">
+      <Flex
+        flex="1"
+        h="45px"
+        maxH="100%"
+        {...(center ? { justify: 'center' } : {})}
+      >
         <Flex
           display={responsive ? { base: 'flex', md: 'none' } : { base: 'none' }}
           height="100%"
