@@ -115,7 +115,7 @@ export default function MongoStepProceedToImport({
               loadingText={'Migrating Data'}
               onClick={handleStartMigrationClick}
               disabled={!selectedSingleStoreDb}
-              colorScheme={'cyan'}
+              colorScheme={'mongo'}
               style={{ margin: 10 }}
             >
               Start Migrating Data
