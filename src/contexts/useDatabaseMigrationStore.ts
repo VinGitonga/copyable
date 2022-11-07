@@ -63,9 +63,6 @@ export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
     setFailurePercentage: (v: IDatabaseMigrationData['failurePercentage']) =>
       set((state) => ({ failurePercentage: v })),
     setSuccessPercentage: (v: IDatabaseMigrationData['successPercentage']) =>
-      set((state) => {
-        console.log('new value', v)
-        return { successPercentage: v }
-      }),
+      set((state) => ({ successPercentage: v })),
   })
 )
