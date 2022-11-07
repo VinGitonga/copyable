@@ -16,7 +16,7 @@ export default function FixedPlugin(props: { [x: string]: any }) {
       {...rest}
       h="60px"
       w="60px"
-      bg="brand.900"
+      bg="purple"
       zIndex="99"
       position="fixed"
       variant="no-effects"
@@ -24,7 +24,7 @@ export default function FixedPlugin(props: { [x: string]: any }) {
       right={right}
       bottom="30px"
       border="1px solid"
-      borderColor="brand.700"
+      borderColor="purple"
       borderRadius="50px"
       onClick={toggleColorMode}
       display="flex"

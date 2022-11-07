@@ -8,7 +8,6 @@ import {
   FormLabel,
   Heading,
   Input,
-  Link,
   Text,
   useColorModeValue,
   useToast,
@@ -21,6 +20,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string } from 'yup'
 
 import { useForm } from 'react-hook-form'
+import Link from 'next/link'
 
 const formSchema = object({
   email: string().email().required('Required.'),
@@ -167,7 +167,7 @@ const ForgotPassword: NextPageWithLayout = () => {
             mt="12px"
             type="submit"
             isLoading={loading}
-            loadingText={'Authenticating ...'}
+            loadingText={'Finding User...'}
           >
             Recover
           </Button>
@@ -182,7 +182,7 @@ const ForgotPassword: NextPageWithLayout = () => {
         >
           <Text color={textColorDetails} fontWeight="400" fontSize="14px">
             Already registered?
-            <Link href="/auth/sign-in">
+            <Link href="/auth/sign-in" passHref>
               <Text color={textColorBrand} as="span" ms="5px" fontWeight="500">
                 Sign In
               </Text>

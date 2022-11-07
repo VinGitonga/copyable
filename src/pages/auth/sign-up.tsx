@@ -12,7 +12,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Text,
   useColorModeValue,
   useToast,
@@ -28,6 +27,7 @@ import { boolean, object, ref, string } from 'yup'
 import { RiEyeCloseLine } from 'react-icons/ri'
 import { useForm } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
+import Link from 'next/link'
 
 const formSchema = object({
   terms: boolean().oneOf([true], 'You must agree to continue.'),
@@ -405,7 +405,7 @@ const SignUpPage: NextPageWithLayout = () => {
             mt="12px"
             type="submit"
             isLoading={loading}
-            loadingText={'Authenticating ...'}
+            loadingText={'Creating...'}
           >
             Signup
           </Button>
@@ -420,10 +420,17 @@ const SignUpPage: NextPageWithLayout = () => {
         >
           <Text color={textColorDetails} fontWeight="400" fontSize="14px">
             Already registered?
-            <Link href="/auth/sign-in">
-              <Text color={textColorBrand} as="span" ms="5px" fontWeight="500">
-                Sign In
-              </Text>
+            <Link href="/auth/sign-in" passHref>
+              <a>
+                <Text
+                  color={textColorBrand}
+                  as="span"
+                  ms="5px"
+                  fontWeight="500"
+                >
+                  Sign In
+                </Text>
+              </a>
             </Link>
           </Text>
         </Flex>

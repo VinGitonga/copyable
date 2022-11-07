@@ -291,7 +291,7 @@ const SignInPage: NextPageWithLayout = () => {
         >
           <Text color={textColorDetails} fontWeight="400" fontSize="14px">
             Not registered yet?
-            <Link href="/auth/sign-up">
+            <Link href="/auth/sign-up" passHref>
               <a>
                 <Text
                   color={textColorBrand}
