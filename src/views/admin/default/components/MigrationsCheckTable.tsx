@@ -25,14 +25,7 @@ import {
 
 // Custom components
 import Card from 'components/card/Card'
-import Menu from 'components/menu/MainMenu'
-import { TableProps } from '../variables/columnsData'
-import {
-  MdCancel,
-  MdCheckCircle,
-  MdOutlineError,
-  MdPending,
-} from 'react-icons/md'
+import { MdCheckCircle, MdOutlineError, MdPending } from 'react-icons/md'
 import { MigrationCheckTableStatus, TableData } from 'types/TableData'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -79,14 +72,14 @@ export const columnsDataCheck = [
 
 // @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
-  const { setTotalMigrations } = useDatabaseMigrationStore()
+  const { setTotalMigrations, setFailurePercentage, setSuccessPercentage } =
+    useDatabaseMigrationStore()
+
   async function fetchActivities() {
     await axios
       .get(`/api/activities`)
       .then(function (response) {
-        // console.log(response.data)
         const activities = response.data ? response.data.activities : []
-        console.log(activities)
         const cleanData = (activities || []).map((entry) => {
           const migratedCollections = entry.payload?.migratedCollections || []
           const errors = migratedCollections.filter((entry) => !entry.success)
@@ -94,6 +87,7 @@ export default function MigrationsCheckTable() {
             name: [entry.payload?.mongoDbName, true],
             quantity: migratedCollections.length,
             errors: errors.map((error) => error.error),
+            hasErrors: errors.length > 0,
             status:
               errors.length > 0
                 ? MigrationCheckTableStatus.ERROR
@@ -109,14 +103,32 @@ export default function MigrationsCheckTable() {
             progress: 100,
           }
         })
-        setTotalMigrations(cleanData.length)
+
+        refreshPieChart(cleanData)
         setTableData(cleanData)
-        // console.error('response received', response.data)
       })
       .catch((err) => {
         console.error('Error while fetching data', err)
       })
   }
+
+  function refreshPieChart(activities) {
+    const totalErrors =
+      activities.filter((record) => record.hasErrors).length || 0
+    const totalMigrations = activities.length
+    const totalSuccess = totalMigrations - totalErrors
+    const successPercentage = Math.round(
+      (totalSuccess * 100) / (totalMigrations || 1)
+    )
+    const failurePercentage = Math.round(
+      (totalErrors * 100) / (totalMigrations || 1)
+    )
+
+    setFailurePercentage(failurePercentage)
+    setSuccessPercentage(successPercentage)
+    setTotalMigrations(totalMigrations)
+  }
+
   useEffect(() => {
     fetchActivities()
   }, [])

@@ -73,21 +73,14 @@ export const pieChartOptions: ApexGeneric = {
 }
 
 export default function MigrationsPieCard(props: { [x: string]: any }) {
-  const { totalMigrations, totalErrors, totalSuccess } =
-    useDatabaseMigrationStore()
-  // useEffect(() => {
-  const successPercentage = Math.round((totalSuccess * 100) / (totalMigrations || 1))
-  const failurePercentage = Math.round((totalErrors * 100) / (totalMigrations || 1))
-
+  const { failurePercentage, successPercentage } = useDatabaseMigrationStore()
   const [chartData] = useState<number[]>([successPercentage, failurePercentage])
   const formMethods = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: { range: MigrationPieRanges.MONTHLY },
   })
-  const { register, watch } = formMethods
+  const { register } = formMethods
   const { ...rest } = props
-
-  // const selectedRange = watch('range')
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
