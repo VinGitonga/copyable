@@ -7,7 +7,7 @@ import { VSeparator } from 'components/separator/Separator'
 import { useForm } from 'react-hook-form'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ApexOptions } from 'apexcharts'
 import { useDatabaseMigrationStore } from '../../../../contexts/useDatabaseMigrationStore'
 
@@ -74,7 +74,6 @@ export const pieChartOptions: ApexGeneric = {
 
 export default function MigrationsPieCard(props: { [x: string]: any }) {
   const { failurePercentage, successPercentage } = useDatabaseMigrationStore()
-  const [chartData] = useState<number[]>([successPercentage, failurePercentage])
   const formMethods = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: { range: MigrationPieRanges.MONTHLY },
@@ -90,9 +89,10 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
     'unset'
   )
 
-  // console.log(selectedRange)
-  // setChartData([successPercentage, failurePercentage])
-  // }, [selectedRange])
+  const data = useMemo(
+    () => [successPercentage, failurePercentage],
+    [successPercentage, failurePercentage]
+  )
 
   return (
     <Card
@@ -130,7 +130,7 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
       <PieChart
         h="100%"
         w="100%"
-        chartData={chartData}
+        chartData={data}
         chartOptions={pieChartOptions}
       />
       <Card
@@ -156,7 +156,7 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
             </Text>
           </Flex>
           <Text fontSize="lg" color={textColor} fontWeight="700">
-            {chartData[0]}%
+            {data[0]}%
           </Text>
         </Flex>
         <VSeparator mx={{ base: '60px', xl: '60px', '2xl': '60px' }} />
@@ -173,7 +173,7 @@ export default function MigrationsPieCard(props: { [x: string]: any }) {
             </Text>
           </Flex>
           <Text fontSize="lg" color={textColor} fontWeight="700">
-            {chartData[1]}%
+            {data[1]}%
           </Text>
         </Flex>
       </Card>
