@@ -6,17 +6,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
-  Icon,
   Input,
-  InputGroup,
-  InputRightElement,
   Text,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 
-import { useCallback, useEffect, useState } from 'react'
-import { RiEyeCloseLine } from 'react-icons/ri'
+import { useCallback, useState } from 'react'
+
 import Layout from '../layouts/Layout'
 import { useSession } from 'next-auth/react'
 import { saveDbToProfile } from 'services/save-db-to-profile'
@@ -27,23 +24,18 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string } from 'yup'
 
 import { useForm } from 'react-hook-form'
-import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { CreateSinglestoreDBErrorCode } from 'types/Singlestore'
 import { getFromLocalStorage, setInLocalStorage } from '../utils/local-storage'
 
 const formSchema = object({
   host: string().required('Required.'),
   dbName: string().required('Required.'),
-  dbUser: string().required('Required.'),
-  dbPassword: string().required('Required.'),
 })
 
 interface FormValues {
   host: string
   port: string
   dbName: string
-  dbUser: string
-  dbPassword: string
 }
 
 const LOCAL_STORAGE_DEFAULT_VALUES_KEY = 'singleStoreConnection'
@@ -78,14 +70,10 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
 
   const textColor = useColorModeValue('navy.700', 'white')
   const textColorSecondary = 'gray.400'
-  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600')
-  const textColorBrand = useColorModeValue('brand.500', 'white')
   const brandStars = useColorModeValue('brand.500', 'brand.400')
 
   const [loading, setLoading] = useState(false)
-  const [show, setShow] = useState(false)
 
-  const handleClick = () => setShow(!show)
   const toast = useToast()
   const { data: session } = useSession()
   const router = useRouter()
@@ -99,57 +87,52 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
     })
   }
 
-  const onSubmit = useCallback(
-    async ({ dbName, dbPassword, dbUser, host, port }: FormValues) => {
-      if (!session?.user?.email) {
-        return
-      }
+  const onSubmit = useCallback(async ({ dbName, host, port }: FormValues) => {
+    if (!session?.user?.email) {
+      return
+    }
 
-      // @ts-ignore
-      const userId = session?.user?.id
-      if (!host || !dbUser || !dbPassword || !dbName) {
-        customToast({ text: 'Please fill all the inputs', status: 'warning' })
+    // @ts-ignore
+    const userId = session?.user?.id
+    if (!host || !dbName) {
+      customToast({ text: 'Please fill all the inputs', status: 'warning' })
+      return
+    } else {
+      setDefaultData({ dbName, host, port })
+      // validate user is logged in
+      if (!session.user) {
+        customToast({
+          text: 'Please login first to create a db to profile',
+          status: 'error',
+        })
         return
       } else {
-        setDefaultData({ dbName, dbPassword, dbUser, host, port })
-        // validate user is logged in
-        if (!session.user) {
-          customToast({
-            text: 'Please login first to create a db to profile',
-            status: 'error',
-          })
-          return
-        } else {
-          setLoading(true)
-          let dbInfo = {
-            dbName: dbName,
-            dbHost: host,
-            dbPort: port,
-            dbUser: dbUser,
-            dbPassword: dbPassword,
-            dbOwner: userId,
-          }
-          let response: any = {}
+        setLoading(true)
+        let dbInfo = {
+          dbName: dbName,
+          dbHost: host,
+          dbPort: port,
+          dbOwner: userId,
+        }
+        let response: any = {}
 
-          try {
-            response = await saveDbToProfile({ dbDetails: dbInfo })
-          } catch (err) {
-            console.log('add-singlestore-db:onSbumit:error', err)
-          }
-          console.log(response)
-          let { message = 'Something Failed.', success, code } = response
-          if (success || code === CreateSinglestoreDBErrorCode.EXISTS) {
-            customToast({ text: message, status: 'success' })
-            router.push('/dashboard')
-          } else {
-            setLoading(false)
-            customToast({ text: message, status: 'error' })
-          }
+        try {
+          response = await saveDbToProfile({ dbDetails: dbInfo })
+        } catch (err) {
+          console.log('add-singlestore-db:onSbumit:error', err)
+        }
+        console.log(response)
+        let { message = 'Something Failed.', success, code } = response
+        if (success || code === CreateSinglestoreDBErrorCode.EXISTS) {
+          customToast({ text: message, status: 'success' })
+          router.push('/dashboard')
+        } else {
+          setLoading(false)
+          customToast({ text: message, status: 'error' })
         }
       }
-    },
-    []
-  )
+    }
+  }, [])
 
   return (
     <Flex
@@ -187,7 +170,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
         maxW="100%"
         background="transparent"
         borderRadius="15px"
-        mx={{ base: 'auto', lg: 'unset' }}
+        mx={{ base: 'auto' }}
         me="auto"
         mb={{ base: '20px', md: 'auto' }}
       >
@@ -259,64 +242,6 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
             />
             <FormErrorMessage>
               {errors.dbName && errors.dbName.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.dbUser} mb="24px">
-            <FormLabel
-              display="flex"
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-            >
-              Database User<Text color={brandStars}>*</Text>
-            </FormLabel>
-            <Input
-              {...register('dbUser')}
-              variant="auth"
-              fontSize="sm"
-              placeholder="admin"
-              fontWeight="500"
-              size="lg"
-              autoComplete={'dbUser'}
-            />
-            <FormErrorMessage>
-              {errors.dbUser && errors.dbUser.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.dbPassword} mb="24px">
-            <FormLabel
-              display="flex"
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-            >
-              Database Password<Text color={brandStars}>*</Text>
-            </FormLabel>
-            <InputGroup size="md">
-              <Input
-                isRequired={true}
-                fontSize="sm"
-                placeholder="Password"
-                autoComplete={'dbPassword'}
-                mb="24px"
-                size="lg"
-                type={show ? 'text' : 'password'}
-                variant="auth"
-                {...register('dbPassword')}
-              />
-              <InputRightElement display="flex" alignItems="center" mt="4px">
-                <Icon
-                  color={textColorSecondary}
-                  _hover={{ cursor: 'pointer' }}
-                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
-                />
-              </InputRightElement>
-            </InputGroup>
-            <FormErrorMessage>
-              {errors.dbPassword && errors.dbPassword.message}
             </FormErrorMessage>
           </FormControl>
 
