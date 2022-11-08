@@ -16,12 +16,16 @@ export interface IDatabaseMigrationData {
   successPercentage: number
   mongoHost: string
   selectedDb: string
+  sDBPassword: string | null
+  sDBUsername: string | null
   selectedCollections: string[]
   collectionModels: ICollectionsModels
   singlestoreDatabases: string[]
 }
 
 export interface IDatabaseMigrationState extends IDatabaseMigrationData {
+  setSDBPassword: (v: IDatabaseMigrationData['sDBPassword']) => void
+  setSDBUsername: (v: IDatabaseMigrationData['sDBUsername']) => void
   setTotalMigrations: (v: IDatabaseMigrationData['totalMigrations']) => void
   setFailurePercentage: (v: IDatabaseMigrationData['failurePercentage']) => void
   setSuccessPercentage: (v: IDatabaseMigrationData['successPercentage']) => void
@@ -38,6 +42,8 @@ export interface IDatabaseMigrationState extends IDatabaseMigrationData {
 
 export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
   (set) => ({
+    sDBPassword: null,
+    sDBUsername: null,
     totalMigrations: 0,
     failurePercentage: 0,
     successPercentage: 0,
@@ -46,6 +52,10 @@ export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
     selectedCollections: null,
     collectionModels: null,
     singlestoreDatabases: null,
+    setSDBPassword: (v: IDatabaseMigrationData['sDBPassword']) =>
+      set((state) => ({ sDBUsername: v })),
+    setSDBUsername: (v: IDatabaseMigrationData['sDBUsername']) =>
+      set((state) => ({ sDBPassword: v })),
     setMongoHost: (v: IDatabaseMigrationData['mongoHost']) =>
       set((state) => ({ mongoHost: v })),
     setSelectedDb: (v: IDatabaseMigrationData['selectedDb']) =>

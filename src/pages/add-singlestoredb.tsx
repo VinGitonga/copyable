@@ -15,11 +15,10 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
-import { useCallback, useEffect, useState } from 'react'
-import { RiEyeCloseLine } from 'react-icons/ri'
+import { useCallback, useState } from 'react'
+
 import Layout from '../layouts/Layout'
 import { useSession } from 'next-auth/react'
-import { saveDbToProfile } from 'services/save-db-to-profile'
 import { useRouter } from 'next/router'
 import { NextPageWithLayout } from 'types/Layout'
 
@@ -27,23 +26,25 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string } from 'yup'
 
 import { useForm } from 'react-hook-form'
-import { MdOutlineRemoveRedEye } from 'react-icons/md'
-import { CreateSinglestoreDBErrorCode } from 'types/Singlestore'
 import { getFromLocalStorage, setInLocalStorage } from '../utils/local-storage'
+import { RiEyeCloseLine } from 'react-icons/ri'
+import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { saveDbToProfile } from 'services/save-db-to-profile'
+import { CreateSinglestoreDBErrorCode } from 'types/Singlestore'
 
 const formSchema = object({
-  host: string().required('Required.'),
-  dbName: string().required('Required.'),
   dbUser: string().required('Required.'),
   dbPassword: string().required('Required.'),
+  host: string().required('Required.'),
+  dbName: string().required('Required.'),
 })
 
 interface FormValues {
+  dbPassword: string
+  dbUser: string
   host: string
   port: string
   dbName: string
-  dbUser: string
-  dbPassword: string
 }
 
 const LOCAL_STORAGE_DEFAULT_VALUES_KEY = 'singleStoreConnection'
@@ -56,7 +57,9 @@ const getDefaultData = () => {
   return { dbName: '', dbPassword: '', dbUser: '', port: '', host: '' }
 }
 
-const setDefaultData = (defaultData: FormValues) => {
+const setDefaultData = (
+  defaultData: Omit<FormValues, 'dbUser' | 'dbPassword'>
+) => {
   try {
     setInLocalStorage(
       LOCAL_STORAGE_DEFAULT_VALUES_KEY,
@@ -78,8 +81,6 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
 
   const textColor = useColorModeValue('navy.700', 'white')
   const textColorSecondary = 'gray.400'
-  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600')
-  const textColorBrand = useColorModeValue('brand.500', 'white')
   const brandStars = useColorModeValue('brand.500', 'brand.400')
 
   const [loading, setLoading] = useState(false)
@@ -100,18 +101,17 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
   }
 
   const onSubmit = useCallback(
-    async ({ dbName, dbPassword, dbUser, host, port }: FormValues) => {
+    async ({ dbName, host, port, dbPassword, dbUser }: FormValues) => {
       if (!session?.user?.email) {
         return
       }
 
       // @ts-ignore
       const userId = session?.user?.id
-      if (!host || !dbUser || !dbPassword || !dbName) {
+      if (!host || !dbName || !dbPassword || !dbUser) {
         customToast({ text: 'Please fill all the inputs', status: 'warning' })
         return
       } else {
-        setDefaultData({ dbName, dbPassword, dbUser, host, port })
         // validate user is logged in
         if (!session.user) {
           customToast({
@@ -122,13 +122,16 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
         } else {
           setLoading(true)
           let dbInfo = {
-            dbName: dbName,
+            dbName,
             dbHost: host,
             dbPort: port,
-            dbUser: dbUser,
-            dbPassword: dbPassword,
             dbOwner: userId,
+            dbUser,
+            dbPassword,
           }
+
+          setDefaultData({ dbName, host, port })
+
           let response: any = {}
 
           try {
@@ -187,7 +190,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
         maxW="100%"
         background="transparent"
         borderRadius="15px"
-        mx={{ base: 'auto', lg: 'unset' }}
+        mx={{ base: 'auto' }}
         me="auto"
         mb={{ base: '20px', md: 'auto' }}
       >
@@ -209,9 +212,6 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
               placeholder="svc-46f<......>.svc.singlestore.com"
               fontWeight="500"
               size="lg"
-              // name={'host'}
-              // value={formData.host || ''}
-              // onChange={handleChangeFormField}
             />
             <FormErrorMessage>
               {errors.host && errors.host.message}
@@ -247,7 +247,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
               fontWeight="500"
               color={textColor}
             >
-              New Database Name<Text color={brandStars}>*</Text>
+              Database Name<Text color={brandStars}>*</Text>
             </FormLabel>
             <Input
               {...register('dbName')}
@@ -278,7 +278,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
               placeholder="admin"
               fontWeight="500"
               size="lg"
-              autoComplete={'dbUser'}
+              autoComplete="off"
             />
             <FormErrorMessage>
               {errors.dbUser && errors.dbUser.message}
@@ -299,7 +299,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
                 isRequired={true}
                 fontSize="sm"
                 placeholder="Password"
-                autoComplete={'dbPassword'}
+                autoComplete="off"
                 mb="24px"
                 size="lg"
                 type={show ? 'text' : 'password'}
