@@ -60,6 +60,7 @@ const MongoWizard: NextPageWithLayout = () => {
       content: (
         <MongoStepSelectDb
           databases={databases}
+          currentDb={currentDb}
           setCurrentDb={setCurrentDb}
           handlePreviousStepClick={prevStep}
           handleNextStepClick={onClickNextToStep3}

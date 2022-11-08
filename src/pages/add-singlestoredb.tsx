@@ -98,7 +98,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
       customToast({ text: 'Please fill all the inputs', status: 'warning' })
       return
     } else {
-      setDefaultData({ dbName, host, port })
+      
       // validate user is logged in
       if (!session.user) {
         customToast({
@@ -114,22 +114,27 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
           dbPort: port,
           dbOwner: userId,
         }
-        let response: any = {}
 
-        try {
-          response = await saveDbToProfile({ dbDetails: dbInfo })
-        } catch (err) {
-          console.log('add-singlestore-db:onSbumit:error', err)
-        }
-        console.log(response)
-        let { message = 'Something Failed.', success, code } = response
-        if (success || code === CreateSinglestoreDBErrorCode.EXISTS) {
-          customToast({ text: message, status: 'success' })
-          router.push('/dashboard')
-        } else {
-          setLoading(false)
-          customToast({ text: message, status: 'error' })
-        }
+        setDefaultData({ dbName, host, port })
+        
+        customToast({text: "Database Added successfully"})
+        router.push('/dashboard')
+        // let response: any = {}
+
+        // try {
+        //   response = await saveDbToProfile({ dbDetails: dbInfo })
+        // } catch (err) {
+        //   console.log('add-singlestore-db:onSbumit:error', err)
+        // }
+        // console.log(response)
+        // let { message = 'Something Failed.', success, code } = response
+        // if (success || code === CreateSinglestoreDBErrorCode.EXISTS) {
+        //   customToast({ text: message, status: 'success' })
+        //   router.push('/dashboard')
+        // } else {
+        //   setLoading(false)
+        //   customToast({ text: message, status: 'error' })
+        // }
       }
     }
   }, [])

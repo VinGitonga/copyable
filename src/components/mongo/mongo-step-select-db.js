@@ -1,17 +1,14 @@
-import {Box, Button, Select, Text} from '@chakra-ui/react'
+import { Box, Button, Select, Text, Tooltip } from '@chakra-ui/react'
 
 export default function MongoStepSelectDb({
   databases,
+  currentDb,
   setCurrentDb,
   handleNextStepClick,
   handlePreviousStepClick,
 }) {
   function handleSelectDatabase(e) {
     setCurrentDb(e.target.value)
-  }
-
-  if (!databases || databases.length === 0) {
-    return <Box textAlign={'center'}>Ups, no database found</Box>
   }
 
   return (
@@ -21,18 +18,31 @@ export default function MongoStepSelectDb({
         import below
       </Text>
       <br />
-      <Select placeholder="Select a database" onChange={handleSelectDatabase}>
-        {databases.map(function (db) {
-          return (
-            <option key={db.name} value={db.name}>
-              {db.name}
-            </option>
-          )
-        })}
-      </Select>
+      {!databases || databases.length === 0 ? (
+        <Box textAlign={'center'}>Ups, no database found</Box>
+      ) : (
+        <Select placeholder="Select a database" onChange={handleSelectDatabase}>
+          {databases.map(function (db) {
+            return (
+              <option key={db.name} value={db.name}>
+                {db.name}
+              </option>
+            )
+          })}
+        </Select>
+      )}
       <br />
       <Button onClick={handlePreviousStepClick}>Prev Step</Button>
-      <Button onClick={handleNextStepClick}>Next Step</Button>
+      <Tooltip
+        hasArrow
+        placement="top"
+        isDisabled={currentDb ? true : false}
+        label={'Select Database to Proceed'}
+      >
+        <Button disabled={currentDb ? false : true} onClick={handleNextStepClick}>
+          Next Step
+        </Button>
+      </Tooltip>
     </Box>
   )
 }
