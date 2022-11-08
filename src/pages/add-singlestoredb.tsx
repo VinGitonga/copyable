@@ -85,7 +85,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false)
 
-  const handleClick = () => setShow(!show)
+  const handlePasswordInput = () => setShow(!show)
   const toast = useToast()
   const { data: session } = useSession()
   const router = useRouter()
@@ -311,7 +311,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
                   as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
+                  onClick={handlePasswordInput}
                 />
               </InputRightElement>
             </InputGroup>
