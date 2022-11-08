@@ -46,14 +46,10 @@ async function addSingleStoreDBToProfile(req, res) {
         success: true,
       })
     } else {
-      // proceed to create the dbInstance to profile
-      // @todo: @xtealer, please don't store database information here
       let newDbInstance = await db.singlestoredbs.create({
         dbName: dbName,
         dbHost: dbHost,
         dbOwner: dbOwner,
-        dbUser: dbUser,
-        dbPassword: dbPassword,
       })
 
       console.log(newDbInstance)

@@ -81,7 +81,7 @@ const SignUpPage: NextPageWithLayout = () => {
   )
   const [show, setShow] = useState(false)
 
-  const handleClick = () => setShow(!show)
+  const handlePasswordInput = () => setShow(!show)
 
   const onSubmit = async ({
     name,
@@ -309,7 +309,7 @@ const SignUpPage: NextPageWithLayout = () => {
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
                   as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
+                  onClick={handlePasswordInput}
                 />
               </InputRightElement>
             </InputGroup>
@@ -342,7 +342,7 @@ const SignUpPage: NextPageWithLayout = () => {
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
                   as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
+                  onClick={handlePasswordInput}
                 />
               </InputRightElement>
             </InputGroup>

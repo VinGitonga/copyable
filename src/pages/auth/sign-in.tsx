@@ -66,7 +66,7 @@ const SignInPage: NextPageWithLayout = () => {
   )
   const [show, setShow] = useState(false)
 
-  const handleClick = () => setShow(!show)
+  const handlePasswordInput = () => setShow(!show)
 
   const onSubmit = async ({ email, password }: FormValues) => {
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
@@ -235,7 +235,7 @@ const SignInPage: NextPageWithLayout = () => {
                   color={textColorSecondary}
                   _hover={{ cursor: 'pointer' }}
                   as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
+                  onClick={handlePasswordInput}
                 />
               </InputRightElement>
             </InputGroup>
