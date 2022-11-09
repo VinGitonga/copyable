@@ -1,3 +1,7 @@
+# Copyable
+
+The aim of this project is to have a SaaS tool capable of migrating existing schema and data from multiple databases to SingleStore DB with an intuitive UI.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
