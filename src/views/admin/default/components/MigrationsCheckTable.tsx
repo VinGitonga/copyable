@@ -12,7 +12,7 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import {
   ColumnInstance,
   Row,
@@ -71,7 +71,6 @@ export const columnsDataCheck = [
   },
 ]
 
-// @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
   const isFetching = useRef(false)
   const {
