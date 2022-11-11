@@ -20,10 +20,53 @@ export interface IDatabaseMigrationState extends IDashboardData {
   setSuccessPercentage: (v: IDashboardData['successPercentage']) => void
 }
 
+const created = new Date()
+
 export const useDashboardStore = create<IDatabaseMigrationState>((set) => ({
   notificationsData: [],
   migrationsData: [],
-  tasksData: [],
+  tasksData: [
+    {
+      text: 'Migrate data from MongoDB',
+      isChecked: true,
+      created: created,
+      updated: created,
+      id: '0',
+      deleted: false,
+    },
+    {
+      text: 'MySQL DB data migration',
+      isChecked: true,
+      created: created,
+      updated: created,
+      id: '1',
+      deleted: false,
+    },
+    {
+      text: 'CSV to Singlestore DB',
+      isChecked: false,
+      created: created,
+      updated: created,
+      id: '2',
+      deleted: false,
+    },
+    {
+      text: 'Migrate data from JSON',
+      isChecked: false,
+      created: created,
+      updated: created,
+      id: '3',
+      deleted: false,
+    },
+    {
+      text: 'Migration Pipeline setup',
+      isChecked: true,
+      created: created,
+      updated: created,
+      id: '4',
+      deleted: false,
+    },
+  ],
   totalMigrations: 0,
   failurePercentage: 0,
   successPercentage: 0,

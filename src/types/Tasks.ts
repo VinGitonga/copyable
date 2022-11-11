@@ -1,7 +1,7 @@
 export interface TaskItem {
   id: string
-  description: string
-  completed: boolean
+  text: string
+  isChecked: boolean
   created: Date
   deleted: boolean
   updated: Date

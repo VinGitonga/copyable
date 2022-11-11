@@ -14,31 +14,10 @@ import IconBox from 'components/icons/IconBox'
 
 // Assets
 import { MdCheckBox, MdDragIndicator } from 'react-icons/md'
-
-const tasks = [
-  {
-    text: 'Migrate data from MongoDB',
-    isChecked: true,
-  },
-  {
-    text: 'MySQL DB data migration',
-    isChecked: true,
-  },
-  {
-    text: 'CSV to Singlestore DB',
-    isChecked: false,
-  },
-  {
-    text: 'Migrate data from JSON',
-    isChecked: false,
-  },
-  {
-    text: 'Migration Pipeline setup',
-    isChecked: true,
-  },
-]
+import { useDashboardStore } from 'contexts/useDashboardStore'
 
 export default function Conversion(props: { [x: string]: any }) {
+  const { tasksData: tasks } = useDashboardStore()
   const { ...rest } = props
 
   // Chakra Color Mode
