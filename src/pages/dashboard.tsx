@@ -53,7 +53,12 @@ const DashboardPage: NextPageWithLayout = () => {
             value={totalMigrations}
           />
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
+        <SimpleGrid
+          columns={{ base: 1, md: 1, xl: 2 }}
+          gap="20px"
+          mb="20px"
+          minH="50vh"
+        >
           <MigrationsCheckTable />
           <MigrationsPieCard />
         </SimpleGrid>

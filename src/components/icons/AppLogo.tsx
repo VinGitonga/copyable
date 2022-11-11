@@ -23,7 +23,7 @@ const AppLogo: FC<{ responsive?: boolean; center?: boolean }> = ({
           height="100%"
           align="center"
         >
-          <Box h="80%">
+          <Box h="80%" minW="25px">
             <AppLogoType />
           </Box>
         </Flex>

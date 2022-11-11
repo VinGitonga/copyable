@@ -221,8 +221,9 @@ export default function MigrationsCheckTable() {
       flexDirection="column"
       w="100%"
       px="0px"
-      overflowX={{ sm: 'scroll', lg: 'hidden' }}
       shadow="md"
+      minH="100%"
+      h="50vh"
     >
       <Flex px="25px" justify="space-between" align="center">
         <Text
@@ -246,136 +247,152 @@ export default function MigrationsCheckTable() {
           <option value="yearly">Yearly</option>
         </Select>
       </Flex>
-      <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
-        <Thead>
-          {headerGroups.map((headerGroup, index: number) => (
-            <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
-              {headerGroup.headers.map(
-                (
-                  column: ColumnInstance & UseTableColumnProps<{}>,
-                  index: number
-                ) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    pe="10px"
-                    key={index}
-                    borderColor={borderColor}
-                  >
-                    <Flex
-                      justify="space-between"
-                      align="center"
-                      fontSize={{ sm: '10px', lg: '12px' }}
-                      color="gray.400"
+      <Flex flex="1" overflow="auto">
+        <Table
+          {...getTableProps()}
+          variant="simple"
+          color="gray.500"
+          mb="24px"
+          h="full"
+        >
+          <Thead>
+            {headerGroups.map((headerGroup, index: number) => (
+              <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                {headerGroup.headers.map(
+                  (
+                    column: ColumnInstance & UseTableColumnProps<{}>,
+                    index: number
+                  ) => (
+                    <Th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      pe="10px"
+                      key={index}
+                      borderColor={borderColor}
                     >
-                      {column.render('Header')}
-                    </Flex>
-                  </Th>
-                )
-              )}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {page.map((row: Row, index: number) => {
-            prepareRow(row)
-            return (
-              <Tr {...row.getRowProps()} key={index}>
-                {row.cells.map((cell, index: number) => {
-                  let data
-                  if (cell.column.Header === 'NAME') {
-                    data = (
-                      <Flex align="center">
-                        <Checkbox
-                          defaultChecked={cell.value[1]}
-                          colorScheme="brandScheme"
-                          me="10px"
-                        />
-                        <Text color={textColor} fontSize="sm" fontWeight="700">
-                          {cell.value[0]}
-                        </Text>
+                      <Flex
+                        justify="space-between"
+                        align="center"
+                        fontSize={{ sm: '10px', lg: '12px' }}
+                        color="gray.400"
+                      >
+                        {column.render('Header')}
                       </Flex>
-                    )
-                  } else if (cell.column.Header === 'PROGRESS') {
-                    data = (
-                      <Flex align="center">
-                        <Text
-                          me="10px"
-                          color={textColor}
-                          fontSize="sm"
-                          fontWeight="700"
-                        >
-                          {cell.value}%
-                        </Text>
-                      </Flex>
-                    )
-                  } else if (cell.column.Header === 'STATUS') {
-                    data = (
-                      <Flex align="center">
-                        <Icon
-                          w="24px"
-                          h="24px"
-                          me="5px"
-                          color={
-                            cell.value === MigrationCheckTableStatus.COMPLETED
-                              ? 'green.500'
-                              : cell.value === MigrationCheckTableStatus.ERROR
-                              ? 'red.500'
-                              : cell.value ===
-                                MigrationCheckTableStatus.PROCESSING
-                              ? 'orange.500'
-                              : null
-                          }
-                          as={
-                            cell.value === MigrationCheckTableStatus.COMPLETED
-                              ? MdCheckCircle
-                              : cell.value ===
-                                MigrationCheckTableStatus.PROCESSING
-                              ? MdPending
-                              : cell.value === MigrationCheckTableStatus.ERROR
-                              ? MdOutlineError
-                              : null
-                          }
-                        />
-                        <Text color={textColor} fontSize="sm" fontWeight="700">
+                    </Th>
+                  )
+                )}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {page.map((row: Row, index: number) => {
+              prepareRow(row)
+              return (
+                <Tr {...row.getRowProps()} key={index}>
+                  {row.cells.map((cell, index: number) => {
+                    let data
+                    if (cell.column.Header === 'NAME') {
+                      data = (
+                        <Flex align="center">
+                          <Checkbox
+                            defaultChecked={cell.value[1]}
+                            colorScheme="brandScheme"
+                            me="10px"
+                          />
+                          <Text
+                            color={textColor}
+                            fontSize="sm"
+                            fontWeight="700"
+                          >
+                            {cell.value[0]}
+                          </Text>
+                        </Flex>
+                      )
+                    } else if (cell.column.Header === 'PROGRESS') {
+                      data = (
+                        <Flex align="center">
+                          <Text
+                            me="10px"
+                            color={textColor}
+                            fontSize="sm"
+                            fontWeight="700"
+                          >
+                            {cell.value}%
+                          </Text>
+                        </Flex>
+                      )
+                    } else if (cell.column.Header === 'STATUS') {
+                      data = (
+                        <Flex align="center">
+                          <Icon
+                            w="24px"
+                            h="24px"
+                            me="5px"
+                            color={
+                              cell.value === MigrationCheckTableStatus.COMPLETED
+                                ? 'green.500'
+                                : cell.value === MigrationCheckTableStatus.ERROR
+                                ? 'red.500'
+                                : cell.value ===
+                                  MigrationCheckTableStatus.PROCESSING
+                                ? 'orange.500'
+                                : null
+                            }
+                            as={
+                              cell.value === MigrationCheckTableStatus.COMPLETED
+                                ? MdCheckCircle
+                                : cell.value ===
+                                  MigrationCheckTableStatus.PROCESSING
+                                ? MdPending
+                                : cell.value === MigrationCheckTableStatus.ERROR
+                                ? MdOutlineError
+                                : null
+                            }
+                          />
+                          <Text
+                            color={textColor}
+                            fontSize="sm"
+                            fontWeight="700"
+                          >
+                            {cell.value}
+                          </Text>
+                        </Flex>
+                      )
+                    } else if (cell.column.Header === 'TABLES') {
+                      data = (
+                        <Text color="brand.400" fontSize="sm" fontWeight="700">
                           {cell.value}
                         </Text>
-                      </Flex>
-                    )
-                  } else if (cell.column.Header === 'TABLES') {
-                    data = (
-                      <Text color="brand.400" fontSize="sm" fontWeight="700">
-                        {cell.value}
-                      </Text>
-                    )
-                  } else if (cell.column.Header === 'DATE') {
-                    data = (
-                      <Text
-                        color={textColor}
-                        fontSize="sm"
-                        minW="max"
-                        fontWeight="700"
+                      )
+                    } else if (cell.column.Header === 'DATE') {
+                      data = (
+                        <Text
+                          color={textColor}
+                          fontSize="sm"
+                          minW="max"
+                          fontWeight="700"
+                        >
+                          {cell.value}
+                        </Text>
+                      )
+                    }
+                    return (
+                      <Td
+                        {...cell.getCellProps()}
+                        key={index}
+                        fontSize={{ sm: '14px' }}
+                        minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+                        borderColor="transparent"
                       >
-                        {cell.value}
-                      </Text>
+                        {data}
+                      </Td>
                     )
-                  }
-                  return (
-                    <Td
-                      {...cell.getCellProps()}
-                      key={index}
-                      fontSize={{ sm: '14px' }}
-                      minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                      borderColor="transparent"
-                    >
-                      {data}
-                    </Td>
-                  )
-                })}
-              </Tr>
-            )
-          })}
-        </Tbody>
-      </Table>
+                  })}
+                </Tr>
+              )
+            })}
+          </Tbody>
+        </Table>
+      </Flex>
     </Card>
   )
 }
