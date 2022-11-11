@@ -237,7 +237,7 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
         </Link>
       </Flex>
 
-      <HStack spacing={{ base: '0', md: '6' }}>
+      <HStack spacing={{ base: '2', md: '6' }}>
         {singleStoreItem}
         <IconButton
           size="lg"
@@ -254,6 +254,7 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
           h="18px"
           w="max-content"
           onClick={toggleColorMode}
+          display={{ base: 'none', md: 'unset' }}
         >
           <Icon
             me="10px"
@@ -296,6 +297,23 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}
             >
+              <MenuItem
+                icon={
+                  <Flex h="full">
+                    <Icon
+                      me="10px"
+                      h="18px"
+                      w="18px"
+                      color={navbarIcon}
+                      as={colorMode === 'light' ? IoMdMoon : IoMdSunny}
+                    />
+                  </Flex>
+                }
+                onClick={toggleColorMode}
+              >
+                Theme
+              </MenuItem>
+
               <NextLink href="/profile">
                 <MenuItem>Profile</MenuItem>
               </NextLink>
