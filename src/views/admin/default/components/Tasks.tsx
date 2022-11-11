@@ -9,12 +9,12 @@ import {
 } from '@chakra-ui/react'
 // Custom components
 import Card from 'components/card/Card'
-import Menu from 'components/menu/MainMenu'
 import IconBox from 'components/icons/IconBox'
 
 // Assets
-import { MdCheckBox, MdDragIndicator } from 'react-icons/md'
+import { MdCheckBox } from 'react-icons/md'
 import { useDashboardStore } from 'contexts/useDashboardStore'
+import { DeleteIcon } from '@chakra-ui/icons'
 
 export default function Conversion(props: { [x: string]: any }) {
   const { tasksData: tasks } = useDashboardStore()
@@ -45,7 +45,6 @@ export default function Conversion(props: { [x: string]: any }) {
         <Text color={textColor} fontSize="lg" fontWeight="700">
           Tasks
         </Text>
-        <Menu ms="auto" />
       </Flex>
       <Box px="11px" w="100%">
         {tasks.map((item, i) => (
@@ -61,18 +60,32 @@ export default function Conversion(props: { [x: string]: any }) {
   )
 }
 
-const TaskItem = ({ isChecked, textColor, text }) => (
-  <Flex w="100%" mb="20px">
-    <Checkbox defaultChecked={isChecked} me="16px" colorScheme="brandScheme" />
-    <Text fontWeight="bold" color={textColor} fontSize="md" textAlign="start">
-      {text}
-    </Text>
-    <Icon
-      ms="auto"
-      as={MdDragIndicator}
-      color="secondaryGray.600"
-      w="24px"
-      h="24px"
-    />
-  </Flex>
-)
+const TaskItem = ({ isChecked, textColor, text }) => {
+  const deleteIconColor = useColorModeValue('red.600', 'red.400')
+  return (
+    <Flex w="100%" mb="20px">
+      <Checkbox
+        defaultChecked={isChecked}
+        me="16px"
+        colorScheme="brandScheme"
+      />
+      <Text
+        fontWeight="bold"
+        textDecoration={isChecked ? 'line-through' : 'unset'}
+        color={textColor}
+        fontSize="md"
+        textAlign="start"
+      >
+        {text}
+      </Text>
+      <Icon
+        cursor="pointer"
+        ms="auto"
+        as={DeleteIcon}
+        color={deleteIconColor}
+        w="24px"
+        h="24px"
+      />
+    </Flex>
+  )
+}
