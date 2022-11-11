@@ -9,7 +9,7 @@ import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { ApexOptions } from 'apexcharts'
-import { useDatabaseMigrationStore } from '../../../../contexts/useDatabaseMigrationStore'
+import { useDashboardStore } from 'contexts/useDashboardStore'
 
 const formSchema = object({
   range: string(),
@@ -73,7 +73,7 @@ export const pieChartOptions: ApexGeneric = {
 }
 
 export default function MigrationsPieCard(props: { [x: string]: any }) {
-  const { failurePercentage, successPercentage } = useDatabaseMigrationStore()
+  const { failurePercentage, successPercentage } = useDashboardStore()
   const [chartData, setChartData] = useState<number[]>([0, 0])
   useEffect(() => {
     setChartData([successPercentage, failurePercentage])

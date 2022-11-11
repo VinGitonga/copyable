@@ -26,12 +26,13 @@ import {
 // Custom components
 import Card from 'components/card/Card'
 import { MdCheckCircle, MdOutlineError, MdPending } from 'react-icons/md'
-import { MigrationCheckTableStatus, TableData } from 'types/TableData'
+import { MigrationCheckTableStatus } from 'types/TableData'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import { useDatabaseMigrationStore } from '../../../../contexts/useDatabaseMigrationStore'
+
+import { useDashboardStore } from 'contexts/useDashboardStore'
 
 const formSchema = object({
   range: string(),
@@ -73,8 +74,13 @@ export const columnsDataCheck = [
 // @todo: update remaining parts of the dashboard
 export default function MigrationsCheckTable() {
   const isFetching = useRef(false)
-  const { setTotalMigrations, setFailurePercentage, setSuccessPercentage } =
-    useDatabaseMigrationStore()
+  const {
+    setTotalMigrations,
+    setFailurePercentage,
+    setSuccessPercentage,
+    setMigrationsData,
+    migrationsData,
+  } = useDashboardStore()
 
   async function fetchActivities() {
     await axios
@@ -106,7 +112,7 @@ export default function MigrationsCheckTable() {
         })
 
         refreshPieChart(cleanData)
-        setTableData(cleanData)
+        setMigrationsData(cleanData)
       })
       .catch((err) => {
         console.error('Error while fetching data', err)
@@ -147,36 +153,7 @@ export default function MigrationsCheckTable() {
       clearInterval(intervalRef)
     }
   }, [])
-  const [tableData, setTableData] = useState<TableData[]>([
-    // {
-    //   name: ['Siglestore DB US-WEST-1', false],
-    //   quantity: 2458,
-    //   status: MigrationCheckTableStatus.PROCESSING,
-    //   date: 'Jan 1, 2022, 01:09',
-    //   progress: 17.5,
-    // },
-    // {
-    //   name: ['Copy of Company (Postgres)', true],
-    //   status: MigrationCheckTableStatus.COMPLETED,
-    //   quantity: 1485,
-    //   date: 'Feb 5, 2022, 13:45',
-    //   progress: 10.8,
-    // },
-    // {
-    //   name: ['Copy of Mongo DB', true],
-    //   status: MigrationCheckTableStatus.COMPLETED,
-    //   quantity: 1024,
-    //   date: 'Feb 5, 2022, 13:13',
-    //   progress: 21.3,
-    // },
-    // {
-    //   name: ['Copy of .CSV', true],
-    //   quantity: 858,
-    //   status: MigrationCheckTableStatus.ERROR,
-    //   date: 'Apr 22, 2022, 17:50',
-    //   progress: 31.5,
-    // },
-  ])
+
   const formMethods = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: { range: MigrationsCheckTableRange.MONTHLY },
@@ -185,12 +162,11 @@ export default function MigrationsCheckTable() {
   const selectedRange = watch('range')
 
   const columns = useMemo(() => columnsDataCheck, [columnsDataCheck])
-  const data = useMemo(() => tableData, [tableData])
 
   const tableInstance = useTable(
     {
       columns,
-      data,
+      data: migrationsData,
     },
     useGlobalFilter,
     useSortBy,
@@ -213,7 +189,7 @@ export default function MigrationsCheckTable() {
   useEffect(() => {
     // TODO: Update data here.
     console.log(selectedRange)
-    setTableData((d) => d)
+    // setMigrationsData((d) => d)
   }, [selectedRange])
 
   return (
