@@ -257,7 +257,6 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
           display={{ base: 'none', md: 'unset' }}
         >
           <Icon
-            me="10px"
             h="18px"
             w="18px"
             color={navbarIcon}
@@ -273,8 +272,8 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
             >
               <HStack>
                 <Avatar
-                  size={'sm'}
-                  name={'user'}
+                  size="sm"
+                  name="user"
                   src={`https://avatars.dicebear.com/api/adventurer/${lowerUserName}.svg`}
                 />
                 <VStack
@@ -301,7 +300,6 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
                 icon={
                   <Flex h="full">
                     <Icon
-                      me="10px"
                       h="18px"
                       w="18px"
                       color={navbarIcon}
