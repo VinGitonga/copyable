@@ -6,15 +6,7 @@ export default function singlestoreDbDetails(sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      dbUser: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       dbHost: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      dbPassword: {
         type: DataTypes.STRING,
         allowNull: false,
       },

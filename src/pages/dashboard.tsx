@@ -5,7 +5,7 @@ import MiniStatistics from 'components/card/MiniStatistics'
 import IconBox from 'components/icons/IconBox'
 import { MdAddTask, MdFileCopy } from 'react-icons/md'
 
-import Tasks from 'views/admin/default/components/Tasks'
+import Tasks from 'views/admin/default/components/TasksComponent'
 
 import { NextPageWithLayout } from 'types/Layout'
 import Layout from 'layouts/Layout'

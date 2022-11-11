@@ -6,6 +6,7 @@ import {
   Icon,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react'
 // Custom components
 import Card from 'components/card/Card'
@@ -15,8 +16,12 @@ import IconBox from 'components/icons/IconBox'
 import { MdCheckBox } from 'react-icons/md'
 import { useDashboardStore } from 'contexts/useDashboardStore'
 import { DeleteIcon } from '@chakra-ui/icons'
+import { NOOP } from 'helpers/helpers'
+import { FC } from 'react'
+import { TaskItem } from 'types/Tasks'
 
 export default function Conversion(props: { [x: string]: any }) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { tasksData: tasks } = useDashboardStore()
   const { ...rest } = props
 
@@ -60,7 +65,17 @@ export default function Conversion(props: { [x: string]: any }) {
   )
 }
 
-const TaskItem = ({ isChecked, textColor, text }) => {
+interface TaskItemProps extends TaskItem {
+  onDeleteCallback: (t: TaskItem) => void
+  textColor: string
+}
+
+const TaskItem: FC<TaskItem> = ({
+  isChecked,
+  textColor,
+  text,
+  onDeleteCallback = NOOP,
+}) => {
   const deleteIconColor = useColorModeValue('red.600', 'red.400')
   return (
     <Flex w="100%" mb="20px">
