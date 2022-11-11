@@ -1,12 +1,22 @@
 // Chakra imports
 import {
   Box,
+  Button,
   Checkbox,
   Flex,
   Icon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useColorModeValue,
   useDisclosure,
+  useStyleConfig,
+  useToast,
 } from '@chakra-ui/react'
 // Custom components
 import Card from 'components/card/Card'
@@ -15,13 +25,18 @@ import IconBox from 'components/icons/IconBox'
 // Assets
 import { MdCheckBox } from 'react-icons/md'
 import { useDashboardStore } from 'contexts/useDashboardStore'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { NOOP } from 'helpers/helpers'
-import { FC } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { TaskItem } from 'types/Tasks'
+import useTaskUtils from 'hooks/useTaskUtils'
 
 export default function Conversion(props: { [x: string]: any }) {
+  const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { deleteTask, createTask, updateTask } = useTaskUtils()
+  const [taskToDelete, setTaskToDelete] = useState<TaskItem | null>(null)
+
   const { tasksData: tasks } = useDashboardStore()
   const { ...rest } = props
 
@@ -29,6 +44,44 @@ export default function Conversion(props: { [x: string]: any }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const boxBg = useColorModeValue('secondaryGray.300', 'navy.700')
   const brandColor = useColorModeValue('brand.500', 'brand.400')
+  const modalStyles = useStyleConfig('Modal')
+
+  const onDeleteTask = useCallback(
+    async (t: TaskItem) => {
+      setTaskToDelete(t)
+      requestAnimationFrame(onOpen)
+    },
+    [onOpen]
+  )
+
+  const onDeleteTaskCallback = useCallback(async () => {
+    const res = await deleteTask(taskToDelete?.id)
+    requestAnimationFrame(() => {
+      if (res === null) {
+        toast({ status: 'error', description: 'Failed to delete task!' })
+      } else {
+        toast({ status: 'success', description: 'Delete Task Completed!' })
+      }
+
+      setTaskToDelete(null)
+      onClose()
+    })
+  }, [deleteTask, onClose, taskToDelete?.id, toast])
+
+  const onCreateTaskHandler = useCallback(async () => {
+    const res = await createTask({ text: 'New Task' })
+    requestAnimationFrame(() => {
+      if (res === null) {
+        toast({ status: 'error', description: 'Failed to create task!' })
+      } else {
+        toast({ status: 'success', description: 'Create Task Completed!' })
+      }
+
+      setTaskToDelete(null)
+      onClose()
+    })
+  }, [createTask, onClose, toast])
+
   return (
     <Card
       p="20px"
@@ -50,17 +103,49 @@ export default function Conversion(props: { [x: string]: any }) {
         <Text color={textColor} fontSize="lg" fontWeight="700">
           Tasks
         </Text>
+
+        <Icon
+          onClick={onCreateTaskHandler}
+          cursor="pointer"
+          ms="auto"
+          as={AddIcon}
+          color={textColor}
+          w="24px"
+          h="24px"
+        />
       </Flex>
       <Box px="11px" w="100%">
         {tasks.map((item, i) => (
           <TaskItem
-            isChecked={item.isChecked}
-            text={item.text}
+            {...item}
             textColor={textColor}
             key={i}
+            onDeleteCallback={onDeleteTask}
           />
         ))}
       </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent __css={modalStyles}>
+          <ModalHeader>Delete Task</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>{taskToDelete?.text}</ModalBody>
+
+          <ModalFooter>
+            <Button variant="outline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              variant="solid"
+              colorScheme="red"
+              onClick={onDeleteTaskCallback}
+            >
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Card>
   )
 }
@@ -70,13 +155,10 @@ interface TaskItemProps extends TaskItem {
   textColor: string
 }
 
-const TaskItem: FC<TaskItem> = ({
-  isChecked,
-  textColor,
-  text,
-  onDeleteCallback = NOOP,
-}) => {
+const TaskItem: FC<TaskItemProps> = ({ onDeleteCallback = NOOP, ...task }) => {
+  const { isChecked, textColor, text } = task
   const deleteIconColor = useColorModeValue('red.600', 'red.400')
+
   return (
     <Flex w="100%" mb="20px">
       <Checkbox
@@ -94,6 +176,9 @@ const TaskItem: FC<TaskItem> = ({
         {text}
       </Text>
       <Icon
+        onClick={() => {
+          onDeleteCallback(task)
+        }}
         cursor="pointer"
         ms="auto"
         as={DeleteIcon}
