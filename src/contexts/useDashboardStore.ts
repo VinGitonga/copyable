@@ -33,6 +33,7 @@ export const useDashboardStore = create<IDatabaseMigrationState>((set) => ({
       updated: created,
       id: '0',
       deleted: false,
+      userId: 'test',
     },
     {
       text: 'MySQL DB data migration',
@@ -41,6 +42,7 @@ export const useDashboardStore = create<IDatabaseMigrationState>((set) => ({
       updated: created,
       id: '1',
       deleted: false,
+      userId: 'test',
     },
     {
       text: 'CSV to Singlestore DB',
@@ -49,6 +51,7 @@ export const useDashboardStore = create<IDatabaseMigrationState>((set) => ({
       updated: created,
       id: '2',
       deleted: false,
+      userId: 'test',
     },
     {
       text: 'Migrate data from JSON',
@@ -57,6 +60,7 @@ export const useDashboardStore = create<IDatabaseMigrationState>((set) => ({
       updated: created,
       id: '3',
       deleted: false,
+      userId: 'test',
     },
     {
       text: 'Migration Pipeline setup',
@@ -65,6 +69,7 @@ export const useDashboardStore = create<IDatabaseMigrationState>((set) => ({
       updated: created,
       id: '4',
       deleted: false,
+      userId: 'test',
     },
   ],
   totalMigrations: 0,
