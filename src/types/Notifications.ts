@@ -26,9 +26,11 @@ export enum NotificationEventLabel {
 
 export interface NotificationItem {
   id: string
-  code: NotificationItem
+  code: NotificationEventKey
   description: string
   created: Date
+  updated: Date
+  didRead: boolean
   event: string
   userId: string
 }

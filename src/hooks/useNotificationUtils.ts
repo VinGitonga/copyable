@@ -1,11 +1,22 @@
 import { useCallback } from 'react'
-import { TaskItem } from 'types/Tasks'
+import { NotificationItem } from 'types/Notifications'
 
-const useTaskUtils = () => {
+const useNotificationUtils = () => {
   const createNotification = useCallback(
-    async (task: Omit<TaskItem, 'created' | 'updated' | 'id'>) => {
+    async (
+      notification: Omit<
+        NotificationItem,
+        'created' | 'updated' | 'id' | 'didRead'
+      >
+    ) => {
+      const newData = { ...notification } as NotificationItem
+      const created = new Date()
+      newData.created = created
+      newData.updated = created
+      newData.didRead = false
+
       try {
-        console.log(task)
+        console.log(notification)
       } catch (err) {
         console.log('createNotification:error', err)
       }
@@ -14,9 +25,17 @@ const useTaskUtils = () => {
   )
 
   const updateNotification = useCallback(
-    async (task: Omit<TaskItem, 'updated' | 'userId'>) => {
+    async (
+      notification: Omit<
+        NotificationItem,
+        'created' | 'updated' | 'userId' | 'code' | 'description' | 'event'
+      >
+    ) => {
+      const newData = { ...notification } as NotificationItem
+      newData.updated = new Date()
+
       try {
-        console.log(task)
+        console.log(notification)
       } catch (err) {
         console.log('updateNotification:error', err)
       }
@@ -24,18 +43,7 @@ const useTaskUtils = () => {
     []
   )
 
-  const deleteNotification = useCallback(
-    async (task: Omit<TaskItem, 'updated' | 'userId'>) => {
-      try {
-        console.log(task)
-      } catch (err) {
-        console.log('deleteNotification:error', err)
-      }
-    },
-    []
-  )
-
-  return { createNotification, updateNotification, deleteNotification }
+  return { createNotification, updateNotification }
 }
 
-export default useTaskUtils
+export default useNotificationUtils
