@@ -30,4 +30,5 @@ export interface NotificationItem {
   description: string
   created: Date
   event: string
+  userId: string
 }

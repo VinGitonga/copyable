@@ -5,4 +5,5 @@ export interface TaskItem {
   created: Date
   deleted: boolean
   updated: Date
+  userId: string
 }
