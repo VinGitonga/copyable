@@ -1,16 +1,29 @@
+import { useSession } from 'next-auth/react'
+import { useCallback } from 'react'
+import axios from 'axios'
+
 import {
   NotificationEventKey,
   NotificationEventLabel,
   NotificationItem,
 } from 'types/Notifications'
-import { useCallback } from 'react'
-import { TaskItem } from 'types/Tasks'
 import useNotificationUtils from './useNotificationUtils'
-import { useSession } from 'next-auth/react'
+import { TaskItem } from 'types/Tasks'
 
 const useTaskUtils = () => {
   const { data: session } = useSession()
   const { createNotification } = useNotificationUtils()
+
+  const fetchTasks = useCallback(async () => {
+    try {
+      const response = await axios.get(`/api/tasks`)
+      const newTasks: TaskItem[] = [...(response?.data ?? [])]
+      return newTasks
+    } catch (err) {
+      console.log('useTaskUtils:fetchTasks:error', err)
+      return [] as TaskItem[]
+    }
+  }, [])
 
   const createTask = useCallback(
     async (
@@ -122,7 +135,7 @@ const useTaskUtils = () => {
     [createNotification, session?.user?.id]
   )
 
-  return { createTask, updateTask, deleteTask }
+  return { createTask, updateTask, deleteTask, fetchTasks }
 }
 
 export default useTaskUtils

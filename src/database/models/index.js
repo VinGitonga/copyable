@@ -1,6 +1,5 @@
 import { dbDetails } from '../config/config'
 import { DataTypes, Sequelize } from 'sequelize'
-import getActivitiesModel from './activities'
 
 const sequelize = new Sequelize(
   dbDetails.DB,
@@ -24,6 +23,7 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 db.users = require('./user.js').default(sequelize, DataTypes)
+db.tasks = require('./tasks.js').default(sequelize, DataTypes)
 db.activities = require('./activities.js').default(sequelize, DataTypes)
 db.singlestoredbs = require('./singlestore.js').default(sequelize, DataTypes)
 

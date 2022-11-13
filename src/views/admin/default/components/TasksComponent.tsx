@@ -27,17 +27,19 @@ import { MdCheckBox } from 'react-icons/md'
 import { useDashboardStore } from 'contexts/useDashboardStore'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { NOOP } from 'helpers/helpers'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { TaskItem } from 'types/Tasks'
 import useTaskUtils from 'hooks/useTaskUtils'
 
 export default function Conversion(props: { [x: string]: any }) {
-  const toast = useToast()
+  const { deleteTask, createTask, updateTask, fetchTasks } = useTaskUtils()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { deleteTask, createTask, updateTask } = useTaskUtils()
-  const [taskToDelete, setTaskToDelete] = useState<TaskItem | null>(null)
+  const toast = useToast()
 
-  const { tasksData: tasks } = useDashboardStore()
+  const [taskToDelete, setTaskToDelete] = useState<TaskItem | null>(null)
+  const isFetching = useRef(false)
+
+  const { tasksData: tasks, setTasksData } = useDashboardStore()
   const { ...rest } = props
 
   // Chakra Color Mode
@@ -81,6 +83,30 @@ export default function Conversion(props: { [x: string]: any }) {
       onClose()
     })
   }, [createTask, onClose, toast])
+
+  const fetchData = useCallback(async () => {
+    if (isFetching.current) {
+      return
+    }
+
+    isFetching.current = true
+    const newData = await fetchTasks()
+    setTasksData(newData)
+
+    isFetching.current = false
+  }, [fetchTasks, setTasksData])
+
+  useEffect(() => {
+    fetchData()
+
+    const intervalRef = setTimeout(() => {
+      fetchData()
+    }, 1000 * 15)
+
+    return () => {
+      clearInterval(intervalRef)
+    }
+  }, [fetchData])
 
   return (
     <Card
