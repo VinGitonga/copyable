@@ -215,19 +215,10 @@ const TaskItem: FC<TaskItemProps> = ({
   const [textValue, setTextValue] = useState(text)
   const deleteIconColor = useColorModeValue('red.600', 'red.400')
   const textDecoration = isChecked ? 'line-through' : 'unset'
-
-  useEffect(() => {
-    const timeoutRef = setTimeout(async () => {
-      onUpdate({ ...task, text: textValue })
-    }, 2000)
-
-    return () => {
-      clearTimeout(timeoutRef)
-    }
-  }, [onUpdate, textValue])
+  const textTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   return (
-    <Flex w="100%" mb="20px">
+    <Flex w="100%" maxH="50vh" mb="20px" overflow="auto" gap="2">
       <Checkbox
         value="true"
         defaultChecked={isChecked}
@@ -246,21 +237,32 @@ const TaskItem: FC<TaskItemProps> = ({
         defaultValue={text}
         value={textValue}
         isDisabled={isChecked}
-        onChange={setTextValue}
+        flex="1"
+        onChange={(v) => {
+          setTextValue(v)
+
+          if (textTimeoutRef.current !== null) {
+            clearTimeout(textTimeoutRef.current)
+            textTimeoutRef.current = null
+          }
+
+          textTimeoutRef.current = setTimeout(() => {
+            onUpdate({ ...task, text: textValue })
+            textTimeoutRef.current = null
+          }, 1000)
+        }}
       >
         <EditablePreview
           textDecoration={textDecoration}
           color={textColor}
           padding="2"
           fontSize="md"
-          w="full"
         />
         <EditableInput
           textDecoration={textDecoration}
           color={textColor}
           padding="2"
           fontSize="md"
-          w="full"
         />
       </Editable>
       <Icon
