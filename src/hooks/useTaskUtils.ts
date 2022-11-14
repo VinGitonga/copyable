@@ -101,7 +101,7 @@ const useTaskUtils = () => {
   )
 
   const deleteTask = useCallback(
-    async (taskId: string) => {
+    async (taskId: number) => {
       const newData = {
         deleted: true,
         id: taskId,

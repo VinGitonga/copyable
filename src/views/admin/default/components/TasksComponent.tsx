@@ -136,11 +136,16 @@ export default function Conversion(props: { [x: string]: any }) {
           ms="auto"
           as={AddIcon}
           color={textColor}
-          w="24px"
-          h="24px"
+          fontSize="1.25rem"
         />
       </Flex>
       <Box px="11px" w="100%">
+        {tasks.length === 0 && (
+          <Text textAlign="center">
+            No tasks were found. You can create tasks pressing on the plus icon
+            on top.
+          </Text>
+        )}
         {tasks.map((item, i) => (
           <TaskItem
             {...item}
