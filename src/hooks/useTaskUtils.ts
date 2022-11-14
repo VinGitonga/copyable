@@ -84,7 +84,6 @@ const useTaskUtils = () => {
       try {
         // @ts-ignore
         const userId = session?.user?.id
-        newData.userId = userId
         const response = await axios.post(TaskAPIRoutes.UPDATE_TASK, newData)
 
         // * Notification Event data.
@@ -108,31 +107,23 @@ const useTaskUtils = () => {
   )
 
   const deleteTask = useCallback(
-    async (taskId: number) => {
-      const newData = {
-        deleted: true,
-        id: taskId,
-        updated: new Date(),
-      } as TaskItem
-
+    async (task: TaskItem) => {
       try {
         // @ts-ignore
         const userId = session?.user?.id
-
-        // TODO: Task data logic.
-        console.log(newData)
+        const response = await axios.post(TaskAPIRoutes.DELETE_TASK, task)
 
         // * Notification Event data.
         const newNotificationData = {
           userId,
-          event: JSON.stringify(newData),
+          event: JSON.stringify(task),
           code: NotificationEventKey.TASK_DELETED,
         } as NotificationItem
         newNotificationData.description =
           NotificationEventLabel[newNotificationData.code]
 
         await createNotification(newNotificationData)
-        return newData
+        return response.data
       } catch (err) {
         console.log('deleteTask:error', err)
         return null

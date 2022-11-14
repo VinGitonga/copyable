@@ -73,7 +73,7 @@ export default function Conversion(props: { [x: string]: any }) {
   )
 
   const onDeleteTaskCallback = useCallback(async () => {
-    const res = await deleteTask(taskToDelete?.id)
+    const res = await deleteTask(taskToDelete)
     await fetchData()
     requestAnimationFrame(() => {
       if (res === null) {
@@ -85,7 +85,7 @@ export default function Conversion(props: { [x: string]: any }) {
       setTaskToDelete(null)
       onClose()
     })
-  }, [deleteTask, fetchData, onClose, taskToDelete?.id, toast])
+  }, [deleteTask, fetchData, onClose, taskToDelete, toast])
 
   const onCreateTaskHandler = useCallback(async () => {
     const res = await createTask({ text: 'New Task' })
@@ -157,7 +157,14 @@ export default function Conversion(props: { [x: string]: any }) {
           fontSize="1.25rem"
         />
       </Flex>
-      <Box px="11px" w="100%">
+      <Flex
+        px="11px"
+        w="100%"
+        flexDirection="column"
+        display="flex"
+        maxH="50vh"
+        overflow="auto"
+      >
         {tasks.length === 0 && (
           <Text textAlign="center">
             No tasks were found. You can create tasks pressing on the plus icon
@@ -173,7 +180,7 @@ export default function Conversion(props: { [x: string]: any }) {
             onUpdate={onUpdateTask}
           />
         ))}
-      </Box>
+      </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -218,7 +225,7 @@ const TaskItem: FC<TaskItemProps> = ({
   const textTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   return (
-    <Flex w="100%" maxH="50vh" mb="20px" overflow="auto" gap="2">
+    <Flex w="100%" mb="20px" gap="2">
       <Checkbox
         value="true"
         defaultChecked={isChecked}
