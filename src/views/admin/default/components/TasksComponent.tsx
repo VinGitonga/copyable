@@ -73,6 +73,7 @@ export default function Conversion(props: { [x: string]: any }) {
   )
 
   const onDeleteTaskCallback = useCallback(async () => {
+    onClose()
     const res = await deleteTask(taskToDelete)
     await fetchData()
     requestAnimationFrame(() => {
@@ -83,7 +84,6 @@ export default function Conversion(props: { [x: string]: any }) {
       }
 
       setTaskToDelete(null)
-      onClose()
     })
   }, [deleteTask, fetchData, onClose, taskToDelete, toast])
 
@@ -171,11 +171,11 @@ export default function Conversion(props: { [x: string]: any }) {
             on top.
           </Text>
         )}
-        {tasks.map((item, i) => (
+        {tasks.map((item) => (
           <TaskItem
             {...item}
             textColor={textColor}
-            key={i}
+            key={item.id}
             onDeleteCallback={onDeleteTask}
             onUpdate={onUpdateTask}
           />
@@ -227,9 +227,7 @@ const TaskItem: FC<TaskItemProps> = ({
   return (
     <Flex w="100%" mb="20px" gap="2">
       <Checkbox
-        value="true"
-        defaultChecked={isChecked}
-        checked={isChecked}
+        isChecked={isChecked}
         me="16px"
         colorScheme="brandScheme"
         onChange={() => {

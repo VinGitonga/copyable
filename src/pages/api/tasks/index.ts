@@ -11,6 +11,7 @@ export default async function handler(req, res) {
       where: {
         userId: userId,
       },
+      order: [['created', 'DESC']],
     })
     res.status(200).send(tasks)
   } catch (error) {
