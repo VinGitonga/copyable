@@ -10,13 +10,11 @@ import {
 import useNotificationUtils from './useNotificationUtils'
 import { TaskItem } from 'types/Tasks'
 
-const BASE_URL = '/api/tasks'
-
 export enum TaskAPIRoutes {
-  LIST = BASE_URL,
-  NEW_TASK = `${BASE_URL}/new`,
-  UPDATE_TASK = `${BASE_URL}/update`,
-  DELETE_TASK = `${BASE_URL}/delete`,
+  LIST = '/api/tasks',
+  NEW_TASK = `/api/tasks/new`,
+  UPDATE_TASK = `/api/tasks/update`,
+  DELETE_TASK = `/api/tasks/delete`,
 }
 
 const useTaskUtils = () => {
