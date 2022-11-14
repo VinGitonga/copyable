@@ -252,7 +252,7 @@ const TaskItem: FC<TaskItemProps> = ({
           }
 
           textTimeoutRef.current = setTimeout(() => {
-            onUpdate({ ...task, text: textValue })
+            onUpdate({ ...task, text: v })
             textTimeoutRef.current = null
           }, 1000)
         }}
