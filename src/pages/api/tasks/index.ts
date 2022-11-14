@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react'
 export default async function handler(req, res) {
   try {
     const session = await getSession({ req })
-    await db.activities.sync()
+    await db.tasks.sync()
     // @ts-ignore
     const userId = session.user?.id
     const tasks = await db.tasks.findAll({

@@ -10,13 +10,22 @@ import {
 import useNotificationUtils from './useNotificationUtils'
 import { TaskItem } from 'types/Tasks'
 
+const BASE_URL = '/api/tasks'
+
+export enum TaskAPIRoutes {
+  LIST = BASE_URL,
+  NEW_TASK = `${BASE_URL}/new`,
+  UPDATE_TASK = `${BASE_URL}/update`,
+  DELETE_TASK = `${BASE_URL}/delete`,
+}
+
 const useTaskUtils = () => {
   const { data: session } = useSession()
   const { createNotification } = useNotificationUtils()
 
   const fetchTasks = useCallback(async () => {
     try {
-      const response = await axios.get(`/api/tasks`)
+      const response = await axios.get(TaskAPIRoutes.LIST)
       const newTasks: TaskItem[] = [...(response?.data ?? [])]
       return newTasks
     } catch (err) {
@@ -42,9 +51,8 @@ const useTaskUtils = () => {
       try {
         // @ts-ignore
         const userId = session?.user?.id
-
-        // TODO: Task data logic.
-        console.log(newData)
+        newData.userId = userId
+        const response = await axios.post(TaskAPIRoutes.NEW_TASK, newData)
 
         // * Notification Event data.
         const newNotificationData = {
@@ -56,7 +64,7 @@ const useTaskUtils = () => {
           NotificationEventLabel[newNotificationData.code]
 
         await createNotification(newNotificationData)
-        return newData
+        return response.data
       } catch (err) {
         console.log('createTask:error', err)
         return null

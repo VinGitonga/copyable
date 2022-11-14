@@ -48,6 +48,18 @@ export default function Conversion(props: { [x: string]: any }) {
   const brandColor = useColorModeValue('brand.500', 'brand.400')
   const modalStyles = useStyleConfig('Modal')
 
+  const fetchData = useCallback(async () => {
+    if (isFetching.current) {
+      return
+    }
+
+    isFetching.current = true
+    const newData = await fetchTasks()
+    setTasksData(newData)
+
+    isFetching.current = false
+  }, [fetchTasks, setTasksData])
+
   const onDeleteTask = useCallback(
     async (t: TaskItem) => {
       setTaskToDelete(t)
@@ -72,9 +84,10 @@ export default function Conversion(props: { [x: string]: any }) {
 
   const onCreateTaskHandler = useCallback(async () => {
     const res = await createTask({ text: 'New Task' })
+    await fetchData()
     requestAnimationFrame(() => {
       if (res === null) {
-        toast({ status: 'error', description: 'Failed to create task!' })
+        toast({ status: 'error', description: 'Failed to create task.' })
       } else {
         toast({ status: 'success', description: 'Create Task Completed!' })
       }
@@ -82,19 +95,7 @@ export default function Conversion(props: { [x: string]: any }) {
       setTaskToDelete(null)
       onClose()
     })
-  }, [createTask, onClose, toast])
-
-  const fetchData = useCallback(async () => {
-    if (isFetching.current) {
-      return
-    }
-
-    isFetching.current = true
-    const newData = await fetchTasks()
-    setTasksData(newData)
-
-    isFetching.current = false
-  }, [fetchTasks, setTasksData])
+  }, [createTask, fetchData, onClose, toast])
 
   useEffect(() => {
     fetchData()
