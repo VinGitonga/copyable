@@ -84,9 +84,8 @@ const useTaskUtils = () => {
       try {
         // @ts-ignore
         const userId = session?.user?.id
-
-        // TODO: Task data logic.
-        console.log(task)
+        newData.userId = userId
+        const response = await axios.post(TaskAPIRoutes.UPDATE_TASK, newData)
 
         // * Notification Event data.
         const newNotificationData = {
@@ -98,7 +97,7 @@ const useTaskUtils = () => {
           NotificationEventLabel[newNotificationData.code]
 
         await createNotification(newNotificationData)
-        return newData
+        return response.data
       } catch (err) {
         console.log('updateTask:error', err)
         return null

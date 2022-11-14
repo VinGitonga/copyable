@@ -3,6 +3,9 @@ import {
   Box,
   Button,
   Checkbox,
+  Editable,
+  EditableInput,
+  EditablePreview,
   Flex,
   Icon,
   Modal,
@@ -18,6 +21,7 @@ import {
   useStyleConfig,
   useToast,
 } from '@chakra-ui/react'
+
 // Custom components
 import Card from 'components/card/Card'
 import IconBox from 'components/icons/IconBox'
@@ -70,6 +74,7 @@ export default function Conversion(props: { [x: string]: any }) {
 
   const onDeleteTaskCallback = useCallback(async () => {
     const res = await deleteTask(taskToDelete?.id)
+    await fetchData()
     requestAnimationFrame(() => {
       if (res === null) {
         toast({ status: 'error', description: 'Failed to delete task!' })
@@ -80,7 +85,7 @@ export default function Conversion(props: { [x: string]: any }) {
       setTaskToDelete(null)
       onClose()
     })
-  }, [deleteTask, onClose, taskToDelete?.id, toast])
+  }, [deleteTask, fetchData, onClose, taskToDelete?.id, toast])
 
   const onCreateTaskHandler = useCallback(async () => {
     const res = await createTask({ text: 'New Task' })
@@ -89,13 +94,25 @@ export default function Conversion(props: { [x: string]: any }) {
       if (res === null) {
         toast({ status: 'error', description: 'Failed to create task.' })
       } else {
-        toast({ status: 'success', description: 'Create Task Completed!' })
+        toast({ status: 'success', description: 'Create task completed!' })
       }
-
-      setTaskToDelete(null)
-      onClose()
     })
-  }, [createTask, fetchData, onClose, toast])
+  }, [createTask, fetchData, toast])
+
+  const onUpdateTask = useCallback(
+    async (newData: TaskItem) => {
+      const res = await updateTask(newData)
+      await fetchData()
+      requestAnimationFrame(() => {
+        if (res === null) {
+          toast({ status: 'error', description: 'Failed to update task.' })
+        } else {
+          toast({ status: 'success', description: 'Update task completed!' })
+        }
+      })
+    },
+    [fetchData, toast, updateTask]
+  )
 
   useEffect(() => {
     fetchData()
@@ -153,6 +170,7 @@ export default function Conversion(props: { [x: string]: any }) {
             textColor={textColor}
             key={i}
             onDeleteCallback={onDeleteTask}
+            onUpdate={onUpdateTask}
           />
         ))}
       </Box>
@@ -184,29 +202,67 @@ export default function Conversion(props: { [x: string]: any }) {
 
 interface TaskItemProps extends TaskItem {
   onDeleteCallback: (t: TaskItem) => void
+  onUpdate: (t: TaskItem) => void
   textColor: string
 }
 
-const TaskItem: FC<TaskItemProps> = ({ onDeleteCallback = NOOP, ...task }) => {
+const TaskItem: FC<TaskItemProps> = ({
+  onDeleteCallback = NOOP,
+  onUpdate,
+  ...task
+}) => {
   const { isChecked, textColor, text } = task
+  const [textValue, setTextValue] = useState(text)
   const deleteIconColor = useColorModeValue('red.600', 'red.400')
+  const textDecoration = isChecked ? 'line-through' : 'unset'
+
+  useEffect(() => {
+    const timeoutRef = setTimeout(async () => {
+      onUpdate({ ...task, text: textValue })
+    }, 2000)
+
+    return () => {
+      clearTimeout(timeoutRef)
+    }
+  }, [onUpdate, textValue])
 
   return (
     <Flex w="100%" mb="20px">
       <Checkbox
+        value="true"
         defaultChecked={isChecked}
+        checked={isChecked}
         me="16px"
         colorScheme="brandScheme"
+        onChange={() => {
+          onUpdate({ ...task, isChecked: !isChecked })
+        }}
       />
-      <Text
+      <Editable
+        cursor="text"
         fontWeight="bold"
-        textDecoration={isChecked ? 'line-through' : 'unset'}
-        color={textColor}
-        fontSize="md"
         textAlign="start"
+        textDecoration={textDecoration}
+        defaultValue={text}
+        value={textValue}
+        isDisabled={isChecked}
+        onChange={setTextValue}
       >
-        {text}
-      </Text>
+        <EditablePreview
+          textDecoration={textDecoration}
+          color={textColor}
+          padding="2"
+          fontSize="md"
+          w="full"
+        />
+        <EditableInput
+          textDecoration={textDecoration}
+          color={textColor}
+          padding="2"
+          fontSize="md"
+          w="full"
+        />
+      </Editable>
       <Icon
         onClick={() => {
           onDeleteCallback(task)
