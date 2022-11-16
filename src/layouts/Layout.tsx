@@ -41,6 +41,7 @@ import AppLogo from 'components/icons/AppLogo'
 import { useDatabaseMigrationStore } from '../contexts/useDatabaseMigrationStore'
 import { useEffect } from 'react'
 import { fetchMySingleStoreDatabases } from '../services/save-db-to-profile'
+import Notify from 'components/notifications/Notify'
 
 export default function Layout({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -239,12 +240,13 @@ const MobileNav = ({ onOpen, user, handleSignout, ...rest }) => {
 
       <HStack spacing={{ base: '2', md: '6' }}>
         {singleStoreItem}
-        <IconButton
+        {/* <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
-        />
+        /> */}
+        <Notify />
         <Button
           variant="no-hover"
           bg="transparent"
