@@ -57,7 +57,11 @@ export default function Layout({ children }) {
   }
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Flex
+      flexDirection="column"
+      minH="100vh"
+      bg={useColorModeValue('gray.100', 'gray.900')}
+    >
       <SidebarContent onClose={() => onClose} display="none" />
       <Drawer
         autoFocus={false}
@@ -78,13 +82,13 @@ export default function Layout({ children }) {
         handleSignout={handleSignOut}
         user={session?.user}
       />
-      <Box ml={{ base: 0 }} p="4">
+      <Box flex="1" ml={{ base: 0 }} p="4">
         {children}
       </Box>
       <Box>
         <Footer />
       </Box>
-    </Box>
+    </Flex>
   )
 }
 
