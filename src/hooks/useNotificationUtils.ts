@@ -1,7 +1,25 @@
+import axios from 'axios'
 import { useCallback } from 'react'
 import { NotificationItem } from 'types/Notifications'
 
+export enum NotificationAPIRoutes {
+  LIST = '/api/notifications',
+  NEW_NOTIFICATION = `/api/notifications/new`,
+  UPDATE_NOTIFICATION = `/api/notifications/update`,
+}
+
 const useNotificationUtils = () => {
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const response = await axios.get(NotificationAPIRoutes.LIST)
+      const newData: NotificationItem[] = [...(response?.data ?? [])]
+      return newData
+    } catch (err) {
+      console.log('useNotificationUtils:fetchNotifications:error', err)
+      return [] as NotificationItem[]
+    }
+  }, [])
+
   const createNotification = useCallback(
     async (
       notification: Omit<
@@ -43,7 +61,7 @@ const useNotificationUtils = () => {
     []
   )
 
-  return { createNotification, updateNotification }
+  return { fetchNotifications, createNotification, updateNotification }
 }
 
 export default useNotificationUtils

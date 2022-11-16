@@ -38,7 +38,6 @@ export const useDatabaseMigrationStore = create<IDatabaseMigrationState>(
   (set) => ({
     sDBPassword: null,
     sDBUsername: null,
-
     mongoHost: null,
     selectedDb: null,
     selectedCollections: null,

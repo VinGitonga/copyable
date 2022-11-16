@@ -12,7 +12,7 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   ColumnInstance,
   Row,
@@ -48,7 +48,7 @@ export enum MigrationsCheckTableRange {
   YEARLY = 'yearly',
 }
 
-export const columnsDataCheck = [
+const columnsDataCheck = [
   {
     Header: 'NAME',
     accessor: 'name',
@@ -160,11 +160,9 @@ export default function MigrationsCheckTable() {
   const { register, watch } = formMethods
   const selectedRange = watch('range')
 
-  const columns = useMemo(() => columnsDataCheck, [columnsDataCheck])
-
   const tableInstance = useTable(
     {
-      columns,
+      columns: columnsDataCheck,
       data: migrationsData,
     },
     useGlobalFilter,
