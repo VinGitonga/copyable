@@ -62,7 +62,7 @@ const useTaskUtils = () => {
           NotificationEventLabel[newNotificationData.code]
 
         await createNotification(newNotificationData)
-        return response.data
+        return response.data as TaskItem
       } catch (err) {
         console.log('createTask:error', err)
         return null
@@ -94,7 +94,7 @@ const useTaskUtils = () => {
           NotificationEventLabel[newNotificationData.code]
 
         await createNotification(newNotificationData)
-        return response.data
+        return response.data as TaskItem
       } catch (err) {
         console.log('updateTask:error', err)
         return null
@@ -121,7 +121,7 @@ const useTaskUtils = () => {
           NotificationEventLabel[newNotificationData.code]
 
         await createNotification(newNotificationData)
-        return response.data
+        return response.data as TaskItem
       } catch (err) {
         console.log('deleteTask:error', err)
         return null

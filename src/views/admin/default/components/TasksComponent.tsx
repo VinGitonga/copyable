@@ -1,6 +1,5 @@
 // Chakra imports
 import {
-  Box,
   Button,
   Checkbox,
   Editable,
@@ -75,7 +74,7 @@ export default function Conversion(props: { [x: string]: any }) {
   const onDeleteTaskCallback = useCallback(async () => {
     onClose()
     const res = await deleteTask(taskToDelete)
-    await fetchData()
+
     requestAnimationFrame(() => {
       if (res === null) {
         toast({ status: 'error', description: 'Failed to delete task!' })
@@ -85,11 +84,13 @@ export default function Conversion(props: { [x: string]: any }) {
 
       setTaskToDelete(null)
     })
+
+    await fetchData()
   }, [deleteTask, fetchData, onClose, taskToDelete, toast])
 
   const onCreateTaskHandler = useCallback(async () => {
     const res = await createTask({ text: 'New Task' })
-    await fetchData()
+
     requestAnimationFrame(() => {
       if (res === null) {
         toast({ status: 'error', description: 'Failed to create task.' })
@@ -97,12 +98,14 @@ export default function Conversion(props: { [x: string]: any }) {
         toast({ status: 'success', description: 'Create task completed!' })
       }
     })
+
+    await fetchData()
   }, [createTask, fetchData, toast])
 
   const onUpdateTask = useCallback(
     async (newData: TaskItem) => {
       const res = await updateTask(newData)
-      await fetchData()
+
       requestAnimationFrame(() => {
         if (res === null) {
           toast({ status: 'error', description: 'Failed to update task.' })
@@ -110,6 +113,8 @@ export default function Conversion(props: { [x: string]: any }) {
           toast({ status: 'success', description: 'Update task completed!' })
         }
       })
+
+      await fetchData()
     },
     [fetchData, toast, updateTask]
   )
@@ -219,19 +224,25 @@ const TaskItem: FC<TaskItemProps> = ({
   ...task
 }) => {
   const { isChecked, textColor, text } = task
+  const [checked, setChecked] = useState(isChecked)
   const [textValue, setTextValue] = useState(text)
   const deleteIconColor = useColorModeValue('red.600', 'red.400')
-  const textDecoration = isChecked ? 'line-through' : 'unset'
   const textTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const textDecoration = checked ? 'line-through' : 'unset'
 
   return (
     <Flex w="100%" mb="20px" gap="2">
       <Checkbox
-        isChecked={isChecked}
+        isChecked={checked}
         me="16px"
         colorScheme="brandScheme"
         onChange={() => {
-          onUpdate({ ...task, isChecked: !isChecked })
+          setChecked((c) => {
+            const newValue = !c
+            onUpdate({ ...task, isChecked: newValue })
+            return newValue
+          })
         }}
       />
       <Editable
@@ -241,7 +252,7 @@ const TaskItem: FC<TaskItemProps> = ({
         textDecoration={textDecoration}
         defaultValue={text}
         value={textValue}
-        isDisabled={isChecked}
+        isDisabled={checked}
         flex="1"
         onChange={(v) => {
           setTextValue(v)
