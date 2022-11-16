@@ -31,6 +31,6 @@ export interface NotificationItem {
   created: Date
   updated: Date
   didRead: boolean
-  event: string
+  payload: string
   userId: string
 }

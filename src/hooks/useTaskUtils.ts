@@ -55,7 +55,7 @@ const useTaskUtils = () => {
         // * Notification Event data.
         const newNotificationData = {
           userId,
-          event: JSON.stringify(newData),
+          payload: JSON.stringify(newData),
           code: NotificationEventKey.TASK_CREATED,
         } as NotificationItem
         newNotificationData.description =
@@ -87,7 +87,7 @@ const useTaskUtils = () => {
         // * Notification Event data.
         const newNotificationData = {
           userId,
-          event: JSON.stringify(newData),
+          payload: JSON.stringify(newData),
           code: NotificationEventKey.TASK_UPDATED,
         } as NotificationItem
         newNotificationData.description =
@@ -114,7 +114,7 @@ const useTaskUtils = () => {
         // * Notification Event data.
         const newNotificationData = {
           userId,
-          event: JSON.stringify(task),
+          payload: JSON.stringify(task),
           code: NotificationEventKey.TASK_DELETED,
         } as NotificationItem
         newNotificationData.description =
