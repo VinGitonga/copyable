@@ -34,9 +34,14 @@ const useNotificationUtils = () => {
       newData.didRead = false
 
       try {
-        console.log(notification)
+        const response = await axios.post(
+          NotificationAPIRoutes.NEW_NOTIFICATION,
+          newData
+        )
+        console.log(response)
       } catch (err) {
-        console.log('createNotification:error', err)
+        console.log('useNotificationUtils:createNotification:error', err)
+        return null
       }
     },
     []
@@ -46,16 +51,27 @@ const useNotificationUtils = () => {
     async (
       notification: Omit<
         NotificationItem,
-        'created' | 'updated' | 'userId' | 'code' | 'description' | 'event'
+        'created' | 'updated' | 'userId' | 'code' | 'description' | 'payload'
       >
     ) => {
       const newData = { ...notification } as NotificationItem
       newData.updated = new Date()
 
+      if (newData.didRead === undefined) {
+        notification.didRead = true
+      }
+
       try {
-        console.log(notification)
+        const response = await axios.post(
+          NotificationAPIRoutes.UPDATE_NOTIFICATION,
+          newData
+        )
+        console.log(response)
+
+        return newData
       } catch (err) {
-        console.log('updateNotification:error', err)
+        console.log('useNotificationUtils:updateNotification:error', err)
+        return null
       }
     },
     []
