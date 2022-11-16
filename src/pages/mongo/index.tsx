@@ -1,9 +1,9 @@
 import Router from 'next/router'
 import React, { useEffect } from 'react'
 
-export default function Home() {
+export default function MongoIndexPage() {
   useEffect(() => {
-    Router.replace('/auth/sign-in')
+    Router.replace('/mongo/mongo-wizard')
   })
 
   return <></>
