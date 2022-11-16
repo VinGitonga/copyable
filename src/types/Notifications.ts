@@ -1,7 +1,7 @@
 export enum NotificationEventKey {
   MIGRATION_STARTED = 'migration-started',
   MIGRATION_SUCCESS = 'migration-success',
-  MIGRATION_FAILED = 'migration-failes',
+  MIGRATION_FAILED = 'migration-failed',
   ADDED_SINGLESTORE_DB = 'added-singlestore-db',
   UPDATED_SINGLESTORE_DB = 'updated-singlestore-db',
   DELETED_SINGLESTORE_DB = 'deleted-singlestore-db',
@@ -14,7 +14,7 @@ export enum NotificationEventKey {
 export enum NotificationEventLabel {
   'migration-started' = 'A new migration has stated.',
   'migration-success' = 'Your migration has been completed.',
-  'migration-failes' = 'A migration has failed.',
+  'migration-failed' = 'A migration has failed.',
   'added-singlestore-db' = 'A new Singlestore DB has been added.',
   'updated-singlestore-db' = 'Your Singlestore DB has been updated.',
   'deleted-singlestore-db' = 'A Singlestore DB has been deleted.',
