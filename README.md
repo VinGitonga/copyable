@@ -2,9 +2,9 @@
 
 The aim of this project is to have a SaaS tool capable of migrating existing schema and data from multiple databases to SingleStore DB with an intuitive UI. SingleStoreDB is unique among the crowd! We wanted to take this opportunity to build something unique, that allows users to quickly import/migrate any database that they have publicly available to their SingleStore DB without the need to go through a complex backup/migration process offered by most providers out there. We gathered a group of nerds from multiple places in the world and came up with this great idea, "Copyable" a tool for everyone to allow users to move their databases to SingleStore in a wink.
 
-### 🤔 How it works? [Demo Video](https://www.youtube.com/watch?v=qSyepZb72Wc)
+### 🤔 How it works? 🎥 [Demo Video](https://www.youtube.com/watch?v=qSyepZb72Wc)
 
-### 🤔 Can I use it too? 💯 Yes, access our [Live Beta](https://copyable.vercel.app)
+### 👨🏻‍💻 Can I use it too? 💯 Yes, access our [Live Beta](https://copyable.vercel.app)
 
 <br>
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
