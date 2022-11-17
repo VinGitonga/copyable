@@ -6,9 +6,10 @@ import Layout from 'layouts/Layout'
 import Head from 'next/head'
 
 import { NextPageWithLayout } from 'types/Layout'
-import MySQLHostDBComponent from 'components/mysql/mySQLHostDBComponent'
+
 import MySQLSelectTablesComponent from 'components/mysql/MySQLSelectTablesComponent'
 import MySQLToSinglestoreComponent from 'components/mysql/MySQLToSinglestoreComponent'
+import MySQLHostDBComponent from 'components/mysql/MySQLHostDBComponent'
 
 const MySQLWizardPage: NextPageWithLayout = () => {
   const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({

@@ -13,12 +13,30 @@ import MigrationsCheckTable from 'views/admin/default/components/MigrationsCheck
 import MigrationsPieCard from 'views/admin/default/components/MigrationsPieCard'
 
 import { useDashboardStore } from 'contexts/useDashboardStore'
+import { useMemo } from 'react'
 
 const DashboardPage: NextPageWithLayout = () => {
   // Chakra Color Mode
   const brandColor = useColorModeValue('brand.500', 'white')
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
   const totalMigrations = useDashboardStore((state) => state.totalMigrations)
+  const { tasksData } = useDashboardStore()
+  const { completedTasks, pendingTasks } = useMemo(() => {
+    let completed = 0
+    let pending = 0
+
+    for (const item of tasksData) {
+      if (item.isChecked) {
+        completed++
+        continue
+      }
+
+      pending++
+    }
+
+    return { completedTasks: completed, pendingTasks: pending }
+  }, [tasksData])
+
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <>
@@ -34,8 +52,8 @@ const DashboardPage: NextPageWithLayout = () => {
             }
             name="Pending Tasks"
             growthLabel="Completed"
-            growth="23"
-            value="154"
+            growth={completedTasks}
+            value={pendingTasks}
           />
           <MiniStatistics
             startContent={
