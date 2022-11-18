@@ -151,7 +151,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
         }
       }
     },
-    []
+    [customToast, router, session.user]
   )
 
   return (
