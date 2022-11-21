@@ -6,6 +6,8 @@ The aim of this project is to have a SaaS tool capable of migrating existing sch
 
 ### 👨🏻‍💻 Can I use it too? 💯 Yes, access our [Live Beta](https://copyable.vercel.app)
 
+### Singlestore Hackathon #1 2022 on [Devpost](https://devpost.com/software/singlestore-migration-tool)
+
 <br>
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
