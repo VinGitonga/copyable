@@ -91,18 +91,21 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const customToast = ({ text, status = 'info' }) => {
-    return toast({
-      title: text,
-      status: status as any,
-      isClosable: true,
-      position: 'bottom-left',
-    })
-  }
+  const customToast = useCallback(
+    ({ text, status = 'info' }) => {
+      return toast({
+        title: text,
+        status: status as any,
+        isClosable: true,
+        position: 'bottom-left',
+      })
+    },
+    [toast]
+  )
 
   const onSubmit = useCallback(
     async ({ dbName, host, port, dbPassword, dbUser }: FormValues) => {
-      if (!session?.user?.email) {
+      if (!session?.user || !session?.user?.email) {
         return
       }
 
@@ -151,7 +154,7 @@ const AddSingleStoreDBPage: NextPageWithLayout = () => {
         }
       }
     },
-    [customToast, router, session.user]
+    [customToast, router, session?.user]
   )
 
   return (
